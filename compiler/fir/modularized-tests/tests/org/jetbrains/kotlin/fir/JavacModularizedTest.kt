@@ -34,28 +34,37 @@ class JavacModularizedTest : AbstractModularizedTest() {
 
         val output = ByteArrayOutputStream().use { byteArrayStream ->
             PrintStream(byteArrayStream, true, StandardCharsets.UTF_8.name()).use { printStream ->
-                val before = vmStateSnapshot()
-                val javac = ToolProvider.getSystemJavaCompiler()
-                val result = javac.run(null, printStream, printStream, *additionalOptions, "-d", outputDir, "-cp", classpath, *sources)
-                val after = vmStateSnapshot()
-                val diff = after - before
-                if (result != 0) return ProcessorAction.STOP
+                val diff = withVmSnapshot {
+                    val javac = ToolProvider.getSystemJavaCompiler()
+                    val result = javac.run(null, printStream, printStream, *additionalOptions, "-d", outputDir, "-cp", classpath, *sources)
+                    if (result != 0) return ProcessorAction.STOP
+                }
 
-                measure.user += diff.userTime
-                measure.cpu += diff.cpuTime
-                measure.gcCollections += diff.gcInfo.values.sumBy { it.collections.toInt() }
-                measure.gcTime += diff.gcInfo.values.sumByLong { it.gcTime }
-
+                measure.addVmCounters(diff)
                 byteArrayStream.toString(StandardCharsets.UTF_8.name())
             }
         }
 
         val timeLime = output.split("\n").single { it.startsWith("[total") }
         val timeResult = timeLime.removePrefix("[total ").removeSuffix("ms]")
-        measure.time += timeResult.toLong() * 1_000_000L
+        measure.time += timeResult.toLong() * 1_000_000L // convert to ns
         measure.files += sources.size
         totalLines += sources.map { File(it).readLines().size }.sum()
         return ProcessorAction.NEXT
+    }
+
+    private inline fun withVmSnapshot(block: () -> Unit): VMCounters {
+        val before = vmStateSnapshot()
+        block()
+        val after = vmStateSnapshot()
+        return after - before
+    }
+
+    private fun FirResolveBench.Measure.addVmCounters(vmCounters: VMCounters) {
+        this.user += vmCounters.userTime
+        this.cpu += vmCounters.cpuTime
+        this.gcCollections += vmCounters.gcInfo.values.sumBy { it.collections.toInt() }
+        this.gcTime += vmCounters.gcInfo.values.sumByLong { it.gcTime }
     }
 
     fun testJavac() {
