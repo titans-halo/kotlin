@@ -83,6 +83,16 @@ class FirResolveBench(val withProgress: Boolean) {
         var gcCollections: Int = 0,
         var files: Int = 0
     ) {
+
+        fun update(time: Long, files: Int, diff: VMCounters) {
+            this.time += time
+            this.files += files
+            this.user += diff.userTime
+            this.cpu += diff.cpuTime
+            this.gcCollections += diff.gcInfo.values.sumBy { it.collections.toInt() }
+            this.gcTime += diff.gcInfo.values.sumByLong { it.gcTime }
+        }
+
         fun clear() {
             time = 0L
             user = 0L
@@ -155,14 +165,7 @@ class FirResolveBench(val withProgress: Boolean) {
     }
 
     private fun recordTime(stageClass: KClass<*>, diff: VMCounters, time: Long) {
-        timePerTransformer.computeIfAbsent(stageClass) { Measure() }.apply {
-            this.time += time
-            this.files += 1
-            this.user += diff.userTime
-            this.cpu += diff.cpuTime
-            this.gcCollections += diff.gcInfo.values.sumBy { it.collections.toInt() }
-            this.gcTime += diff.gcInfo.values.sumByLong { it.gcTime }
-        }
+        timePerTransformer.computeIfAbsent(stageClass) { Measure() }.apply { update(time, 1, diff) }
     }
 
     private fun runStage(processor: FirResolveProcessor, firFileSequence: Sequence<FirFile>) {
