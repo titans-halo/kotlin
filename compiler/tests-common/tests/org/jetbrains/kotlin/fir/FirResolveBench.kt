@@ -82,7 +82,16 @@ class FirResolveBench(val withProgress: Boolean) {
         var gcTime: Long = 0,
         var gcCollections: Int = 0,
         var files: Int = 0
-    )
+    ) {
+        fun clear() {
+            time = 0L
+            user = 0L
+            cpu = 0L
+            gcTime = 0L
+            gcCollections = 0
+            files = 0
+        }
+    }
 
     val timePerTransformer = mutableMapOf<KClass<*>, Measure>()
     var resolvedTypes = 0
