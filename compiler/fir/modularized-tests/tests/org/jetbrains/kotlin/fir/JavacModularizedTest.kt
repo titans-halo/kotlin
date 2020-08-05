@@ -36,7 +36,7 @@ class JavacModularizedTest : AbstractModularizedTest() {
             .toTypedArray()
         if (sources.isEmpty() || sources.any { !File(it).exists() }) return ProcessorAction.NEXT
         val outputDir = moduleData.outputDir.absolutePath
-        val additionalOptions = "-source 1.8 -target 1.8 -proc:none -XDcompilePolicy=check -verbose".split(" ").toTypedArray()
+        val additionalOptions = "-source 11 -target 11 -proc:none -XDcompilePolicy=check -verbose".split(" ").toTypedArray()
 
         ByteArrayOutputStream().use { byteArrayStream ->
             PrintStream(byteArrayStream, true, StandardCharsets.UTF_8.name()).use { printStream ->
