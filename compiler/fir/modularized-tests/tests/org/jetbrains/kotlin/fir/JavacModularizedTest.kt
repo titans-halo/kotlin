@@ -27,7 +27,14 @@ class JavacModularizedTest : AbstractModularizedTest() {
 
     override fun processModule(moduleData: ModuleData): ProcessorAction {
         val classpath = moduleData.classpath.joinToString(separator = ":")
-        val sources = moduleData.sources.map { it.absolutePath }.toTypedArray()
+        val sources = moduleData.sources.map { it.absolutePath }
+            .map { File(it) }
+            .flatMap { if (it.isDirectory) it.walk().toList() else listOf(it) }
+            .filter { !it.isDirectory }
+            .map { it.absolutePath }
+            .filter { it.endsWith(".java") }
+            .toTypedArray()
+        if (sources.isEmpty() || sources.any { !File(it).exists() }) return ProcessorAction.NEXT
         val outputDir = moduleData.outputDir.absolutePath
         val additionalOptions = "-source 1.8 -target 1.8 -proc:none -XDcompilePolicy=check -verbose".split(" ").toTypedArray()
 
