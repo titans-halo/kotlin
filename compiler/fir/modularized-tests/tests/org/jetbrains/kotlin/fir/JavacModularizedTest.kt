@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.fir.scopes.ProcessorAction
 import java.io.*
 import java.nio.charset.StandardCharsets
 import javax.tools.ToolProvider
+import kotlin.system.measureNanoTime
 
 
 class JavacModularizedTest : AbstractModularizedTest() {
@@ -40,16 +41,21 @@ class JavacModularizedTest : AbstractModularizedTest() {
 
         ByteArrayOutputStream().use { byteArrayStream ->
             PrintStream(byteArrayStream, true, StandardCharsets.UTF_8.name()).use { printStream ->
-                val diff = withVmSnapshot {
-                    val javac = ToolProvider.getSystemJavaCompiler()
-                    val result = javac.run(null, printStream, printStream, *additionalOptions, "-d", outputDir, "-cp", classpath, *sources)
-                    if (result != 0) return ProcessorAction.STOP
+                lateinit var diff: VMCounters
+
+                val time = measureNanoTime {
+                    diff = withVmSnapshot {
+                        val javac = ToolProvider.getSystemJavaCompiler()
+                        val result =
+                            javac.run(null, printStream, printStream, *additionalOptions, "-d", outputDir, "-cp", classpath, *sources)
+                        if (result != 0) return ProcessorAction.STOP
+                    }
                 }
 
                 val output = byteArrayStream.toString(StandardCharsets.UTF_8.name())
                 val timeLime = output.split("\n").single { it.startsWith("[total") }
                 val timeResult = timeLime.removePrefix("[total ").removeSuffix("ms]")
-                measure.update(timeResult.toLong() * 1_000_000L, sources.size, diff)
+                measure.update(/*timeResult.toLong() * 1_000_000L*/time, sources.size, diff)
             }
         }
 
