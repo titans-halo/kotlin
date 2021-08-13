@@ -48,7 +48,7 @@ class ToolConfig(userProvidedTargetName: String?, private val flavor: KotlinPlat
         Language.CPP -> clang.libclangXXArgs.toList()
     }
 
-    val platformCompilerOpts = if (clang is ClangArgs.Jni)
+    val platformCompilerOpts: List<String> = if (clang is ClangArgs.Jni)
             clang.hostCompilerArgsForJni.toList() else emptyList()
 
     val llvmHome = platform.absoluteLlvmHome

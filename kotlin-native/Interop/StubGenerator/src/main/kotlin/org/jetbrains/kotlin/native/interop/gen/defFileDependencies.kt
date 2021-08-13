@@ -8,6 +8,7 @@ import org.jetbrains.kotlin.native.interop.indexer.NativeLibraryHeaders
 import org.jetbrains.kotlin.native.interop.indexer.getHeaderPaths
 import org.jetbrains.kotlin.native.interop.tool.CInteropArguments
 import java.io.File
+import kotlin.streams.toList
 
 fun defFileDependencies(args: Array<String>) {
     val defFiles = mutableListOf<File>()
@@ -34,20 +35,20 @@ fun defFileDependencies(args: Array<String>) {
 }
 
 private fun makeDependencyAssigner(targets: List<String>, defFiles: List<File>) =
-        CompositeDependencyAssigner(targets.map { makeDependencyAssignerForTarget(it, defFiles) })
+        CompositeDependencyAssigner(targets.parallelStream().map { makeDependencyAssignerForTarget(it, defFiles) }.toList())
 
 private fun makeDependencyAssignerForTarget(target: String, defFiles: List<File>): SingleTargetDependencyAssigner {
     val tool = prepareTool(target, KotlinPlatform.NATIVE)
     val cinteropArguments = CInteropArguments()
     cinteropArguments.argParser.parse(arrayOf())
-    val libraries = defFiles.associateWith {
-        buildNativeLibrary(
+    val libraries: Map<File, NativeLibraryHeaders<String>> = defFiles.parallelStream().map {
+        it to buildNativeLibrary(
                 tool,
                 DefFile(it, tool.substitutions),
                 cinteropArguments,
                 ImportsImpl(emptyMap())
         ).getHeaderPaths()
-    }
+    }.toList().toMap()
     return SingleTargetDependencyAssigner(libraries)
 }
 

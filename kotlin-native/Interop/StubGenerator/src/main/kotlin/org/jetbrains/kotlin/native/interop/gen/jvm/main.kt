@@ -500,7 +500,7 @@ internal fun buildNativeLibrary(
             }
         })
     }
-
+    println("Compiler args: ${(compilerOpts + tool.platformCompilerOpts).joinToString(" ")}")
     val compilation = CompilationImpl(
             includes = headerFiles,
             additionalPreambleLines = def.defHeaderLines,
