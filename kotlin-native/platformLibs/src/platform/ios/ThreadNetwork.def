@@ -1,0 +1,10 @@
+language = Objective-C
+package = platform.ThreadNetwork
+
+modules.ios_arm32 = ThreadNetwork
+compilerOpts.ios_arm32 = -framework ThreadNetwork
+linkerOpts.ios_arm32 = -framework ThreadNetwork
+
+modules.ios_arm64 = ThreadNetwork
+compilerOpts.ios_arm64 = -framework ThreadNetwork
+linkerOpts.ios_arm64 = -framework ThreadNetwork

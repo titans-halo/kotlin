@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.ShazamKit
+
+modules = ShazamKit
+compilerOpts = -framework ShazamKit
+linkerOpts = -framework ShazamKit
