@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.MailKit
+
+modules = MailKit
+compilerOpts = -framework MailKit
+linkerOpts = -framework MailKit

@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.AdServices
+
+modules = AdServices
+compilerOpts = -framework AdServices
+linkerOpts = -framework AdServices

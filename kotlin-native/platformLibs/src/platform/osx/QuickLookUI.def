@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.QuickLookUI
+
+modules = QuickLookUI
+compilerOpts = -framework QuickLookUI
+linkerOpts = -framework QuickLookUI

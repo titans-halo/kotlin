@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.IntentsUI
+
+modules = IntentsUI
+compilerOpts = -framework IntentsUI
+linkerOpts = -framework IntentsUI

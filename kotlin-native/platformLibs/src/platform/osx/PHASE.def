@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.PHASE
+
+modules = PHASE
+compilerOpts = -framework PHASE
+linkerOpts = -framework PHASE
