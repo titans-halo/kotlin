@@ -1,0 +1,7 @@
+language = Objective-C
+package = platform.UserNotificationsUI
+
+modules = UserNotificationsUI
+compilerOpts = -framework UserNotificationsUI
+linkerOpts = -framework UserNotificationsUI
+

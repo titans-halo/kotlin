@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.NearbyInteraction
+
+modules = NearbyInteraction
+compilerOpts = -framework NearbyInteraction
+linkerOpts = -framework NearbyInteraction
