@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.CoreMIDI
+
+modules = CoreMIDI
+compilerOpts = -framework CoreMIDI
+linkerOpts = -framework CoreMIDI

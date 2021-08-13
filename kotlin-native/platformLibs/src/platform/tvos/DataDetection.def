@@ -1,0 +1,6 @@
+language = Objective-C
+package = platform.DataDetection
+
+modules = DataDetection
+compilerOpts = -framework DataDetection
+linkerOpts = -framework DataDetection
