@@ -1,3 +1,4 @@
+depends = CoreFoundation CoreGraphics CoreText Foundation Security UIKit darwin posix
 language = Objective-C
 package = platform.UserNotificationsUI
 
