@@ -9,10 +9,10 @@ import org.jetbrains.kotlin.backend.common.FileLoweringPass
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.phaser.makeIrModulePhase
 import org.jetbrains.kotlin.backend.jvm.JvmBackendContext
-import org.jetbrains.kotlin.backend.jvm.codegen.isJvmInterface
 import org.jetbrains.kotlin.backend.jvm.ir.IrInlineScopeResolver
 import org.jetbrains.kotlin.backend.jvm.ir.createJvmIrBuilder
 import org.jetbrains.kotlin.backend.jvm.ir.findInlineCallSites
+import org.jetbrains.kotlin.backend.jvm.ir.isJvmInterface
 import org.jetbrains.kotlin.backend.jvm.lower.SyntheticAccessorLowering.Companion.isAccessible
 import org.jetbrains.kotlin.ir.builders.*
 import org.jetbrains.kotlin.ir.declarations.IrFile
@@ -83,7 +83,7 @@ internal class ReflectiveAccessLowering(
     // reflective access . We record these _before_ transformation, in order to
     // later predict the compilation strategy for fields. See the uses of
     // `fieldLocationAndReceiver`.
-    val callsOnCompanionObjects: MutableMap<IrCall,IrClassSymbol> = mutableMapOf()
+    val callsOnCompanionObjects: MutableMap<IrCall, IrClassSymbol> = mutableMapOf()
 
     private fun recordCompanionObjectAsDispatchReceiver(expression: IrCall) {
         if ((expression.dispatchReceiver as? IrGetObjectValue)?.symbol?.owner?.isCompanion == true) {
