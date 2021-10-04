@@ -22,5 +22,10 @@ import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 class EvaluatorFragmentInfo(
     val classDescriptor: ClassDescriptor,
     val methodDescriptor: FunctionDescriptor,
-    val parameters: List<DeclarationDescriptor>
+    val parameters: List<EvaluatorFragmentParameterInfo>,
+)
+
+data class EvaluatorFragmentParameterInfo(
+    val descriptor: DeclarationDescriptor,
+    val isLValue: Boolean,
 )
