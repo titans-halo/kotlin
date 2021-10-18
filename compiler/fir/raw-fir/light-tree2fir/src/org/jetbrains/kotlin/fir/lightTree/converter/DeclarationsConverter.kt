@@ -559,6 +559,7 @@ class DeclarationsConverter(
                             modifiers.hasExpect()
                         )
                     }
+                    initCompanionObjectSymbolAttr()
                 }
             }
         }.also {
