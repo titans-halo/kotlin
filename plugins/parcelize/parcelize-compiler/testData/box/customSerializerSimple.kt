@@ -1,4 +1,6 @@
 // WITH_RUNTIME
+// fir doesn't support annotations with type arguments
+// IGNORE_BACKEND_FIR: JVM_IR
 
 @file:JvmName("TestKt")
 package test
