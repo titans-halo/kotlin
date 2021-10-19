@@ -165,6 +165,7 @@ object FirSessionFactory {
             }.configure()
 
             val dependenciesSymbolProvider = FirDependenciesSymbolProviderImpl(this)
+            val generatedSymbolsProvider = FirExtensionDeclarationsSymbolProvider.create(this)
             register(
                 FirSymbolProvider::class,
                 FirCompositeSymbolProvider(
@@ -172,12 +173,14 @@ object FirSessionFactory {
                     listOfNotNull(
                         firProvider.symbolProvider,
                         symbolProviderForBinariesFromIncrementalCompilation,
-                        FirExtensionDeclarationsSymbolProvider.create(this),
+                        generatedSymbolsProvider,
                         JavaSymbolProvider(this, projectEnvironment.getFirJavaFacade(this, moduleData, scope)),
                         dependenciesSymbolProvider,
                     )
                 )
             )
+
+            generatedSymbolsProvider?.let { register(FirExtensionDeclarationsSymbolProvider::class, it) }
 
             register(
                 FirDependenciesSymbolProvider::class,
