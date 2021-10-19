@@ -61,6 +61,11 @@ class FirJavaClass @FirImplementationDetail internal constructor(
 
     override val attributes: FirDeclarationAttributes = FirDeclarationAttributes()
 
+    override val companionObjectSymbol: FirRegularClassSymbol?
+        get() = null
+
+    override fun replaceCompanionObjectSymbol(newCompanionObjectSymbol: FirRegularClassSymbol?) {}
+
     override fun replaceSuperTypeRefs(newSuperTypeRefs: List<FirTypeRef>) {
         superTypeRefs.clear()
         superTypeRefs.addAll(newSuperTypeRefs)
