@@ -434,6 +434,7 @@ class DeclarationsConverter(
             typeParameterList?.let { firTypeParameters += convertTypeParameters(it, typeConstraints, classSymbol) }
 
             withCapturedTypeParameters(status.isInner, firTypeParameters) {
+                var delegatedFieldsMap: Map<Int, FirFieldSymbol>? = null
                 buildRegularClass {
                     source = classNode.toFirSourceElement()
                     moduleData = baseModuleData
@@ -507,7 +508,8 @@ class DeclarationsConverter(
                     )
                     val firPrimaryConstructor = primaryConstructorWrapper?.firConstructor
                     firPrimaryConstructor?.let { declarations += it }
-                    delegationSpecifiers?.delegateFields?.map { declarations += it }
+                    delegationSpecifiers?.delegateFieldsMap?.values?.mapTo(declarations) { it.fir }
+                    delegatedFieldsMap = delegationSpecifiers?.delegateFieldsMap?.takeIf { it.isNotEmpty() }
 
                     val properties = mutableListOf<FirProperty>()
                     if (primaryConstructor != null && firPrimaryConstructor != null) {
@@ -560,6 +562,8 @@ class DeclarationsConverter(
                         )
                     }
                     initCompanionObjectSymbolAttr()
+                }.also {
+                    it.delegateFieldsMap = delegatedFieldsMap
                 }
             }
         }.also {
@@ -574,6 +578,7 @@ class DeclarationsConverter(
      */
     fun convertObjectLiteral(objectLiteral: LighterASTNode): FirElement {
         return withChildClassName(SpecialNames.ANONYMOUS, isExpect = false) {
+            var delegatedFieldsMap: Map<Int, FirFieldSymbol>? = null
             buildAnonymousObjectExpression {
                 val objectDeclaration = objectLiteral.getChildNodesByType(OBJECT_DECLARATION).first()
                 val sourceElement = objectDeclaration.toFirSourceElement()
@@ -610,7 +615,8 @@ class DeclarationsConverter(
                                 superTypeRefs += specifiers.superTypesRef
                                 superTypeCallEntry += specifiers.delegatedConstructorArguments
                                 delegatedConstructorSource = specifiers.delegatedConstructorSource
-                                delegateFields = specifiers.delegateFields
+                                delegateFields = specifiers.delegateFieldsMap.values.map { it.fir }
+                                delegatedFieldsMap = specifiers.delegateFieldsMap.takeIf { it.isNotEmpty() }
                             }
                             CLASS_BODY -> classBody = it
                         }
@@ -648,6 +654,8 @@ class DeclarationsConverter(
                     classBody?.let {
                         this.declarations += convertClassBody(it, classWrapper)
                     }
+                }.also {
+                    it.delegateFieldsMap = delegatedFieldsMap
                 }
             }
         }
@@ -1696,7 +1704,7 @@ class DeclarationsConverter(
         val superTypesRef: List<FirTypeRef>,
         val delegatedConstructorArguments: List<FirExpression>,
         val delegatedConstructorSource: FirLightSourceElement?,
-        val delegateFields: List<FirField>,
+        val delegateFieldsMap: Map<Int, FirFieldSymbol>,
     )
 
     private fun convertDelegationSpecifiers(delegationSpecifiers: LighterASTNode): DelegationSpecifiers {
@@ -1704,25 +1712,29 @@ class DeclarationsConverter(
         val superTypeCallEntry = mutableListOf<FirExpression>()
         var delegatedSuperTypeRef: FirTypeRef? = null
         var delegateConstructorSource: FirLightSourceElement? = null
-        val delegateFields = mutableListOf<FirField>()
+        val delegateFieldsMap = mutableMapOf<Int, FirFieldSymbol>()
+        var index = 0
         delegationSpecifiers.forEachChildren {
             when (it.tokenType) {
                 SUPER_TYPE_ENTRY -> {
                     superTypeRefs += convertType(it)
+                    index++
                 }
                 SUPER_TYPE_CALL_ENTRY -> convertConstructorInvocation(it).apply {
                     delegatedSuperTypeRef = first
                     superTypeRefs += first
                     superTypeCallEntry += second
                     delegateConstructorSource = it.toFirSourceElement(FirFakeSourceElementKind.DelegatingConstructorCall)
+                    index++
                 }
                 DELEGATED_SUPER_TYPE_ENTRY -> {
-                    superTypeRefs += convertExplicitDelegation(it, delegateFields)
+                    superTypeRefs += convertExplicitDelegation(it, delegateFieldsMap, index)
+                    index++
                 }
             }
         }
         return DelegationSpecifiers(
-            delegatedSuperTypeRef, superTypeRefs, superTypeCallEntry, delegateConstructorSource, delegateFields
+            delegatedSuperTypeRef, superTypeRefs, superTypeCallEntry, delegateConstructorSource, delegateFieldsMap
         )
     }
 
@@ -1752,7 +1764,11 @@ class DeclarationsConverter(
      *   : userType "by" element
      *   ;
      */
-    private fun convertExplicitDelegation(explicitDelegation: LighterASTNode, delegateFields: MutableList<FirField>): FirTypeRef {
+    private fun convertExplicitDelegation(
+        explicitDelegation: LighterASTNode,
+        delegateFieldsMap: MutableMap<Int, FirFieldSymbol>,
+        index: Int
+    ): FirTypeRef {
         lateinit var firTypeRef: FirTypeRef
         var firExpression: FirExpression? = null
         explicitDelegation.forEachChildren {
@@ -1766,8 +1782,9 @@ class DeclarationsConverter(
             explicitDelegation.toFirSourceElement(), ConeSimpleDiagnostic("Should have delegate", DiagnosticKind.Syntax)
         )
 
-        val delegateName = Name.special("<\$\$delegate_${delegateFields.size}>")
-        delegateFields.add(
+        val delegateName = Name.special("<\$\$delegate_${delegateFieldsMap.size}>")
+        delegateFieldsMap.put(
+            index,
             buildField {
                 source = calculatedFirExpression.source?.fakeElement(FirFakeSourceElementKind.ClassDelegationField)
                 moduleData = baseModuleData
@@ -1778,7 +1795,7 @@ class DeclarationsConverter(
                 isVar = false
                 status = FirDeclarationStatusImpl(Visibilities.Local, Modality.FINAL)
                 initializer = calculatedFirExpression
-            }
+            }.symbol
         )
         return firTypeRef
     }
