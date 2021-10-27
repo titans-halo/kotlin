@@ -71,8 +71,7 @@ class YarnWorkspaces : YarnBasics() {
         services: ServiceRegistry,
         logger: Logger,
         nodeJs: NodeJsRootExtension,
-        command: String,
-        isStandalone: Boolean,
+        yarn: YarnEnv,
         npmProjects: Collection<KotlinCompilationNpmResolution>,
         cliArgs: List<String>
     ) {
