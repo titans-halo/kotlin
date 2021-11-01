@@ -76,7 +76,7 @@ fun List<IrExpression>.toJsArrayLiteral(context: JsCommonBackendContext, arrayTy
 
     return IrCallImpl(
         UNDEFINED_OFFSET, UNDEFINED_OFFSET, arrayType,
-        context.intrinsics.arrayLiteral,
+        context.reflectionSymbols.arrayLiteral,
         valueArgumentsCount = 1,
         typeArgumentsCount = 0
     ).apply {

@@ -9,6 +9,8 @@ import org.jetbrains.kotlin.backend.common.ir.isOverridableOrOverrides
 import org.jetbrains.kotlin.backend.wasm.WasmBackendContext
 import org.jetbrains.kotlin.backend.wasm.lower.wasmSignature
 import org.jetbrains.kotlin.backend.wasm.utils.*
+import org.jetbrains.kotlin.config.AnalysisFlags.allowFullQualityNameInKClass
+import org.jetbrains.kotlin.config.languageVersionSettings
 import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.ir.IrBuiltIns
 import org.jetbrains.kotlin.ir.IrElement
@@ -272,7 +274,9 @@ class DeclarationGenerator(val context: WasmModuleCodegenContext) : IrElementVis
     private fun binaryDataStruct(classMetadata: ClassMetadata): ConstantDataStruct {
         val invalidIndex = -1
 
-        val packageName = classMetadata.klass.kotlinFqName.parentOrNull()?.asString() ?: ""
+        val fqnShouldBeEmitted = context.backendContext.configuration.languageVersionSettings.getFlag(allowFullQualityNameInKClass)
+        //TODO("FqName for inner classes could be invalid due to topping it out from outer class")
+        val packageName = if (fqnShouldBeEmitted) classMetadata.klass.kotlinFqName.parentOrNull()?.asString() ?: "" else ""
         val simpleName = classMetadata.klass.kotlinFqName.shortName().asString()
         val typeInfo = ConstantDataStruct(
             "TypeInfo",

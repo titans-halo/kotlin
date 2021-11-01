@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.descriptors.PackageViewDescriptor
 import org.jetbrains.kotlin.descriptors.PropertyDescriptor
 import org.jetbrains.kotlin.descriptors.SimpleFunctionDescriptor
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
+import org.jetbrains.kotlin.ir.backend.js.ReflectionSymbols
 import org.jetbrains.kotlin.ir.builders.declarations.addFunction
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
@@ -45,11 +46,33 @@ class WasmSymbols(
     private val kotlinTestPackage: PackageViewDescriptor =
         context.module.getPackage(FqName("kotlin.test"))
 
-    val jsGetKClass: IrSimpleFunctionSymbol = getInternalFunction("getKClass")
-    val jsGetKClassFromExpression: IrSimpleFunctionSymbol = getInternalFunction("getKClassFromExpression")
-    val jsClass: IrSimpleFunctionSymbol = getInternalFunction("wasmGetTypeInfoData")
-    val wasmTypeInfoData: IrClassSymbol = getInternalClass("TypeInfoData")
-    val primitiveClassesObject = getInternalClass("PrimitiveClasses")
+    internal inner class WasmReflectionSymbols : ReflectionSymbols {
+        override val getClassData: IrSimpleFunctionSymbol = getInternalFunction("wasmGetTypeInfoData")
+        override val getKClass: IrSimpleFunctionSymbol = getInternalFunction("getKClass")
+        override val getKClassFromExpression: IrSimpleFunctionSymbol = getInternalFunction("getKClassFromExpression")
+        override val primitiveClassesObject = getInternalClass("PrimitiveClasses")
+
+        val wasmTypeInfoData: IrClassSymbol = getInternalClass("TypeInfoData")
+
+        override val createKType: IrSimpleFunctionSymbol?
+            get() = TODO("Not yet implemented")
+        override val createDynamicKType: IrSimpleFunctionSymbol?
+            get() = TODO("Not yet implemented")
+        override val createKTypeParameter: IrSimpleFunctionSymbol?
+            get() = TODO("Not yet implemented")
+        override val getStarKTypeProjection: IrSimpleFunctionSymbol?
+            get() = TODO("Not yet implemented")
+        override val createCovariantKTypeProjection: IrSimpleFunctionSymbol?
+            get() = TODO("Not yet implemented")
+        override val createInvariantKTypeProjection: IrSimpleFunctionSymbol?
+            get() = TODO("Not yet implemented")
+        override val createContravariantKTypeProjection: IrSimpleFunctionSymbol?
+            get() = TODO("Not yet implemented")
+        override val arrayLiteral: IrSimpleFunctionSymbol
+            get() = TODO("Not yet implemented")
+    }
+
+    internal val reflectionSymbols: WasmReflectionSymbols = WasmReflectionSymbols()
 
     override val throwNullPointerException = getInternalFunction("THROW_NPE")
     override val throwISE = getInternalFunction("THROW_ISE")
@@ -151,7 +174,6 @@ class WasmSymbols(
 
     val wasmClassId = getInternalFunction("wasmClassId")
     val wasmInterfaceId = getInternalFunction("wasmInterfaceId")
-    val wasmTypeId = getInternalFunction("wasmTypeId")
 
     val getVirtualMethodId = getInternalFunction("getVirtualMethodId")
     val getInterfaceImplId = getInternalFunction("getInterfaceImplId")

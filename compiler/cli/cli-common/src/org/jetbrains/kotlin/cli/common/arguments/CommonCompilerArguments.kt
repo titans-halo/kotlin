@@ -404,7 +404,7 @@ abstract class CommonCompilerArguments : CommonToolArguments() {
             put(AnalysisFlags.extendedCompilerChecks, extendedCompilerChecks)
             put(AnalysisFlags.allowKotlinPackage, allowKotlinPackage)
             put(AnalysisFlags.builtInsFromSources, builtInsFromSources)
-            put(AnalysisFlags.prohibitFullQualityNameInKClass, false)
+            put(AnalysisFlags.allowFullQualityNameInKClass, true)
         }
     }
 

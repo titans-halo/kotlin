@@ -7,7 +7,7 @@ package org.jetbrains.kotlin.test.services.configuration
 
 import com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.config.AnalysisFlag
-import org.jetbrains.kotlin.config.AnalysisFlags.prohibitFullQualityNameInKClass
+import org.jetbrains.kotlin.config.AnalysisFlags.allowFullQualityNameInKClass
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.LanguageVersion
@@ -116,7 +116,7 @@ class JsEnvironmentConfigurator(testServices: TestServices) : EnvironmentConfigu
         languageVersion: LanguageVersion
     ): Map<AnalysisFlag<*>, Any?> {
         return super.provideAdditionalAnalysisFlags(directives, languageVersion).toMutableMap().also {
-            it[prohibitFullQualityNameInKClass] = true
+            it[allowFullQualityNameInKClass] = false
         }
     }
 

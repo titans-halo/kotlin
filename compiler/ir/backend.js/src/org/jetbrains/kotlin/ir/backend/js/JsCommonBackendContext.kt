@@ -30,15 +30,13 @@ import org.jetbrains.kotlin.resolve.scopes.MemberScope
 interface JsCommonBackendContext : CommonBackendContext {
     override val mapping: JsMapping
 
-    val intrinsics: Intrinsics
+    val reflectionSymbols: ReflectionSymbols
 
-    val dynamicType: IrDynamicType
+    val dynamicType: IrDynamicType get() = TODO("Should be removed for WASM backend context")
 
     val inlineClassesUtils: InlineClassesUtils
 
     val coroutineSymbols: JsCommonCoroutineSymbols
-
-    val primitiveClassesObject: IrClassSymbol
 
     val catchAllThrowableType: IrType
         get() = irBuiltIns.throwableType
