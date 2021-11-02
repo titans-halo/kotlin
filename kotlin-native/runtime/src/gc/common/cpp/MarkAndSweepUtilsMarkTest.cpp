@@ -50,6 +50,7 @@ public:
         auto& extraObjectData = mm::ExtraObjectData::GetOrInstall(GetObjHeader());
         auto *setCounter = extraObjectData.GetOrSetWeakReferenceCounter(GetObjHeader(), counter.GetObjHeader());
         EXPECT_EQ(setCounter, counter.GetObjHeader());
+        EXPECT_EQ(extraObjectData.GetBaseObject(), GetObjHeader());
     }
 
 protected:
@@ -296,6 +297,7 @@ TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleCharArrayWithExtraData) {
 TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleObjectWithWeakCounter) {
     Object weakCounter;
     Object object;
+    weakCounter->field1 = object.header();
     object.InstallWeakCounter(weakCounter);
 
     Mark({object});
@@ -306,6 +308,7 @@ TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleObjectWithWeakCounter) {
 TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleObjectArrayWithWeakCounter) {
     Object weakCounter;
     ObjectArray array;
+    weakCounter->field1 = array.header();
     array.InstallWeakCounter(weakCounter);
 
     Mark({array});
@@ -316,6 +319,7 @@ TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleObjectArrayWithWeakCounter) {
 TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleCharArrayWithWeakCounter) {
     Object weakCounter;
     CharArray array;
+    weakCounter->field1 = array.header();
     array.InstallWeakCounter(weakCounter);
 
     Mark({array});
@@ -327,6 +331,7 @@ TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleObjectWithInvalidFieldsWithWeakCount
     Object weakCounter;
     Object object;
     object->field1 = kInitializingSingleton;
+    weakCounter->field1 = object.header();
     object.InstallWeakCounter(weakCounter);
 
     Mark({object});
@@ -338,6 +343,7 @@ TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleObjectArrayWithInvalidFieldsWithWeak
     Object weakCounter;
     ObjectArray array;
     array.elements()[0] = kInitializingSingleton;
+    weakCounter->field1 = array.header();
     array.InstallWeakCounter(weakCounter);
 
     Mark({array});
@@ -351,6 +357,7 @@ TEST_F(MarkAndSweepUtilsMarkTest, MarkSingleCharArrayWithSomeDataWithWeakCounter
     array.elements()[0] = 'a';
     array.elements()[1] = 'b';
     array.elements()[2] = 'c';
+    weakCounter->field1 = array.header();
     array.InstallWeakCounter(weakCounter);
 
     Mark({array});
