@@ -70,9 +70,10 @@ void SweepExtraObjects(typename Traits::ExtraObjectsFactory& objectFactory) noex
 }
 
 template <typename Traits>
-typename Traits::ObjectFactory::FinalizerQueue Sweep(typename Traits::ObjectFactory& objectFactory) noexcept {
-    typename Traits::ObjectFactory::FinalizerQueue finalizerQueue;
-
+void Sweep(
+        typename Traits::ObjectFactory& objectFactory,
+        typename Traits::ObjectFactory::FinalizerQueue &finalizerQueue
+        ) noexcept {
     auto iter = objectFactory.LockForIter();
     for (auto it = iter.begin(); it != iter.end();) {
         if (Traits::TryResetMark(*it)) {
@@ -86,8 +87,6 @@ typename Traits::ObjectFactory::FinalizerQueue Sweep(typename Traits::ObjectFact
             iter.EraseAndAdvance(it);
         }
     }
-
-    return finalizerQueue;
 }
 
 } // namespace gc

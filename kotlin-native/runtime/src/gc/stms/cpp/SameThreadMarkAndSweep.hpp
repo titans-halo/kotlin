@@ -27,6 +27,7 @@ public:
     enum class SafepointFlag {
         kNone,
         kNeedsSuspend,
+        kNeedsFinalizersRun,
         kNeedsGC,
     };
 

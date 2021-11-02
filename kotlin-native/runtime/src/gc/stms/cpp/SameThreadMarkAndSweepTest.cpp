@@ -345,6 +345,7 @@ TEST_F(SameThreadMarkAndSweepTest, FreeObjectsWithFinalizers) {
         EXPECT_CALL(finalizerHook(), Call(object1.header()));
         EXPECT_CALL(finalizerHook(), Call(object2.header()));
         threadData.gc().PerformFullGC();
+        threadData.gc().SafePointLoopBody();
 
         EXPECT_THAT(Alive(threadData), testing::UnorderedElementsAre());
     });
@@ -364,6 +365,7 @@ TEST_F(SameThreadMarkAndSweepTest, FreeObjectWithFreeWeak) {
         ASSERT_THAT(weak1->referred, object1.header());
 
         threadData.gc().PerformFullGC();
+        threadData.gc().SafePointLoopBody();
 
         EXPECT_THAT(Alive(threadData), testing::UnorderedElementsAre());
     });
@@ -514,6 +516,7 @@ TEST_F(SameThreadMarkAndSweepTest, ObjectsWithCyclesAndFinalizers) {
         EXPECT_CALL(finalizerHook(), Call(object5.header()));
         EXPECT_CALL(finalizerHook(), Call(object6.header()));
         threadData.gc().PerformFullGC();
+        threadData.gc().SafePointLoopBody();
 
         EXPECT_THAT(
                 Alive(threadData),

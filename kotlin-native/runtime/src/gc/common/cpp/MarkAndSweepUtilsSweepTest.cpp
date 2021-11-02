@@ -202,7 +202,8 @@ public:
 
     KStdVector<ObjHeader*> Sweep() {
         gc::SweepExtraObjects<SweepTraits>(extraObjectFactory_);
-        auto finalizers = gc::Sweep<SweepTraits>(objectFactory_);
+        SweepTraits::ObjectFactory::FinalizerQueue finalizers;
+        gc::Sweep<SweepTraits>(objectFactory_, finalizers);
         KStdVector<ObjHeader*> objects;
         for (auto node : finalizers.IterForTests()) {
             objects.push_back(node.IsArray() ? node.GetArrayHeader()->obj() : node.GetObjHeader());

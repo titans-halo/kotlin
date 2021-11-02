@@ -61,7 +61,7 @@ struct FinalizeTraits {
 
 // Global, because it's accessed on a hot path: avoid memory load from `this`.
 std::atomic<gc::SameThreadMarkAndSweep::SafepointFlag> gSafepointFlag = gc::SameThreadMarkAndSweep::SafepointFlag::kNone;
-
+mm::ObjectFactory<gc::SameThreadMarkAndSweep>::FinalizerQueue FinalizerQueue;
 } // namespace
 
 ALWAYS_INLINE void gc::SameThreadMarkAndSweep::ThreadData::SafePointFunctionPrologue() noexcept {
@@ -105,6 +105,22 @@ ALWAYS_INLINE void gc::SameThreadMarkAndSweep::ThreadData::SafePointRegular(size
 NO_INLINE void gc::SameThreadMarkAndSweep::ThreadData::SafePointSlowPath(SafepointFlag flag) noexcept {
     RuntimeAssert(flag != SafepointFlag::kNone, "Must've been handled by the caller");
     // No need to check for kNeedsSuspend, because `suspendIfRequested` checks for its own atomic.
+    if (flag == SafepointFlag::kNeedsFinalizersRun) {
+        if (gSafepointFlag.compare_exchange_strong(flag, SafepointFlag::kNone)) {
+            // need to move it to stack, to avoid concurrent access to global queue, if finalizers decide to run GC
+            mm::ObjectFactory<gc::SameThreadMarkAndSweep>::FinalizerQueue queue(std::move(FinalizerQueue));
+            FinalizerQueue = mm::ObjectFactory<gc::SameThreadMarkAndSweep>::FinalizerQueue();
+            size_t queueSize = queue.size();
+            uint64_t startTimeUs = konan::getTimeMicros();
+            queue.Finalize();
+            RuntimeLogDebug({kTagGC},
+                            "Finalized %zd objects on thread %d in %" PRIu64 " microseconds.",
+                            queueSize,
+                            konan::currentThreadId(),
+                            konan::getTimeMicros() - startTimeUs);
+            flag = gSafepointFlag.load();
+        }
+    }
     threadData_.suspensionData().suspendIfRequested();
     if (flag == SafepointFlag::kNeedsGC) {
         RuntimeLogDebug({kTagGC}, "Attempt to GC at SafePoint");
@@ -132,7 +148,6 @@ bool gc::SameThreadMarkAndSweep::PerformFullGC() noexcept {
     RuntimeLogDebug({kTagGC}, "Requested thread suspension by thread %d", konan::currentThreadId());
     gSafepointFlag = SafepointFlag::kNeedsSuspend;
 
-    mm::ObjectFactory<gc::SameThreadMarkAndSweep>::FinalizerQueue finalizerQueue;
     {
         // Switch state to native to simulate this thread being a GC thread.
         ThreadStateGuard guard(ThreadState::kNative);
@@ -199,7 +214,7 @@ bool gc::SameThreadMarkAndSweep::PerformFullGC() noexcept {
         gc::SweepExtraObjects<SweepTraits>(mm::GlobalData::Instance().extraObjectDataFactory());
         auto timeSweepExtraObjectsUs = konan::getTimeMicros();
         RuntimeLogDebug({kTagGC}, "Sweeped extra objects in %" PRIu64 " microseconds", timeSweepExtraObjectsUs - timeMarkUs);
-        finalizerQueue = gc::Sweep<SweepTraits>(mm::GlobalData::Instance().objectFactory());
+        gc::Sweep<SweepTraits>(mm::GlobalData::Instance().objectFactory(), FinalizerQueue);
         auto timeSweepUs = konan::getTimeMicros();
         RuntimeLogDebug({kTagGC}, "Sweeped in %" PRIu64 " microseconds", timeSweepUs - timeSweepExtraObjectsUs);
 
@@ -207,13 +222,13 @@ bool gc::SameThreadMarkAndSweep::PerformFullGC() noexcept {
         auto objectsCountAfter = mm::GlobalData::Instance().objectFactory().GetSizeUnsafe();
         auto extraObjectsCountAfter = mm::GlobalData::Instance().extraObjectDataFactory().GetSizeUnsafe();
 
-        gSafepointFlag = SafepointFlag::kNone;
+        gSafepointFlag = FinalizerQueue.size() ? SafepointFlag::kNeedsFinalizersRun : SafepointFlag::kNone;
         mm::ResumeThreads();
         auto timeResumeUs = konan::getTimeMicros();
 
         RuntimeLogDebug({kTagGC}, "Resumed threads in %" PRIu64 " microseconds.", timeResumeUs - timeSweepUs);
 
-        auto finalizersCount = finalizerQueue.size();
+        auto finalizersCount = FinalizerQueue.size();
         auto collectedCount = objectsCountBefore - objectsCountAfter - finalizersCount;
 
         RuntimeLogInfo(
@@ -224,18 +239,6 @@ bool gc::SameThreadMarkAndSweep::PerformFullGC() noexcept {
         ++epoch_;
         lastGCTimestampUs_ = timeResumeUs;
     }
-
-    // Finalizers are run after threads are resumed, because finalizers may request GC themselves, which would
-    // try to suspend threads again. Also, we run finalizers in the runnable state, because they may be executing
-    // kotlin code.
-
-    // TODO: These will actually need to be run on a separate thread.
-    AssertThreadState(ThreadState::kRunnable);
-    RuntimeLogDebug({kTagGC}, "Starting to run finalizers");
-    auto timeBeforeUs = konan::getTimeMicros();
-    finalizerQueue.Finalize();
-    auto timeAfterUs = konan::getTimeMicros();
-    RuntimeLogInfo({kTagGC}, "Finished running finalizers in %" PRIu64 " microseconds", timeAfterUs - timeBeforeUs);
 
     return true;
 }
