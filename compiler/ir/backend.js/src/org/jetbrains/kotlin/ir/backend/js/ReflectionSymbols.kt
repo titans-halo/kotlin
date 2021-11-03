@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.ir.backend.js
 
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.symbols.IrSimpleFunctionSymbol
+import org.jetbrains.kotlin.ir.types.IrType
 
 interface ReflectionSymbols {
     val getKClassFromExpression: IrSimpleFunctionSymbol
@@ -19,6 +20,6 @@ interface ReflectionSymbols {
     val createCovariantKTypeProjection: IrSimpleFunctionSymbol?
     val createInvariantKTypeProjection: IrSimpleFunctionSymbol?
     val createContravariantKTypeProjection: IrSimpleFunctionSymbol?
-    val arrayLiteral: IrSimpleFunctionSymbol
     val primitiveClassesObject: IrClassSymbol
+    val kTypeClass: IrClassSymbol
 }

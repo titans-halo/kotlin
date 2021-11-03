@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.ir.Symbols
 import org.jetbrains.kotlin.ir.backend.js.*
 import org.jetbrains.kotlin.ir.backend.js.ir.JsIrBuilder
-import org.jetbrains.kotlin.ir.backend.js.utils.toJsArrayLiteral
+import org.jetbrains.kotlin.ir.backend.js.utils.toArrayLiteral
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.*
 import org.jetbrains.kotlin.ir.symbols.IrClassifierSymbol
@@ -173,11 +173,10 @@ class ClassReferenceLowering(val context: JsCommonBackendContext) : BodyLowering
         // }
 
         val kClassifier = createKClassifier(classifier, visitedTypeParams)
-        // TODO: Use static array types
-        val arguments = type.arguments.map { createKTypeProjection(it, visitedTypeParams) }.toJsArrayLiteral(
+        val arguments = type.arguments.map { createKTypeProjection(it, visitedTypeParams) }.toArrayLiteral(
             context,
-            context.dynamicType,
-            context.dynamicType
+            context.irBuiltIns.arrayClass.defaultType,
+            context.reflectionSymbols.kTypeClass.defaultType
         )
         val isMarkedNullable = JsIrBuilder.buildBoolean(context.irBuiltIns.booleanType, type.isMarkedNullable())
         return buildCall(
@@ -217,10 +216,10 @@ class ClassReferenceLowering(val context: JsCommonBackendContext) : BodyLowering
         visitedTypeParams.add(typeParameter)
 
         val name = JsIrBuilder.buildString(context.irBuiltIns.stringType, typeParameter.name.asString())
-        val upperBounds = typeParameter.superTypes.map { createKType(it, visitedTypeParams) }.toJsArrayLiteral(
+        val upperBounds = typeParameter.superTypes.map { createKType(it, visitedTypeParams) }.toArrayLiteral(
             context,
-            context.dynamicType,
-            context.dynamicType
+            context.irBuiltIns.arrayClass.defaultType,
+            context.reflectionSymbols.kTypeClass.defaultType
         )
 
         val variance = when (typeParameter.variance) {

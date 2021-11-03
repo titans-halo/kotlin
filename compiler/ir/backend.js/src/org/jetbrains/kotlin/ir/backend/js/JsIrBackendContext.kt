@@ -77,7 +77,7 @@ class JsIrBackendContext(
 
     override fun isSideEffectFree(call: IrCall): Boolean =
         call.symbol in intrinsics.primitiveToLiteralConstructor.values ||
-                call.symbol == intrinsics.reflectionSymbols.arrayLiteral ||
+                call.symbol == intrinsics.varargToArray ||
                 call.symbol == intrinsics.arrayConcat
 
     val devMode = configuration[JSConfigurationKeys.DEVELOPER_MODE] ?: false
@@ -157,8 +157,9 @@ class JsIrBackendContext(
 
     private val internalPackage = module.getPackage(JS_PACKAGE_FQNAME)
 
-    override val dynamicType: IrDynamicType = IrDynamicTypeImpl(null, emptyList(), Variance.INVARIANT)
+    val dynamicType: IrDynamicType = IrDynamicTypeImpl(null, emptyList(), Variance.INVARIANT)
     val intrinsics: JsIntrinsics = JsIntrinsics(irBuiltIns, this)
+    override val varargToArray: IrSimpleFunctionSymbol get() = intrinsics.varargToArray
     override val reflectionSymbols: ReflectionSymbols get() = intrinsics.reflectionSymbols
 
     override val catchAllThrowableType: IrType

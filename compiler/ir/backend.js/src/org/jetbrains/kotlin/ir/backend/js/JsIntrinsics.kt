@@ -10,6 +10,7 @@ import org.jetbrains.kotlin.ir.IrBuiltIns
 import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.declarations.IrProperty
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
+import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.symbols.IrSimpleFunctionSymbol
 import org.jetbrains.kotlin.ir.types.isLong
 import org.jetbrains.kotlin.ir.util.constructors
@@ -232,9 +233,9 @@ class JsIntrinsics(private val irBuiltIns: IrBuiltIns, val context: JsIrBackendC
         PrimitiveType.values().associate { it to getInternalFunction("${it.typeName.asString().toLowerCaseAsciiOnly()}ArrayIterator") }
 
     val jsClass = getInternalFunction("jsClassIntrinsic")
+    val varargToArray: IrSimpleFunctionSymbol = getInternalFunction("arrayLiteral")
 
     internal inner class JsReflectionSymbols : ReflectionSymbols {
-        override val arrayLiteral = getInternalFunction("arrayLiteral")
         override val createKType = getInternalWithoutPackageOrNull("createKType")
         override val createDynamicKType = getInternalWithoutPackageOrNull("createDynamicKType")
         override val createKTypeParameter = getInternalWithoutPackageOrNull("createKTypeParameter")
@@ -245,6 +246,7 @@ class JsIntrinsics(private val irBuiltIns: IrBuiltIns, val context: JsIrBackendC
         override val getKClass = getInternalWithoutPackage("getKClass")
         override val getKClassFromExpression = getInternalWithoutPackage("getKClassFromExpression")
         override val primitiveClassesObject = context.getIrClass(FqName("kotlin.reflect.js.internal.PrimitiveClasses"))
+        override val kTypeClass: IrClassSymbol = context.getIrClass(FqName("kotlin.reflect.KType"))
         override val getClassData: IrSimpleFunctionSymbol get() = jsClass
     }
 

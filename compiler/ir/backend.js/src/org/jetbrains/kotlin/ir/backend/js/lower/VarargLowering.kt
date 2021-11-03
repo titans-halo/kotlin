@@ -47,7 +47,7 @@ private class VarargTransformer(
             if (primitiveType != null)
                 context.intrinsics.primitiveToLiteralConstructor.getValue(primitiveType)
             else
-                context.intrinsics.reflectionSymbols.arrayLiteral
+                context.intrinsics.varargToArray
 
         val startOffset = firstOrNull()?.startOffset ?: UNDEFINED_OFFSET
         val endOffset = lastOrNull()?.endOffset ?: UNDEFINED_OFFSET

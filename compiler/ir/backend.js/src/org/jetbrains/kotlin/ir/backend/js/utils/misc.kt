@@ -71,12 +71,12 @@ fun IrDeclaration.hasStaticDispatch() = when (this) {
     else -> true
 }
 
-fun List<IrExpression>.toJsArrayLiteral(context: JsCommonBackendContext, arrayType: IrType, elementType: IrType): IrExpression {
+fun List<IrExpression>.toArrayLiteral(context: JsCommonBackendContext, arrayType: IrType, elementType: IrType): IrExpression {
     val irVararg = IrVarargImpl(UNDEFINED_OFFSET, UNDEFINED_OFFSET, arrayType, elementType, this)
 
     return IrCallImpl(
         UNDEFINED_OFFSET, UNDEFINED_OFFSET, arrayType,
-        context.reflectionSymbols.arrayLiteral,
+        context.varargToArray,
         valueArgumentsCount = 1,
         typeArgumentsCount = 0
     ).apply {

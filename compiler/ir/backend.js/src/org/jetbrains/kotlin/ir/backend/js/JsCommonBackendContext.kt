@@ -32,7 +32,7 @@ interface JsCommonBackendContext : CommonBackendContext {
 
     val reflectionSymbols: ReflectionSymbols
 
-    val dynamicType: IrDynamicType get() = TODO("Should be removed for WASM backend context")
+    val varargToArray: IrSimpleFunctionSymbol
 
     val inlineClassesUtils: InlineClassesUtils
 

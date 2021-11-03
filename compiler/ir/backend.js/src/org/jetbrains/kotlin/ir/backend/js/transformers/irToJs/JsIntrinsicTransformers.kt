@@ -141,7 +141,7 @@ class JsIntrinsicTransformers(backendContext: JsIrBackendContext) {
                 JsBinaryOperation(JsBinaryOperator.ASG, JsArrayAccess(array, index), value)
             }
 
-            add(intrinsics.reflectionSymbols.arrayLiteral) { call, context ->
+            add(intrinsics.varargToArray) { call, context ->
                 translateCallArguments(call, context).single()
             }
 
