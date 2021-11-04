@@ -32,14 +32,14 @@ fun runTopLevelPhases(konanConfig: KonanConfig, environment: KotlinCoreEnvironme
 
     if (!context.frontendPhase()) return
 
-    try {
-        usingNativeMemoryAllocator {
-            usingJvmCInteropCallbacks {
+    usingNativeMemoryAllocator {
+        usingJvmCInteropCallbacks {
+            try {
                 toplevelPhase.cast<CompilerPhase<Context, Unit, Unit>>().invokeToplevel(context.phaseConfig, context, Unit)
+            } finally {
+                context.disposeLlvm()
             }
         }
-    } finally {
-        context.disposeLlvm()
     }
 }
 
