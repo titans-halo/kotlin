@@ -32,8 +32,6 @@ interface JsCommonBackendContext : CommonBackendContext {
 
     val reflectionSymbols: ReflectionSymbols
 
-    val varargToArray: IrSimpleFunctionSymbol
-
     val inlineClassesUtils: InlineClassesUtils
 
     val coroutineSymbols: JsCommonCoroutineSymbols

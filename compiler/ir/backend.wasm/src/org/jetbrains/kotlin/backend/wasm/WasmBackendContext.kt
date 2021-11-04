@@ -103,7 +103,6 @@ class WasmBackendContext(
 
     val wasmSymbols: WasmSymbols = WasmSymbols(this@WasmBackendContext, symbolTable)
     override val reflectionSymbols: ReflectionSymbols get() = wasmSymbols.reflectionSymbols
-    override val varargToArray: IrSimpleFunctionSymbol get() = wasmSymbols.varargToArray
 
     override val ir = object : Ir<WasmBackendContext>(this, irModuleFragment) {
         override val symbols: Symbols<WasmBackendContext> = wasmSymbols

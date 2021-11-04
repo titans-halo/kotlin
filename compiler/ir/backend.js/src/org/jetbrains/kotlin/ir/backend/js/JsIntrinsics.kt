@@ -233,7 +233,7 @@ class JsIntrinsics(private val irBuiltIns: IrBuiltIns, val context: JsIrBackendC
         PrimitiveType.values().associate { it to getInternalFunction("${it.typeName.asString().toLowerCaseAsciiOnly()}ArrayIterator") }
 
     val jsClass = getInternalFunction("jsClassIntrinsic")
-    val varargToArray: IrSimpleFunctionSymbol = getInternalFunction("arrayLiteral")
+    val arrayLiteral: IrSimpleFunctionSymbol = getInternalFunction("arrayLiteral")
 
     internal inner class JsReflectionSymbols : ReflectionSymbols {
         override val createKType = getInternalWithoutPackageOrNull("createKType")
