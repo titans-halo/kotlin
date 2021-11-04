@@ -211,9 +211,10 @@ static void ffi_fun(ffi_cif *cif, void *ret, void **args, void *user_data) {
  * Method:    ffiCreateClosure0
  * Signature: (JLjava/lang/Object;)J
  */
-JNIEXPORT jlong JNICALL Java_kotlinx_cinterop_JvmCallbacksKt_ffiCreateClosure0(JNIEnv *env, jclass cls, jlong ffiCif, jobject userData) {
+JNIEXPORT jlong JNICALL Java_kotlinx_cinterop_JvmCallbacksKt_ffiCreateClosure0(JNIEnv *env, jclass cls, jlong ffiCif, jlong ffiClosure, jobject userData) {
     jobject userDataGlobalRef = (*env)->NewGlobalRef(env, userData);
     if (userDataGlobalRef == NULL) {
+        *(ffi_closure**)ffiClosure = NULL;
         return (jlong)0;
     }
 
@@ -224,15 +225,18 @@ JNIEXPORT jlong JNICALL Java_kotlinx_cinterop_JvmCallbacksKt_ffiCreateClosure0(J
     ffi_closure *closure = ffi_closure_alloc(sizeof(ffi_closure), &res);
     if (closure == NULL) {
         (*env)->DeleteGlobalRef(env, userDataGlobalRef);
+        *(ffi_closure**)ffiClosure = NULL;
         return (jlong)0;
     }
     ffi_status status = ffi_prep_closure_loc(closure, (ffi_cif*)ffiCif, ffi_fun, userDataPtr, res);
     if (status != FFI_OK) {
         (*env)->DeleteGlobalRef(env, userDataGlobalRef);
-        ffi_closure_free(res);
+        ffi_closure_free(closure);
+        *(ffi_closure**)ffiClosure = NULL;
         return -(jlong)1;
     }
 
+    *(ffi_closure**)ffiClosure = closure;
     return (jlong) res;
 }
 
@@ -242,12 +246,13 @@ JNIEXPORT jlong JNICALL Java_kotlinx_cinterop_JvmCallbacksKt_ffiCreateClosure0(J
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_kotlinx_cinterop_JvmCallbacksKt_ffiFreeClosure0(JNIEnv *env, jclass cls, jlong ptr) {
-    if (ptr) {
-        void* userDataPtr = ((ffi_closure*)ptr)->user_data;
-        if (userDataPtr)
-            (*env)->DeleteGlobalRef(env, (jobject)userDataPtr);
-        ffi_closure_free((void*)ptr);
-    }
+    if (ptr == NULL) return;
+    ffi_closure *closure = *(ffi_closure**)ptr;
+    if (closure == NULL) return;
+    void* userDataPtr = closure->user_data;
+    if (userDataPtr)
+        (*env)->DeleteGlobalRef(env, (jobject)userDataPtr);
+    ffi_closure_free(closure);
 }
 
 /*

@@ -16,7 +16,9 @@
 
 package kotlinx.cinterop
 
+import org.jetbrains.kotlin.konan.util.NativeMemoryAllocator
 import org.jetbrains.kotlin.konan.util.ThreadSafeDisposableHelper
+import org.jetbrains.kotlin.konan.util.nativeMemoryAllocator
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.LongConsumer
 import kotlin.reflect.KClass
@@ -88,7 +90,16 @@ internal class Caches {
 }
 
 @PublishedApi
-internal val jvmCallbacksDisposeHelper = ThreadSafeDisposableHelper({ Caches() }, { it.disposeFfi() })
+internal val jvmCallbacksDisposeHelper = ThreadSafeDisposableHelper(
+        {
+            NativeMemoryAllocator.init()
+            Caches()
+        },
+        {
+            it.disposeFfi()
+            NativeMemoryAllocator.dispose()
+        }
+)
 
 inline fun <R> usingJvmCInteropCallbacks(block: () -> R) = jvmCallbacksDisposeHelper.usingDisposable(block)
 
@@ -483,7 +494,7 @@ private fun ffiCreateCif(returnType: ffi_type, paramTypes: List<ffi_type>): ffi_
     return interpretPointed(res)
 }
 
-private external fun ffiCreateClosure0(ffiCif: Long, userData: Any): Long
+private external fun ffiCreateClosure0(ffiCif: Long, ffiClosure: Long, userData: Any): Long
 private external fun ffiFreeClosure0(ptr: Long)
 
 /**
@@ -492,14 +503,15 @@ private external fun ffiFreeClosure0(ptr: Long)
  * @param ffiCif describes the type of the function to create
  */
 private fun ffiCreateClosure(ffiCif: ffi_cif, impl: FfiClosureImpl): NativePtr {
-    val res = ffiCreateClosure0(ffiCif.rawPtr, userData = impl)
+    val ffiClosure = persistentHeap.alloc(Long.SIZE_BYTES, 8)
+    val res = ffiCreateClosure0(ffiCif.rawPtr, ffiClosure.rawPtr, userData = impl)
 
     when (res) {
         0L -> throw OutOfMemoryError()
         -1L -> throw Error("libffi error occurred")
     }
 
-    caches.addClosure(res)
+    caches.addClosure(ffiClosure.rawPtr)
 
     return res
 }
@@ -511,7 +523,7 @@ private fun ffiCreateClosure(ffiCif: ffi_cif, impl: FfiClosureImpl): NativePtr {
 private object persistentHeap : NativeFreeablePlacement {
     override fun alloc(size: Long, align: Int): NativePointed {
         return interpretOpaquePointed(
-                nativeMemUtils.allocRaw(
+                nativeMemoryAllocator.alloc(
                         if (size == 0L) 1L else size, // It is a hack: `nativeMemUtils.allocRaw` can't allocate zero bytes
                         align
                 )
@@ -519,7 +531,7 @@ private object persistentHeap : NativeFreeablePlacement {
     }
 
     override fun free(mem: NativePtr) {
-        nativeMemUtils.freeRaw(mem)
+        nativeMemoryAllocator.free(mem)
     }
 
 }
