@@ -10,18 +10,18 @@ import sun.misc.Unsafe
 class ThreadSafeDisposableHelper<T>(create: () -> T, private val dispose: (T) -> Unit) {
     private val create_ = create
 
-    @Volatile
     var holder: T? = null
+        private set
 
-    @Volatile
     private var counter = 0
     private val lock = Any()
 
     fun create() {
         synchronized(lock) {
-            ++counter
-            if (holder == null)
+            if (counter++ == 0) {
+                check(holder == null)
                 holder = create_()
+            }
         }
     }
 
