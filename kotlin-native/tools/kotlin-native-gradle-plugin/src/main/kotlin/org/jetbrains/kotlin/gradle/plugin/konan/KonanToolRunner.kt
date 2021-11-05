@@ -16,35 +16,16 @@
 
 package org.jetbrains.kotlin.gradle.plugin.konan
 
-import org.gradle.api.Named
 import org.gradle.api.Project
-import org.gradle.api.file.FileCollection
-import org.gradle.api.Action
-import org.gradle.api.GradleException
-import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.api.provider.Property
-import org.gradle.api.provider.Provider
-import org.gradle.jvm.toolchain.JavaLanguageVersion
-import org.gradle.jvm.toolchain.JavaLauncher
-import org.gradle.jvm.toolchain.JavaToolchainService
-import org.gradle.jvm.toolchain.JavaToolchainSpec
-import org.gradle.process.ExecSpec
-import org.gradle.process.JavaExecSpec
 import org.jetbrains.kotlin.gradle.plugin.konan.KonanPlugin.ProjectProperty.KONAN_HOME
-import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.konan.target.KonanTarget
-import org.jetbrains.kotlin.konan.util.DependencyProcessor
 import java.nio.file.Files
 import org.jetbrains.kotlin.*
-import java.io.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.resolvablePropertyString
 import org.jetbrains.kotlin.konan.util.DependencyDirectories
 import java.io.File
-import java.lang.reflect.InvocationTargetException
-import java.net.URLClassLoader
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
+import java.util.Properties
 import org.jetbrains.kotlin.compilerRunner.KotlinToolRunner
 
 internal interface KonanToolRunner {
