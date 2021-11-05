@@ -63,13 +63,14 @@ private const val BigChunksSizeAlignment = 4096
 private const val MaxSmallSize = ChunkBucketSize * SmallChunksSizeAlignment
 private const val MaxMediumSize = ChunkBucketSize * MediumChunksSizeAlignment
 private const val MaxBigSize = ChunkBucketSize * BigChunksSizeAlignment
-private const val ChunkHeaderSize = 3 * Int.SIZE_BYTES // chunk size + raw chunk index + alignment hop size.
+private const val ChunkHeaderSize = 3 * Int.SIZE_BYTES // chunk size + raw chunk ref + alignment hop size.
 
 private const val RawChunkSizeBits = 22 // 4MB
 private const val RawChunkSize = 1L shl RawChunkSizeBits
 private const val ChunkSizeAlignmentBits = 3 // All chunk sizes are aligned to at least 8.
 private const val RawChunkOffsetBits = RawChunkSizeBits - ChunkSizeAlignmentBits
 private const val MinChunkSize = 8
+private const val MaxRawChunksCount = 1024 // 4GB in total.
 
 class NativeMemoryAllocator {
     companion object {
@@ -96,12 +97,18 @@ class NativeMemoryAllocator {
         val index get() = (value ushr RawChunkOffsetBits) - 1
 
         companion object {
+            init {
+                // Ensure that pair (index, offset) fits in 32-bit integer.
+                check(MaxRawChunksCount < 1L shl (32 - RawChunkOffsetBits))
+            }
+
             fun encode(index: Int, offset: Int) = ChunkRef(((index + 1) shl RawChunkOffsetBits) or (offset ushr ChunkSizeAlignmentBits))
 
             val Invalid = ChunkRef(0)
         }
     }
 
+    // Timestamps here solve the ABA problem.
     @JvmInline
     private value class ChunkRefWithTimestamp(val value: Long) {
         val chunkRef get() = ChunkRef(value.toInt())
@@ -123,7 +130,7 @@ class NativeMemoryAllocator {
     private val mediumChunks = LongArray(ChunkBucketSize)
     private val bigChunks = LongArray(ChunkBucketSize)
 
-    // Chunk layout: [chunk size, raw chunk index,...padding...,diff to start,aligned data start,.....data.....]
+    // Chunk layout: [chunk size, raw chunk ref,...padding...,diff to start,aligned data start,.....data.....]
     fun alloc(size: Long, align: Int): Long {
         val totalChunkSize = ChunkHeaderSize + size + align
         val chunkStart = when {
@@ -152,7 +159,7 @@ class NativeMemoryAllocator {
         }
     }
 
-    private val rawChunks = LongArray(256)
+    private val rawChunks = LongArray(MaxRawChunksCount)
 
     private fun ChunkRef.dereference() = rawChunks[index] + offset
 
