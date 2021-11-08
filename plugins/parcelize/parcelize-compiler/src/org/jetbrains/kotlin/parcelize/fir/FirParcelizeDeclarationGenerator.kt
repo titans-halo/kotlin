@@ -23,6 +23,8 @@ import org.jetbrains.kotlin.fir.extensions.predicate.has
 import org.jetbrains.kotlin.fir.extensions.predicateBasedProvider
 import org.jetbrains.kotlin.fir.moduleData
 import org.jetbrains.kotlin.fir.resolve.defaultType
+import org.jetbrains.kotlin.fir.resolve.fullyExpandedType
+import org.jetbrains.kotlin.fir.resolve.lookupSuperTypes
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.fir.symbols.impl.*
 import org.jetbrains.kotlin.fir.types.builder.buildResolvedTypeRef
@@ -62,8 +64,13 @@ class FirParcelizeDeclarationGenerator(session: FirSession) : FirDeclarationGene
         require(owner is FirRegularClassSymbol)
         val functionSymbol = when (callableId.callableName) {
             DESCRIBE_CONTENTS_NAME -> {
-                val declaredFunctions = owner.declarationSymbols.filterIsInstance<FirNamedFunctionSymbol>()
-                runIf(declaredFunctions.none { it.isDescribeContents() }) { generateDescribeContents(owner, callableId) }
+                val hasDescribeContentImplementation = owner.hasDescribeContentsImplementation() ||
+                        lookupSuperTypes(owner, lookupInterfaces = false, deep = true, session).any {
+                            it.fullyExpandedType(session).toRegularClassSymbol(session)?.hasDescribeContentsImplementation() ?: false
+                        }
+                runIf(!hasDescribeContentImplementation) {
+                    generateDescribeContents(owner, callableId)
+                }
             }
             WRITE_TO_PARCEL_NAME -> {
                 val declaredFunctions = owner.declarationSymbols.filterIsInstance<FirNamedFunctionSymbol>()
@@ -74,7 +81,11 @@ class FirParcelizeDeclarationGenerator(session: FirSession) : FirDeclarationGene
         return listOfNotNull(functionSymbol)
     }
 
-    private fun FirNamedFunctionSymbol.isDescribeContents(): Boolean {
+    private fun FirRegularClassSymbol.hasDescribeContentsImplementation(): Boolean {
+        return declarationSymbols.filterIsInstance<FirNamedFunctionSymbol>().any { it.isDescribeContentsImplementation() }
+    }
+
+    private fun FirNamedFunctionSymbol.isDescribeContentsImplementation(): Boolean {
         if (name != DESCRIBE_CONTENTS_NAME) return false
         return valueParameterSymbols.isEmpty()
     }
