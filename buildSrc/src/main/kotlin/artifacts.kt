@@ -224,7 +224,6 @@ fun Project.publishGradlePlugin() {
         tasks.withType<PublishTask> {
             // Makes plugin publication task reuse poms and metadata from publication named "pluginMaven"
             useAutomatedPublishing()
-            useGradleModuleMetadataIfAvailable()
         }
     }
 }
