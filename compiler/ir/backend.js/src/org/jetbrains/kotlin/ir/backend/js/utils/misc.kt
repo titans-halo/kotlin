@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.name.Name
 
 fun TODO(element: IrElement): Nothing = TODO(element::class.java.simpleName + " is not supported yet here")
 
-fun IrFunction.hasStableJsName(context: JsIrBackendContext?): Boolean {
+fun IrFunction.hasStableJsName(): Boolean {
     if (
         origin == JsLoweredDeclarationOrigin.BRIDGE_WITH_STABLE_NAME ||
         (this as? IrSimpleFunction)?.isMethodOfAny() == true // Handle names for special functions
@@ -55,7 +55,7 @@ fun IrFunction.hasStableJsName(context: JsIrBackendContext?): Boolean {
         else -> true
     }
 
-    return (isEffectivelyExternal() || getJsName() != null || isExported(context)) && namedOrMissingGetter
+    return isEffectivelyExternal() && namedOrMissingGetter
 }
 
 fun IrFunction.isEqualsInheritedFromAny() =

@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.backend.common.lower.irBlockBody
 import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.backend.js.JsIrBackendContext
 import org.jetbrains.kotlin.ir.backend.js.JsLoweredDeclarationOrigin
+import org.jetbrains.kotlin.ir.backend.js.export.isExported
 import org.jetbrains.kotlin.ir.backend.js.ir.JsIrBuilder
 import org.jetbrains.kotlin.ir.backend.js.utils.JsAnnotations
 import org.jetbrains.kotlin.ir.backend.js.utils.hasStableJsName
@@ -85,7 +86,7 @@ class ExportedDefaultParameterStub(val context: JsIrBackendContext) : Declaratio
             return null
         }
 
-        if (!declaration.hasStableJsName(context)) {
+        if (!declaration.isExported(context)) {
             return null
         }
 

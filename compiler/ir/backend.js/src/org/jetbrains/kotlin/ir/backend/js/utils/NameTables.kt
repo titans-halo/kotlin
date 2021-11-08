@@ -116,7 +116,7 @@ fun jsFunctionSignature(declaration: IrFunction): String {
 
     val declarationName = declaration.getJsNameOrKotlinName().asString()
 
-    if (declaration.isEffectivelyExternal()) {
+    if (declaration.hasStableJsName()) {
         // TODO: Handle reserved suffix in FE
         require(!declarationName.endsWith(RESERVED_MEMBER_NAME_SUFFIX)) {
             "Function ${declaration.fqNameWhenAvailable} uses reserved name suffix \"$RESERVED_MEMBER_NAME_SUFFIX\""

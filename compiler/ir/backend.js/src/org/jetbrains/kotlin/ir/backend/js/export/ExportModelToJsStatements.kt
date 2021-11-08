@@ -178,14 +178,29 @@ class ExportModelToJsStatements(
             }
     }
 
-    private fun ExportedFunction.generatePrototypeAssignmentIn(owner: ExportedClassLike): JsStatement {
+    private fun ExportedFunction.generatePrototypeAssignmentIn(owner: ExportedClassLike): JsStatement? {
+        if (ir.hasStableJsName()) return null
+
         val classPrototype = owner.prototypeRef()
         val currentFunctionExportedName = ir.getJsNameOrKotlinName().asString()
         val currentFunctionKotlinName = namer.getNameForMemberFunction(ir.realOverrideTarget)
 
+        val originalFunctionInvocation = JsInvocation(
+            JsNameRef(currentFunctionKotlinName, JsThisRef()),
+            parameters.map { JsNameRef(it.name) }
+        )
+
+        val proxyFunction = JsFunction(emptyScope, JsBlock(), "proxy function for '$name' function")
+            .apply {
+                body.statements += JsReturn(originalFunctionInvocation)
+                parameters += this@generatePrototypeAssignmentIn.parameters.map {
+                    JsParameter(JsName(it.name, false))
+                }
+            }
+
         return jsAssignment(
             jsElementAccess(currentFunctionExportedName, classPrototype),
-            JsNameRef(currentFunctionKotlinName, classPrototype),
+            proxyFunction,
         ).makeStmt()
     }
 
