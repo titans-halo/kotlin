@@ -26,7 +26,10 @@ import org.jetbrains.kotlin.fir.resolve.defaultType
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.fir.symbols.impl.*
 import org.jetbrains.kotlin.fir.types.builder.buildResolvedTypeRef
+import org.jetbrains.kotlin.fir.types.classId
+import org.jetbrains.kotlin.fir.types.coneType
 import org.jetbrains.kotlin.fir.types.impl.ConeClassLikeTypeImpl
+import org.jetbrains.kotlin.fir.types.isInt
 import org.jetbrains.kotlin.name.CallableId
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
@@ -60,15 +63,30 @@ class FirParcelizeDeclarationGenerator(session: FirSession) : FirDeclarationGene
         val functionSymbol = when (callableId.callableName) {
             DESCRIBE_CONTENTS_NAME -> {
                 val declaredFunctions = owner.declarationSymbols.filterIsInstance<FirNamedFunctionSymbol>()
-                runIf(declaredFunctions.none { it.name == DESCRIBE_CONTENTS_NAME }) { generateDescribeContents(owner, callableId) }
+                runIf(declaredFunctions.none { it.isDescribeContents() }) { generateDescribeContents(owner, callableId) }
             }
             WRITE_TO_PARCEL_NAME -> {
                 val declaredFunctions = owner.declarationSymbols.filterIsInstance<FirNamedFunctionSymbol>()
-                runIf(declaredFunctions.none { it.name == DESCRIBE_CONTENTS_NAME }) { generateWriteToParcel(owner, callableId) }
+                runIf(declaredFunctions.none { it.isWriteToParcel() }) { generateWriteToParcel(owner, callableId) }
             }
             else -> null
         }
         return listOfNotNull(functionSymbol)
+    }
+
+    private fun FirNamedFunctionSymbol.isDescribeContents(): Boolean {
+        if (name != DESCRIBE_CONTENTS_NAME) return false
+        return valueParameterSymbols.isEmpty()
+    }
+
+    private fun FirNamedFunctionSymbol.isWriteToParcel(): Boolean {
+        if (name != WRITE_TO_PARCEL_NAME) return false
+        val parameterSymbols = valueParameterSymbols
+        if (parameterSymbols.size != 2) return false
+        val (destSymbol, flagsSymbol) = parameterSymbols
+        if (destSymbol.resolvedReturnTypeRef.coneType.classId != PARCEL_ID) return false
+        if (!flagsSymbol.resolvedReturnTypeRef.type.isInt) return false
+        return true
     }
 
     private fun generateDescribeContents(owner: FirRegularClassSymbol, callableId: CallableId): FirNamedFunctionSymbol {
