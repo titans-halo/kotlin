@@ -1038,8 +1038,8 @@ class GeneralKotlin2JsGradlePluginIT : BaseGradleIT() {
         project("cleanTask", gradleVersion) {
             buildGradle.modify(::transformBuildScriptWithPluginsDsl)
             build("assemble") {
-                assertFileExists(projectPath.resolve("kotlin-yarn.lock"))
-                assert(projectPath.resolve("kotlin-yarn.lock").readText() == projectPath.resolve("build/js/yarn.lock").readText())
+                assertFileExists(projectPath.resolve("kotlin-js-store").resolve("yarn.lock"))
+                assert(projectPath.resolve("kotlin-js-store").resolve("yarn.lock").readText() == projectPath.resolve("build/js/yarn.lock").readText())
             }
         }
     }
