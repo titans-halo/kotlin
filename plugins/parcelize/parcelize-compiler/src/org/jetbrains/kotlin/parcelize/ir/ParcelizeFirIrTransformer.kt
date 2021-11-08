@@ -15,10 +15,10 @@ import org.jetbrains.kotlin.ir.declarations.IrProperty
 import org.jetbrains.kotlin.ir.util.companionObject
 import org.jetbrains.kotlin.ir.util.functions
 import org.jetbrains.kotlin.ir.util.render
-import org.jetbrains.kotlin.parcelize.PARCELER_FQNAME
+import org.jetbrains.kotlin.parcelize.ParcelizeNames.CREATOR_NAME
+import org.jetbrains.kotlin.parcelize.ParcelizeNames.PARCELER_FQN
 import org.jetbrains.kotlin.parcelize.ParcelizeSyntheticComponent
 import org.jetbrains.kotlin.parcelize.fir.FirParcelizePluginKey
-import org.jetbrains.kotlin.parcelize.serializers.ParcelizeExtensionBase
 
 class ParcelizeFirIrTransformer(
     context: IrPluginContext,
@@ -44,7 +44,7 @@ class ParcelizeFirIrTransformer(
 
         // If the companion extends Parceler, it can override parts of the generated implementation.
         val parcelerObject = declaration.companionObject()?.takeIf {
-            it.isSubclassOfFqName(PARCELER_FQNAME.asString())
+            it.isSubclassOfFqName(PARCELER_FQN.asString())
         }
 
         for (function in declaration.functions) {
@@ -84,7 +84,7 @@ class ParcelizeFirIrTransformer(
 
     private fun IrClass.hasCreatorField(): Boolean {
         val companionObject = this.companionObject() ?: return false
-        if (companionObject.name == ParcelizeExtensionBase.CREATOR_NAME) return true
-        return companionObject.declarations.any { it is IrProperty && it.name == ParcelizeExtensionBase.CREATOR_NAME }
+        if (companionObject.name == CREATOR_NAME) return true
+        return companionObject.declarations.any { it is IrProperty && it.name == CREATOR_NAME }
     }
 }
