@@ -6,12 +6,12 @@
 package org.jetbrains.kotlin.parcelize.fir.diagnostics
 
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationUseSiteTarget
+import org.jetbrains.kotlin.diagnostics.DiagnosticReporter
+import org.jetbrains.kotlin.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirPropertyChecker
 import org.jetbrains.kotlin.fir.analysis.checkers.toRegularClassSymbol
-import org.jetbrains.kotlin.fir.analysis.diagnostics.DiagnosticReporter
-import org.jetbrains.kotlin.fir.analysis.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.declarations.FirProperty
 import org.jetbrains.kotlin.fir.declarations.FirRegularClass
 import org.jetbrains.kotlin.fir.declarations.hasJvmFieldAnnotation
@@ -42,7 +42,7 @@ object FirParcelizePropertyChecker : FirPropertyChecker() {
                 (declaration.hasBackingField || declaration.delegate != null) &&
                 !declaration.hasIgnoredOnParcel()
             ) {
-                reporter.reportOn(declaration.source, FirErrorsParcelize.PROPERTY_WONT_BE_SERIALIZED, context)
+                reporter.reportOn(declaration.source, KtErrorsParcelize.PROPERTY_WONT_BE_SERIALIZED, context)
             }
             if (fromPrimaryConstructor) {
                 checkParcelableClassProperty(declaration, containingClassSymbol, context, reporter)
@@ -53,14 +53,14 @@ object FirParcelizePropertyChecker : FirPropertyChecker() {
         if (declaration.name == CREATOR_NAME && containingClassSymbol.isCompanion && declaration.hasJvmFieldAnnotation) {
             val outerClass = context.containingDeclarations.asReversed().getOrNull(1) as? FirRegularClass
             if (outerClass != null && outerClass.symbol.isParcelize(context.session)) {
-                reporter.reportOn(declaration.source, FirErrorsParcelize.CREATOR_DEFINITION_IS_NOT_ALLOWED, context)
+                reporter.reportOn(declaration.source, KtErrorsParcelize.CREATOR_DEFINITION_IS_NOT_ALLOWED, context)
             }
         }
     }
 
     private fun checkIgnoredOnParcelUsage(property: FirProperty, context: CheckerContext, reporter: DiagnosticReporter) {
         val illegalAnnotation = property.annotations.firstOrNull { it.classId in IGNORED_ON_PARCEL_CLASS_IDS } ?: return
-        reporter.reportOn(illegalAnnotation.source, FirErrorsParcelize.INAPPLICABLE_IGNORED_ON_PARCEL_CONSTRUCTOR_PROPERTY, context)
+        reporter.reportOn(illegalAnnotation.source, KtErrorsParcelize.INAPPLICABLE_IGNORED_ON_PARCEL_CONSTRUCTOR_PROPERTY, context)
     }
 
     @Suppress("UNUSED_PARAMETER")

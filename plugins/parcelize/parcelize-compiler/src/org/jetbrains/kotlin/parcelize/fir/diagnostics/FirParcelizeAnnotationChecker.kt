@@ -5,10 +5,10 @@
 
 package org.jetbrains.kotlin.parcelize.fir.diagnostics
 
+import org.jetbrains.kotlin.diagnostics.DiagnosticReporter
+import org.jetbrains.kotlin.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.checkers.expression.FirAnnotationCallChecker
-import org.jetbrains.kotlin.fir.analysis.diagnostics.DiagnosticReporter
-import org.jetbrains.kotlin.fir.analysis.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.expressions.FirAnnotationCall
 import org.jetbrains.kotlin.fir.resolve.fullyExpandedType
 import org.jetbrains.kotlin.fir.resolve.toFirRegularClassSymbol
@@ -47,7 +47,7 @@ object FirParcelizeAnnotationChecker : FirAnnotationCallChecker() {
         isForbidden: Boolean
     ) {
         if (annotationClassId.packageFqName == ParcelizeAnnotationChecker.DEPRECATED_RUNTIME_PACKAGE) {
-            val factory = if (isForbidden) FirErrorsParcelize.FORBIDDEN_DEPRECATED_ANNOTATION else FirErrorsParcelize.DEPRECATED_ANNOTATION
+            val factory = if (isForbidden) KtErrorsParcelize.FORBIDDEN_DEPRECATED_ANNOTATION else KtErrorsParcelize.DEPRECATED_ANNOTATION
             reporter.reportOn(annotationCall.source, factory, context)
         }
     }

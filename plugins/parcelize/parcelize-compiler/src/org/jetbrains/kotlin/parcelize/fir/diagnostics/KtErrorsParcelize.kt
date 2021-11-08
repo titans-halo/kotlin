@@ -16,16 +16,16 @@
 package org.jetbrains.kotlin.parcelize.fir.diagnostics
 
 import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.fir.analysis.diagnostics.*
-import org.jetbrains.kotlin.fir.analysis.diagnostics.SourceElementPositioningStrategies.ABSTRACT_MODIFIER
-import org.jetbrains.kotlin.fir.analysis.diagnostics.SourceElementPositioningStrategies.DELEGATED_SUPERTYPE_BY_KEYWORD
-import org.jetbrains.kotlin.fir.analysis.diagnostics.SourceElementPositioningStrategies.INNER_MODIFIER
-import org.jetbrains.kotlin.fir.analysis.diagnostics.SourceElementPositioningStrategies.NAME_IDENTIFIER
-import org.jetbrains.kotlin.fir.analysis.diagnostics.SourceElementPositioningStrategies.OVERRIDE_MODIFIER
+import org.jetbrains.kotlin.diagnostics.*
+import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies.ABSTRACT_MODIFIER
+import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies.DELEGATED_SUPERTYPE_BY_KEYWORD
+import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies.INNER_MODIFIER
+import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies.NAME_IDENTIFIER
+import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies.OVERRIDE_MODIFIER
 import org.jetbrains.kotlin.fir.types.ConeKotlinType
 import org.jetbrains.kotlin.psi.KtClassOrObject
 
-object FirErrorsParcelize {
+object KtErrorsParcelize {
     val PARCELABLE_SHOULD_BE_CLASS by error0<PsiElement>(NAME_IDENTIFIER)
     val PARCELABLE_DELEGATE_IS_NOT_ALLOWED by error0<PsiElement>(DELEGATED_SUPERTYPE_BY_KEYWORD)
     val PARCELABLE_SHOULD_NOT_BE_ENUM_CLASS by error0<PsiElement>()

@@ -16,43 +16,43 @@
 
 package org.jetbrains.kotlin.parcelize.fir.diagnostics
 
+import org.jetbrains.kotlin.diagnostics.KtDiagnostic
+import org.jetbrains.kotlin.diagnostics.KtDiagnosticFactoryToRendererMap
+import org.jetbrains.kotlin.diagnostics.KtDiagnosticRenderer
 import org.jetbrains.kotlin.diagnostics.rendering.Renderers.RENDER_CLASS_OR_OBJECT
-import org.jetbrains.kotlin.fir.analysis.diagnostics.FirDiagnostic
-import org.jetbrains.kotlin.fir.analysis.diagnostics.FirDiagnosticFactoryToRendererMap
-import org.jetbrains.kotlin.fir.analysis.diagnostics.FirDiagnosticRenderer
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirDiagnosticRenderers.RENDER_TYPE
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.CLASS_SHOULD_BE_PARCELIZE
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.CREATOR_DEFINITION_IS_NOT_ALLOWED
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.DEPRECATED_ANNOTATION
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.DEPRECATED_PARCELER
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.DUPLICATING_TYPE_PARCELERS
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.FORBIDDEN_DEPRECATED_ANNOTATION
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.INAPPLICABLE_IGNORED_ON_PARCEL
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.INAPPLICABLE_IGNORED_ON_PARCEL_CONSTRUCTOR_PROPERTY
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.NO_PARCELABLE_SUPERTYPE
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.OVERRIDING_WRITE_TO_PARCEL_IS_NOT_ALLOWED
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_CANT_BE_INNER_CLASS
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_CANT_BE_LOCAL_CLASS
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_CONSTRUCTOR_PARAMETER_SHOULD_BE_VAL_OR_VAR
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_DELEGATE_IS_NOT_ALLOWED
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_PRIMARY_CONSTRUCTOR_IS_EMPTY
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_SHOULD_BE_INSTANTIABLE
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_SHOULD_HAVE_PRIMARY_CONSTRUCTOR
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_SHOULD_NOT_BE_ENUM_CLASS
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELABLE_TYPE_NOT_SUPPORTED
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELER_SHOULD_BE_OBJECT
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PARCELER_TYPE_INCOMPATIBLE
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.PROPERTY_WONT_BE_SERIALIZED
-import org.jetbrains.kotlin.parcelize.fir.diagnostics.FirErrorsParcelize.REDUNDANT_TYPE_PARCELER
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.CLASS_SHOULD_BE_PARCELIZE
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.CREATOR_DEFINITION_IS_NOT_ALLOWED
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.DEPRECATED_ANNOTATION
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.DEPRECATED_PARCELER
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.DUPLICATING_TYPE_PARCELERS
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.FORBIDDEN_DEPRECATED_ANNOTATION
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.INAPPLICABLE_IGNORED_ON_PARCEL
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.INAPPLICABLE_IGNORED_ON_PARCEL_CONSTRUCTOR_PROPERTY
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.NO_PARCELABLE_SUPERTYPE
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.OVERRIDING_WRITE_TO_PARCEL_IS_NOT_ALLOWED
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_CANT_BE_INNER_CLASS
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_CANT_BE_LOCAL_CLASS
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_CONSTRUCTOR_PARAMETER_SHOULD_BE_VAL_OR_VAR
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_DELEGATE_IS_NOT_ALLOWED
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_PRIMARY_CONSTRUCTOR_IS_EMPTY
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_SHOULD_BE_INSTANTIABLE
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_SHOULD_HAVE_PRIMARY_CONSTRUCTOR
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_SHOULD_NOT_BE_ENUM_CLASS
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELABLE_TYPE_NOT_SUPPORTED
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELER_SHOULD_BE_OBJECT
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PARCELER_TYPE_INCOMPATIBLE
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.PROPERTY_WONT_BE_SERIALIZED
+import org.jetbrains.kotlin.parcelize.fir.diagnostics.KtErrorsParcelize.REDUNDANT_TYPE_PARCELER
 
-object FirDefaultErrorMessagesParcelize {
-    fun getRendererForDiagnostic(diagnostic: FirDiagnostic): FirDiagnosticRenderer {
+object KtDefaultErrorMessagesParcelize {
+    fun getRendererForDiagnostic(diagnostic: KtDiagnostic): KtDiagnosticRenderer {
         val factory = diagnostic.factory
-        return MAP[factory] ?: factory.firRenderer
+        return MAP[factory] ?: factory.ktRenderer
     }
 
-    val MAP = FirDiagnosticFactoryToRendererMap("Parcelize").also { map ->
+    val MAP = KtDiagnosticFactoryToRendererMap("Parcelize").also { map ->
         map.put(
             PARCELABLE_SHOULD_BE_CLASS,
             "'Parcelable' should be a class"

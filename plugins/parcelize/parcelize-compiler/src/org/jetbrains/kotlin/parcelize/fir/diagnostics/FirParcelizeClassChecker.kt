@@ -6,13 +6,13 @@
 package org.jetbrains.kotlin.parcelize.fir.diagnostics
 
 import org.jetbrains.kotlin.descriptors.ClassKind
+import org.jetbrains.kotlin.diagnostics.DiagnosticReporter
+import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies
+import org.jetbrains.kotlin.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirClassChecker
 import org.jetbrains.kotlin.fir.analysis.checkers.toRegularClassSymbol
-import org.jetbrains.kotlin.fir.analysis.diagnostics.DiagnosticReporter
-import org.jetbrains.kotlin.fir.analysis.diagnostics.SourceElementPositioningStrategies
-import org.jetbrains.kotlin.fir.analysis.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.analysis.diagnostics.withSuppressedDiagnostics
 import org.jetbrains.kotlin.fir.declarations.FirClass
 import org.jetbrains.kotlin.fir.declarations.FirRegularClass
@@ -50,37 +50,37 @@ object FirParcelizeClassChecker : FirClassChecker() {
         if (!symbol.isParcelize(context.session)) return
         val source = klass.source ?: return
         if (klass !is FirRegularClass) {
-            reporter.reportOn(source, FirErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS, context)
+            reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS, context)
             return
         }
 
         val classKind = klass.classKind
         if (classKind == ClassKind.ANNOTATION_CLASS || classKind == ClassKind.INTERFACE && !klass.isSealed) {
-            reporter.reportOn(source, FirErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS, context)
+            reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS, context)
             return
         }
 
         klass.companionObjectSymbol?.let { companionSymbol ->
             if (companionSymbol.classId.shortClassName == CREATOR_NAME) {
-                reporter.reportOn(companionSymbol.source, FirErrorsParcelize.CREATOR_DEFINITION_IS_NOT_ALLOWED, context)
+                reporter.reportOn(companionSymbol.source, KtErrorsParcelize.CREATOR_DEFINITION_IS_NOT_ALLOWED, context)
             }
         }
 
         if (classKind == ClassKind.CLASS && klass.isAbstract) {
-            reporter.reportOn(source, FirErrorsParcelize.PARCELABLE_SHOULD_BE_INSTANTIABLE, context)
+            reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_SHOULD_BE_INSTANTIABLE, context)
         }
 
         if (klass.isInner) {
-            reporter.reportOn(source, FirErrorsParcelize.PARCELABLE_CANT_BE_INNER_CLASS, context)
+            reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_CANT_BE_INNER_CLASS, context)
         }
 
         if (klass.isLocal) {
-            reporter.reportOn(source, FirErrorsParcelize.PARCELABLE_CANT_BE_LOCAL_CLASS, context)
+            reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_CANT_BE_LOCAL_CLASS, context)
         }
 
         val supertypes = lookupSuperTypes(klass, lookupInterfaces = true, deep = true, context.session, substituteTypes = false)
         if (supertypes.none { it.classId == PARCELABLE_CLASS_ID }) {
-            reporter.reportOn(source, FirErrorsParcelize.NO_PARCELABLE_SUPERTYPE, context)
+            reporter.reportOn(source, KtErrorsParcelize.NO_PARCELABLE_SUPERTYPE, context)
         }
 
         klass.delegateFieldsMap?.forEach { (index, _) ->
@@ -92,7 +92,7 @@ object FirParcelizeClassChecker : FirClassChecker() {
                 isNullable = false
             )
             if (superType.isSubtypeOf(parcelableType, context.session)) {
-                reporter.reportOn(superTypeRef.source, FirErrorsParcelize.PARCELABLE_DELEGATE_IS_NOT_ALLOWED, context)
+                reporter.reportOn(superTypeRef.source, KtErrorsParcelize.PARCELABLE_DELEGATE_IS_NOT_ALLOWED, context)
             }
         }
 
@@ -100,7 +100,7 @@ object FirParcelizeClassChecker : FirClassChecker() {
         val primaryConstructorSymbol = constructorSymbols.find { it.isPrimary }
         val secondaryConstructorSymbols = constructorSymbols.filterNot { it.isPrimary }
         if (primaryConstructorSymbol == null && secondaryConstructorSymbols.isNotEmpty()) {
-            reporter.reportOn(source, FirErrorsParcelize.PARCELABLE_SHOULD_HAVE_PRIMARY_CONSTRUCTOR, context)
+            reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_SHOULD_HAVE_PRIMARY_CONSTRUCTOR, context)
         }
     }
 
@@ -114,7 +114,7 @@ object FirParcelizeClassChecker : FirClassChecker() {
                     } else {
                         SourceElementPositioningStrategies.NAME_IDENTIFIER
                     }
-                    reporter.reportOn(klass.source, FirErrorsParcelize.DEPRECATED_PARCELER, context, positioningStrategy = strategy)
+                    reporter.reportOn(klass.source, KtErrorsParcelize.DEPRECATED_PARCELER, context, positioningStrategy = strategy)
                 }
             }
         }
