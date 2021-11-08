@@ -9,10 +9,8 @@ import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.diagnostics.DiagnosticReporter
 import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies
 import org.jetbrains.kotlin.diagnostics.reportOn
-import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirClassChecker
-import org.jetbrains.kotlin.fir.analysis.checkers.toRegularClassSymbol
 import org.jetbrains.kotlin.fir.analysis.diagnostics.withSuppressedDiagnostics
 import org.jetbrains.kotlin.fir.declarations.FirClass
 import org.jetbrains.kotlin.fir.declarations.FirRegularClass
@@ -43,7 +41,7 @@ object FirParcelizeClassChecker : FirClassChecker() {
 
     private fun checkParcelableClass(klass: FirClass, context: CheckerContext, reporter: DiagnosticReporter) {
         val symbol = klass.symbol
-        if (!symbol.isParcelize(context.session)) return
+        if (!symbol.isParcelize()) return
         val source = klass.source ?: return
         if (klass !is FirRegularClass) {
             reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS, context)
@@ -118,22 +116,11 @@ object FirParcelizeClassChecker : FirClassChecker() {
 }
 
 @OptIn(ExperimentalContracts::class)
-fun FirClassSymbol<*>?.isParcelize(session: FirSession): Boolean {
+fun FirClassSymbol<*>?.isParcelize(): Boolean {
     contract {
         returns(true) implies (this@isParcelize != null)
     }
 
     if (this == null) return false
-    val visited = mutableListOf<FirClassSymbol<*>>()
-
-    fun lookup(symbol: FirClassSymbol<*>): Boolean {
-        if (!visited.add(symbol)) return false
-        if (symbol.annotations.any { it.classId in PARCELIZE_CLASS_CLASS_IDS }) return true
-        return symbol.resolvedSuperTypeRefs.any {
-            val superSymbol = it.toRegularClassSymbol(session) ?: return@any false
-            lookup(superSymbol)
-        }
-    }
-
-    return lookup(this)
+    return this.annotations.any { it.classId in PARCELIZE_CLASS_CLASS_IDS }
 }

@@ -33,7 +33,7 @@ object FirParcelizePropertyChecker : FirPropertyChecker() {
     override fun check(declaration: FirProperty, context: CheckerContext, reporter: DiagnosticReporter) {
         val containingClassSymbol = declaration.dispatchReceiverType?.toRegularClassSymbol(context.session) ?: return
 
-        if (containingClassSymbol.isParcelize(context.session)) {
+        if (containingClassSymbol.isParcelize()) {
             val fromPrimaryConstructor = declaration.fromPrimaryConstructor ?: false
             if (
                 !fromPrimaryConstructor &&
@@ -50,7 +50,7 @@ object FirParcelizePropertyChecker : FirPropertyChecker() {
 
         if (declaration.name == CREATOR_NAME && containingClassSymbol.isCompanion && declaration.hasJvmFieldAnnotation) {
             val outerClass = context.containingDeclarations.asReversed().getOrNull(1) as? FirRegularClass
-            if (outerClass != null && outerClass.symbol.isParcelize(context.session)) {
+            if (outerClass != null && outerClass.symbol.isParcelize()) {
                 reporter.reportOn(declaration.source, KtErrorsParcelize.CREATOR_DEFINITION_IS_NOT_ALLOWED, context)
             }
         }
