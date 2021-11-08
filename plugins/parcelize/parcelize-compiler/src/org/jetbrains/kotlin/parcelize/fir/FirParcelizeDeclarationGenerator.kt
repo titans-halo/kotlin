@@ -167,19 +167,7 @@ class FirParcelizeDeclarationGenerator(session: FirSession) : FirDeclarationGene
             Modality.ABSTRACT, Modality.SEALED -> return false
             else -> {}
         }
-        val classSymbol = klass.symbol as? FirRegularClassSymbol ?: return false
-
-        val visitedSuperclasses = mutableSetOf<FirRegularClassSymbol>()
-
-        fun lookupSupertypes(symbol: FirRegularClassSymbol): Boolean {
-            if (!visitedSuperclasses.add(symbol)) return false
-            if (symbol in matchedClasses) return true
-            return symbol.resolvedSuperTypeRefs.asSequence()
-                .mapNotNull { it.toRegularClassSymbol(session) }
-                .any { lookupSupertypes(it) }
-        }
-
-        return lookupSupertypes(classSymbol)
+        return klass.symbol in matchedClasses
     }
 
     override fun needToGenerateNestedClassifiersInClass(klass: FirClass): Boolean {
