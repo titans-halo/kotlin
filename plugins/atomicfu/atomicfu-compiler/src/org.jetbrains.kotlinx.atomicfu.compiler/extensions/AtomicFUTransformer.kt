@@ -45,7 +45,8 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
     private val ATOMIC_VALUE_TYPE_REGEX = ATOMIC_VALUE_TYPE.toRegex()
     private val ATOMIC_ARRAY_TYPE_REGEX = ATOMIC_ARRAY_TYPE.toRegex()
     private val REENTRANT_LOCK_TYPE_REGEX = REENTRANT_LOCK_TYPE.toRegex()
-    private val ATOMIC_FUNCTION_SIGNATURE_PATTERN = "$ATOMIC_VALUE_TYPE\\.(.*)".toRegex()
+    private val ATOMIC_FUNCTION_SIGNATURE_REGEX = "$ATOMIC_VALUE_TYPE\\.(.*)".toRegex()
+    private val ATOMICFU_INLINE_FUNCTION_REGEX = ATOMICFU_INLINE_FUNCTION.toRegex()
 
     fun transform(irFile: IrFile) {
         irFile.transform(AtomicExtensionTransformer(), null)
@@ -196,7 +197,7 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
                         receiver.getReceiverAccessors(containingFunction)?.let { accessors ->
                             val receiverValueType = receiver.type.atomicToValueType()
                             val inlineAtomic = expression.inlineAtomicFunction(receiverValueType, accessors).apply {
-                                if (symbol.owner.name.asString().matches(ATOMICFU_INLINE_FUNCTION.toRegex())) {
+                                if (symbol.owner.name.asString().matches(ATOMICFU_INLINE_FUNCTION_REGEX)) {
                                     val lambdaLoop = (getValueArgument(0) as IrFunctionExpression).function
                                     lambdaLoop.body?.transform(AtomicFunctionCallTransformer(lambdaLoop), null)
                                 }
@@ -335,7 +336,7 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
             symbol.signature?.let { signature ->
                 if (signature is IdSignature.AccessorSignature) signature.accessorSignature else signature.asPublic()
             }?.declarationFqName?.let { name ->
-                ATOMIC_FUNCTION_SIGNATURE_PATTERN.findAll(name).firstOrNull()?.let { it.groupValues[2] } ?: name
+                ATOMIC_FUNCTION_SIGNATURE_REGEX.findAll(name).firstOrNull()?.let { it.groupValues[2] } ?: name
             } ?: error("Incorrect pattern of the atomic function name: ${symbol.owner.render()}")
 
         private fun IrCall.eraseAtomicFactory() =
