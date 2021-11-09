@@ -77,14 +77,6 @@ class ParcelizeFirIrTransformer(
             }
         }
 
-        if (!declaration.hasCreatorField()) {
-            generateCreator(declaration, parcelerObject, parcelableProperties)
-        }
-    }
-
-    private fun IrClass.hasCreatorField(): Boolean {
-        val companionObject = this.companionObject() ?: return false
-        if (companionObject.name == CREATOR_NAME) return true
-        return companionObject.declarations.any { it is IrProperty && it.name == CREATOR_NAME }
+        generateCreator(declaration, parcelerObject, parcelableProperties)
     }
 }
