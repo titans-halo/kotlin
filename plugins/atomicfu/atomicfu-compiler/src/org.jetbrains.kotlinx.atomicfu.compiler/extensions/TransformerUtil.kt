@@ -166,8 +166,7 @@ internal fun IrPluginContext.buildAccessorLambda(
     getter: IrCall,
     valueType: IrType,
     isSetter: Boolean,
-    isArrayElement: Boolean,
-    parentDeclaration: IrDeclarationParent
+    isArrayElement: Boolean
 ): IrExpression {
     val getterCall = if (isArrayElement) getter.dispatchReceiver as IrCall else getter
     val type = if (isSetter) buildSetterType(valueType) else buildGetterType(valueType)
@@ -182,7 +181,6 @@ internal fun IrPluginContext.buildAccessorLambda(
         this.isInline = true
         this.returnType = returnType
     }.apply {
-        this.parent = parentDeclaration
         val valueParameter = JsIrBuilder.buildValueParameter(this, name, 0, valueType)
         this.valueParameters = if (isSetter) listOf(valueParameter) else emptyList()
         val body = if (isSetter) {

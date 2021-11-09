@@ -2,7 +2,6 @@ description = "Runtime library for the Atomicfu compiler plugin"
 
 plugins {
     kotlin("js")
-    `maven-publish`
 }
 
 group = "org.jetbrains.kotlin"
