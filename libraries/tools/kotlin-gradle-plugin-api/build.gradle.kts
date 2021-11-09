@@ -1,13 +1,11 @@
-import org.jetbrains.kotlin.pill.PillExtension
-
 plugins {
-    id("gradle-plugin-common-configuration")
+    id("gradle-plugin-dependency-configuration")
     id("jps-compatible")
 }
 
 dependencies {
-    api(project(":native:kotlin-native-utils"))
-    api(project(":kotlin-project-model"))
+    "commonApi"(project(":native:kotlin-native-utils"))
+    "commonApi"(project(":kotlin-project-model"))
 
-    compileOnly("com.android.tools.build:gradle:3.4.0")
+    "commonCompileOnly"("com.android.tools.build:gradle:3.4.0")
 }
