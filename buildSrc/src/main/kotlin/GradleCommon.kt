@@ -1,0 +1,425 @@
+/*
+ * Copyright 2010-2021 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
+ */
+
+import org.gradle.api.Action
+import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
+import org.gradle.api.artifacts.ModuleDependency
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition
+import org.gradle.api.attributes.Attribute
+import org.gradle.api.attributes.LibraryElements
+import org.gradle.api.attributes.java.TargetJvmEnvironment
+import org.gradle.api.attributes.plugin.GradlePluginApiVersion
+import org.gradle.api.plugins.JavaLibraryPlugin
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.Copy
+import org.gradle.api.tasks.SourceSet
+import org.gradle.jvm.tasks.Jar
+import org.gradle.kotlin.dsl.*
+import org.gradle.plugin.devel.plugins.JavaGradlePluginPlugin
+import org.jetbrains.dokka.DokkaVersion
+import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.project.model.KotlinPlatformTypeAttribute
+import plugins.configureDefaultPublishing
+import plugins.configureKotlinPomAttributes
+
+/**
+ * Gradle plugins common variants.
+ */
+enum class GradlePluginVariant(
+    val sourceSetName: String,
+    val minimalSupportedGradleVersion: String,
+    val gradleApiVersion: String
+) {
+    GRADLE_61("gradle61", "6.1", "6.9"),
+    GRADLE_70("gradle70", "7.0", "7.1")
+}
+
+/**
+ * Configures common pom configuration parameters
+ */
+fun Project.configureCommonPublicationSettingsForGradle() {
+    plugins.withId("maven-publish") {
+        configureDefaultPublishing()
+
+        extensions.configure<PublishingExtension> {
+            publications
+                .withType<MavenPublication>()
+                .configureEach {
+                    configureKotlinPomAttributes(project)
+                }
+        }
+    }
+}
+
+/**
+* These dependencies will be provided by Gradle, and we should prevent version conflict
+*/
+fun Configuration.excludeGradleCommonDependencies() {
+    dependencies
+        .withType<ModuleDependency>()
+        .configureEach {
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk7")
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-common")
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-script-runtime")
+        }
+}
+
+/**
+ * Exclude Gradle runtime from given SourceSet configurations.
+ */
+fun Project.excludeGradleCommonDependencies(sourceSet: SourceSet) {
+    configurations[sourceSet.implementationConfigurationName].excludeGradleCommonDependencies()
+    configurations[sourceSet.apiConfigurationName].excludeGradleCommonDependencies()
+    configurations[sourceSet.runtimeOnlyConfigurationName].excludeGradleCommonDependencies()
+}
+
+/**
+ * Common sources for all variants.
+ * Should contain classes that are independent of Gradle API version or using minimal supported Gradle api.
+ */
+fun Project.createGradleCommonSourceSet(): SourceSet {
+    val commonSourceSet = sourceSets.create("common") {
+        excludeGradleCommonDependencies(this)
+
+        dependencies {
+            compileOnlyConfigurationName(kotlinStdlib())
+            compileOnlyConfigurationName("dev.gradleplugins:gradle-api:6.9")
+            if (this@createGradleCommonSourceSet.name != "kotlin-gradle-plugin-api") {
+                compileOnlyConfigurationName(project(":kotlin-gradle-plugin-api")) {
+                    capabilities {
+                        requireCapability("org.jetbrains.kotlin:kotlin-gradle-plugin-api-common")
+                    }
+                }
+            }
+        }
+    }
+
+    plugins.withType<JavaLibraryPlugin>().configureEach {
+        this@createGradleCommonSourceSet.extensions.configure<JavaPluginExtension> {
+            registerFeature(commonSourceSet.name) {
+                usingSourceSet(commonSourceSet)
+                disablePublication()
+            }
+        }
+    }
+
+    return commonSourceSet
+}
+
+/**
+ * Make [wireSourceSet] to extend [commonSourceSet].
+ */
+fun Project.wireGradleVariantToCommonGradleVariant(
+    wireSourceSet: SourceSet,
+    commonSourceSet: SourceSet
+) {
+    wireSourceSet.compileClasspath += commonSourceSet.output
+    wireSourceSet.runtimeClasspath += commonSourceSet.output
+    @Suppress("deprecation") // Needs support from KGP
+    wireSourceSet.withConvention(KotlinSourceSet::class) {
+        val wireKotlinSourceSet = this
+        commonSourceSet.withConvention(KotlinSourceSet::class) {
+            wireKotlinSourceSet.dependsOn(this)
+        }
+    }
+
+    configurations[wireSourceSet.apiConfigurationName].extendsFrom(
+        configurations[commonSourceSet.apiConfigurationName]
+    )
+    configurations[wireSourceSet.implementationConfigurationName].extendsFrom(
+        configurations[commonSourceSet.implementationConfigurationName]
+    )
+    configurations[wireSourceSet.runtimeOnlyConfigurationName].extendsFrom(
+        configurations[commonSourceSet.runtimeOnlyConfigurationName]
+    )
+
+    fixWiredSourceSetSecondaryVariants(wireSourceSet, commonSourceSet)
+
+    tasks.withType<Jar>().configureEach {
+        if (name == wireSourceSet.jarTaskName) {
+            from(wireSourceSet.output, commonSourceSet.output)
+            setupPublicJar(archiveBaseName.get())
+            addEmbeddedRuntime()
+        } else if (name == wireSourceSet.sourcesJarTaskName) {
+            from(wireSourceSet.allSource, commonSourceSet.allSource)
+        }
+    }
+}
+
+/**
+ * 'main' sources are used for Gradle 6.1-6.9 versions.
+ * Directories are renamed into 'src/gradle61'.
+ */
+fun Project.reconfigureMainSourceSetForGradlePlugin(
+    commonSourceSet: SourceSet
+) {
+    sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME) {
+        // Rename 'main' source set source directories to make them more explicit
+        java.setSrcDirs(setOf("src/${GradlePluginVariant.GRADLE_61.sourceSetName}/java"))
+        @Suppress("Deprecation") // Needs support from KGP
+        withConvention(KotlinSourceSet::class) {
+            kotlin.setSrcDirs(setOf("src/${GradlePluginVariant.GRADLE_61.sourceSetName}/kotlin"))
+        }
+
+        plugins.withType<JavaGradlePluginPlugin>().configureEach {
+            // Removing Gradle api default dependency added by 'java-gradle-plugin'
+            configurations[apiConfigurationName].dependencies.remove(dependencies.gradleApi())
+        }
+
+        dependencies {
+            "compileOnly"(kotlinStdlib())
+            "compileOnly"("dev.gradleplugins:gradle-api:${GradlePluginVariant.GRADLE_61.gradleApiVersion}")
+            if (this@reconfigureMainSourceSetForGradlePlugin.name != "kotlin-gradle-plugin-api") {
+                "api"(project(":kotlin-gradle-plugin-api"))
+            }
+        }
+
+        excludeGradleCommonDependencies(this)
+        wireGradleVariantToCommonGradleVariant(this, commonSourceSet)
+
+        tasks.withType<Jar>().configureEach {
+            if (name == jarTaskName) {
+                setupPublicJar(archiveBaseName.get())
+                addEmbeddedRuntime()
+            } else if (name == sourcesJarTaskName) {
+                addEmbeddedSources()
+
+                configurePublishedComponent {
+                    addVariantsFromConfiguration(configurations[SOURCES_ELEMENTS_CONFIGURATION_NAME]) {}
+                }
+            }
+        }
+
+        plugins.withType<JavaLibraryPlugin>().configureEach {
+            this@reconfigureMainSourceSetForGradlePlugin
+                .extensions
+                .configure<JavaPluginExtension> {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
+        }
+
+        plugins.withId("org.jetbrains.dokka") {
+            val dokkaTask = tasks.named<DokkaTask>("dokkaJavadoc") {
+                dokkaSourceSets {
+                    named(commonSourceSet.name) {
+                        suppress.set(false)
+                    }
+
+                    named("main") {
+                        dependsOn(commonSourceSet)
+                    }
+                }
+            }
+
+            tasks.withType<Jar>().configureEach {
+                if (name == javadocJarTaskName) {
+                    from(dokkaTask.flatMap { it.outputDirectory })
+
+                    configurePublishedComponent {
+                        addVariantsFromConfiguration(configurations[JAVADOC_ELEMENTS_CONFIGURATION_NAME]) { }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Adding plugin variants: https://docs.gradle.org/current/userguide/implementing_gradle_plugins.html#plugin-with-variants
+ */
+fun Project.createGradlePluginVariant(
+    variant: GradlePluginVariant,
+    commonSourceSet: SourceSet,
+    isGradlePlugin: Boolean = true
+): SourceSet {
+    val variantSourceSet = sourceSets.create(variant.sourceSetName) {
+        excludeGradleCommonDependencies(this)
+        wireGradleVariantToCommonGradleVariant(this, commonSourceSet)
+    }
+
+    plugins.withType<JavaLibraryPlugin>().configureEach {
+        extensions.configure<JavaPluginExtension> {
+            registerFeature(variantSourceSet.name) {
+                usingSourceSet(variantSourceSet)
+                if (isGradlePlugin) {
+                    capability(project.group.toString(), project.name, project.version.toString())
+                }
+
+                withJavadocJar()
+                withSourcesJar()
+            }
+
+            configurations.named(variantSourceSet.apiElementsConfigurationName, commonVariantAttributes())
+            configurations.named(variantSourceSet.runtimeElementsConfigurationName, commonVariantAttributes())
+        }
+
+        tasks.named<Jar>(variantSourceSet.sourcesJarTaskName) {
+            addEmbeddedSources()
+
+            configurePublishedComponent {
+                addVariantsFromConfiguration(configurations[SOURCES_ELEMENTS_CONFIGURATION_NAME]) {}
+            }
+        }
+    }
+
+    plugins.withId("org.jetbrains.dokka") {
+        val dokkaTask = tasks.register<DokkaTask>("dokka${variantSourceSet.javadocTaskName.capitalize()}") {
+            description = "Generates documentation in 'javadoc' format for '${variantSourceSet.javadocTaskName}' variant"
+
+            plugins.dependencies.add(
+                project.dependencies.create("org.jetbrains.dokka:javadoc-plugin:${DokkaVersion.version}")
+            )
+
+            dokkaSourceSets {
+                named(commonSourceSet.name) {
+                    suppress.set(false)
+                }
+
+                named(variantSourceSet.name) {
+                    dependsOn(commonSourceSet)
+                    suppress.set(false)
+                }
+            }
+        }
+
+        tasks.named<Jar>(variantSourceSet.javadocJarTaskName) {
+            from(dokkaTask.flatMap { it.outputDirectory })
+
+            configurePublishedComponent {
+                addVariantsFromConfiguration(configurations[JAVADOC_ELEMENTS_CONFIGURATION_NAME]) { }
+            }
+        }
+    }
+
+    plugins.withId("java-gradle-plugin") {
+        tasks.named<Copy>(variantSourceSet.processResourcesTaskName) {
+            val copyPluginDescriptors = rootSpec.addChild()
+            copyPluginDescriptors.into("META-INF/gradle-plugins")
+            copyPluginDescriptors.from(tasks.named("pluginDescriptors"))
+        }
+    }
+
+    configurations.configureEach {
+        if (isCanBeConsumed && this@configureEach.name.startsWith(variantSourceSet.name)) {
+            attributes {
+                attribute(
+                    GradlePluginApiVersion.GRADLE_PLUGIN_API_VERSION_ATTRIBUTE,
+                    objects.named(variant.minimalSupportedGradleVersion)
+                )
+            }
+        }
+    }
+
+    dependencies {
+        variantSourceSet.compileOnlyConfigurationName(kotlinStdlib())
+        variantSourceSet.compileOnlyConfigurationName("dev.gradleplugins:gradle-api:${variant.gradleApiVersion}")
+        if (this@createGradlePluginVariant.name != "kotlin-gradle-plugin-api") {
+            variantSourceSet.apiConfigurationName(project(":kotlin-gradle-plugin-api")) {
+                capabilities {
+                    requireCapability("org.jetbrains.kotlin:kotlin-gradle-plugin-api-${variant.sourceSetName}")
+                }
+            }
+        }
+    }
+
+    return variantSourceSet
+}
+
+/**
+ * Fixes wired SourceSet does not expose compiled common classes and common resources as secondary variant
+ * which is used in the Kotlin Project compilation.
+ */
+private fun Project.fixWiredSourceSetSecondaryVariants(
+    wireSourceSet: SourceSet,
+    commonSourceSet: SourceSet
+) {
+    configurations
+        .matching {
+            it.name == wireSourceSet.apiElementsConfigurationName ||
+                    it.name == wireSourceSet.runtimeElementsConfigurationName
+        }
+        .configureEach {
+            outgoing {
+                variants.maybeCreate("classes").apply {
+                    attributes {
+                        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements.CLASSES))
+                    }
+                    (commonSourceSet.output.classesDirs.files + wireSourceSet.output.classesDirs.files)
+                        .toSet()
+                        .forEach {
+                            if (!artifacts.files.contains(it)) {
+                                artifact(it) {
+                                    type = ArtifactTypeDefinition.JVM_CLASS_DIRECTORY
+                                }
+                            }
+                        }
+                }
+            }
+        }
+
+    configurations
+        .matching { it.name == wireSourceSet.runtimeElementsConfigurationName }
+        .configureEach {
+            outgoing {
+                val resourcesDirectories = listOfNotNull(
+                    commonSourceSet.output.resourcesDir,
+                    wireSourceSet.output.resourcesDir
+                )
+
+                if (resourcesDirectories.isNotEmpty()) {
+                    variants.maybeCreate("resources").apply {
+                        attributes {
+                            attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements.RESOURCES))
+                        }
+                        resourcesDirectories.forEach {
+                            if (!artifacts.files.contains(it)) {
+                                artifact(it) {
+                                    type = ArtifactTypeDefinition.JVM_RESOURCES_DIRECTORY
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+}
+
+/**
+ * All additional configuration attributes in plugin variant should be the same as in the 'main' variant.
+ * Otherwise, Gradle <7.0 will fail to select plugin variant.
+ */
+private fun Project.commonVariantAttributes(): Action<Configuration> = Action<Configuration> {
+    attributes {
+        attribute(
+            TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE,
+            objects.named(TargetJvmEnvironment.STANDARD_JVM)
+        )
+        attribute(
+            Attribute.of(KotlinPlatformTypeAttribute.uniqueName, String::class.java),
+            KotlinPlatformTypeAttribute.JVM
+        )
+    }
+}
+
+fun Project.configureKotlinCompileTasksGradleCompatibility() {
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions.languageVersion = "1.4"
+        kotlinOptions.apiVersion = "1.4"
+        kotlinOptions.freeCompilerArgs += listOf(
+            "-Xskip-prerelease-check",
+            "-Xsuppress-version-warnings",
+            "-Xuse-ir" // Needed as long as languageVersion is less than 1.5.
+        )
+    }
+}
