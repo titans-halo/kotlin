@@ -10,7 +10,6 @@ import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.analysis.checkers.toRegularClassSymbol
-import org.jetbrains.kotlin.fir.declarations.FirClass
 import org.jetbrains.kotlin.fir.declarations.FirPluginKey
 import org.jetbrains.kotlin.fir.declarations.builder.FirSimpleFunctionBuilder
 import org.jetbrains.kotlin.fir.declarations.builder.buildSimpleFunction
@@ -159,19 +158,11 @@ class FirParcelizeDeclarationGenerator(session: FirSession) : FirDeclarationGene
 
     @OptIn(SymbolInternals::class)
     override fun getCallableNamesForClass(classSymbol: FirClassSymbol<*>): Set<Name> {
-        return setOf(DESCRIBE_CONTENTS_NAME, WRITE_TO_PARCEL_NAME)
-    }
-
-    override fun needToGenerateAdditionalMembersInClass(klass: FirClass): Boolean {
-        when (klass.modality) {
-            Modality.ABSTRACT, Modality.SEALED -> return false
-            else -> {}
+        return when {
+            classSymbol.fir.modality == Modality.ABSTRACT -> emptySet()
+            classSymbol in matchedClasses -> setOf(DESCRIBE_CONTENTS_NAME, WRITE_TO_PARCEL_NAME)
+            else -> emptySet()
         }
-        return klass.symbol in matchedClasses
-    }
-
-    override fun needToGenerateNestedClassifiersInClass(klass: FirClass): Boolean {
-        return false
     }
 
     override val key: FirPluginKey
