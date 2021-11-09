@@ -8,6 +8,7 @@ package org.jetbrains.kotlinx.atomicfu.compiler.extensions
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.*
 import org.jetbrains.kotlin.ir.backend.js.ir.JsIrBuilder.buildValueParameter
+import org.jetbrains.kotlin.ir.util.IdSignature.*
 import org.jetbrains.kotlin.ir.expressions.impl.*
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.*
@@ -19,8 +20,7 @@ import org.jetbrains.kotlin.ir.expressions.IrTypeOperator.*
 
 private const val AFU_PKG = "kotlinx.atomicfu"
 private const val LOCKS = "locks"
-private const val ATOMIC_VALUE_TYPE = """Atomic(Int|Long|Boolean|Ref)"""
-private const val ATOMIC_ARRAY_TYPE = """Atomic(Int|Long|Boolean|)Array"""
+private const val AFU_LOCKS_PKG = "$AFU_PKG.$LOCKS"
 private const val ATOMICFU_RUNTIME_FUNCTION_PREDICATE = "atomicfu_"
 private const val REENTRANT_LOCK_TYPE = "ReentrantLock"
 private const val GETTER = "atomicfu\$getter"
@@ -29,7 +29,6 @@ private const val GET = "get"
 private const val ATOMIC_VALUE_FACTORY = "atomic"
 private const val ATOMIC_ARRAY_OF_NULLS_FACTORY = "atomicArrayOfNulls"
 private const val REENTRANT_LOCK_FACTORY = "reentrantLock"
-private const val ATOMICFU_INLINE_FUNCTION = """atomicfu_(loop|update|getAndUpdate|updateAndGet)"""
 
 class AtomicFUTransformer(private val context: IrPluginContext) {
 
@@ -42,11 +41,9 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
         "AtomicBoolean" to irBuiltIns.booleanType
     )
 
-    private val ATOMIC_VALUE_TYPE_REGEX = ATOMIC_VALUE_TYPE.toRegex()
-    private val ATOMIC_ARRAY_TYPE_REGEX = ATOMIC_ARRAY_TYPE.toRegex()
-    private val REENTRANT_LOCK_TYPE_REGEX = REENTRANT_LOCK_TYPE.toRegex()
-    private val ATOMIC_FUNCTION_SIGNATURE_REGEX = "$ATOMIC_VALUE_TYPE\\.(.*)".toRegex()
-    private val ATOMICFU_INLINE_FUNCTION_REGEX = ATOMICFU_INLINE_FUNCTION.toRegex()
+    private val ATOMIC_VALUE_TYPES = setOf("AtomicInt", "AtomicLong", "AtomicBoolean", "AtomicRef")
+    private val ATOMIC_ARRAY_TYPES = setOf("AtomicIntArray", "AtomicLongArray", "AtomicBooleanArray", "AtomicArray")
+    private val ATOMICFU_INLINE_FUNCTIONS = setOf("atomicfu_loop", "atomicfu_update", "atomicfu_getAndUpdate", "atomicfu_updateAndGet")
 
     fun transform(irFile: IrFile) {
         irFile.transform(AtomicExtensionTransformer(), null)
@@ -197,7 +194,7 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
                         receiver.getReceiverAccessors(containingFunction)?.let { accessors ->
                             val receiverValueType = receiver.type.atomicToValueType()
                             val inlineAtomic = expression.inlineAtomicFunction(receiverValueType, accessors).apply {
-                                if (symbol.owner.name.asString().matches(ATOMICFU_INLINE_FUNCTION_REGEX)) {
+                                if (symbol.owner.name.asString() in ATOMICFU_INLINE_FUNCTIONS) {
                                     val lambdaLoop = (getValueArgument(0) as IrFunctionExpression).function
                                     lambdaLoop.body?.transform(AtomicFunctionCallTransformer(lambdaLoop), null)
                                 }
@@ -227,7 +224,6 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
                                 expression.endOffset,
                                 target = transformedAtomicExtension.symbol,
                                 type = expression.type,
-                                origin = IrStatementOrigin.INVOKE,
                                 valueArguments = expression.getValueArguments() + accessors
                             ).apply {
                                 dispatchReceiver = expression.dispatchReceiver
@@ -261,7 +257,6 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
                 startOffset, endOffset,
                 target = runtimeFunction,
                 type = type,
-                origin = IrStatementOrigin.INVOKE,
                 typeArguments = if (runtimeFunction.owner.typeParameters.size == 1) listOf(atomicType) else emptyList(),
                 valueArguments = valueArguments + accessors
             )
@@ -336,7 +331,9 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
             symbol.signature?.let { signature ->
                 if (signature is IdSignature.AccessorSignature) signature.accessorSignature else signature.asPublic()
             }?.declarationFqName?.let { name ->
-                ATOMIC_FUNCTION_SIGNATURE_REGEX.findAll(name).firstOrNull()?.let { it.groupValues[2] } ?: name
+                if (name.substringBefore('.') in ATOMIC_VALUE_TYPES) {
+                    name.substringAfter('.')
+                } else name
             } ?: error("Incorrect pattern of the atomic function name: ${symbol.owner.render()}")
 
         private fun IrCall.eraseAtomicFactory() =
@@ -367,19 +364,21 @@ class AtomicFUTransformer(private val context: IrPluginContext) {
     private fun IrSymbol.isKotlinxAtomicfuPackage() =
         this.isPublicApi && signature?.packageFqName()?.asString() == AFU_PKG
 
-    private fun IrType.isAtomicValueType() = belongsTo(ATOMIC_VALUE_TYPE_REGEX)
-    private fun IrType.isAtomicArrayType() = belongsTo(ATOMIC_ARRAY_TYPE_REGEX)
-    private fun IrType.isReentrantLockType() = belongsTo("$AFU_PKG.$LOCKS", REENTRANT_LOCK_TYPE_REGEX)
+    private fun IrType.isAtomicValueType() = belongsTo(AFU_PKG, ATOMIC_VALUE_TYPES)
+    private fun IrType.isAtomicArrayType() = belongsTo(AFU_PKG, ATOMIC_ARRAY_TYPES)
+    private fun IrType.isReentrantLockType() = belongsTo(AFU_LOCKS_PKG, REENTRANT_LOCK_TYPE)
 
-    private fun IrType.belongsTo(typeName: Regex) = belongsTo(AFU_PKG, typeName)
-
-    private fun IrType.belongsTo(packageName: String, typeNameReg: Regex): Boolean {
-        return classOrNull?.let {
-            it.signature?.asPublic()?.let { sig ->
-                sig.packageFqName == packageName && sig.declarationFqName.matches(typeNameReg)
-            }
+    private fun IrType.belongsTo(packageName: String, typeNames: Set<String>) =
+        getSignature()?.let { sig ->
+            sig.packageFqName == packageName && sig.declarationFqName in typeNames
         } ?: false
-    }
+
+    private fun IrType.belongsTo(packageName: String, typeName: String) =
+        getSignature()?.let { sig ->
+            sig.packageFqName == packageName && sig.declarationFqName == typeName
+        } ?: false
+
+    private fun IrType.getSignature(): CommonSignature? = classOrNull?.let { it.signature?.asPublic() }
 
     private fun IrType.atomicToValueType(): IrType {
         require(this is IrSimpleType)
