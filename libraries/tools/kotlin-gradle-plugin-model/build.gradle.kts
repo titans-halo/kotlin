@@ -1,4 +1,11 @@
 plugins {
-    id("gradle-plugin-common-configuration")
+    kotlin("jvm")
     id("jps-compatible")
+}
+
+publish()
+configureKotlinCompileTasksGradleCompatibility()
+
+dependencies {
+    compileOnly(kotlinStdlib())
 }
