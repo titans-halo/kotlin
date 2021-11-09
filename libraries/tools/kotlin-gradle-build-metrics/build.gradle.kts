@@ -1,11 +1,15 @@
 description = "kotlin-gradle-statistics"
 
 plugins {
-    id("gradle-plugin-common-configuration")
+    kotlin("jvm")
     id("jps-compatible")
 }
 
+configureKotlinCompileTasksGradleCompatibility()
+
 dependencies {
+    api(kotlinStdlib())
+
     testImplementation(project(":kotlin-test:kotlin-test-junit"))
     testImplementation("junit:junit:4.12")
 }
