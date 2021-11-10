@@ -18,11 +18,9 @@ import org.jetbrains.kotlin.ir.backend.js.utils.Namer
 import org.jetbrains.kotlin.ir.backend.js.utils.emptyScope
 import org.jetbrains.kotlin.ir.backend.js.utils.getJsNameOrKotlinName
 import org.jetbrains.kotlin.ir.backend.js.utils.*
+import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
-import org.jetbrains.kotlin.ir.util.companionObject
-import org.jetbrains.kotlin.ir.util.isEffectivelyExternal
-import org.jetbrains.kotlin.ir.util.isEnumEntry
-import org.jetbrains.kotlin.ir.util.isInterface
+import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.js.backend.ast.*
 import org.jetbrains.kotlin.util.collectionUtils.filterIsInstanceAnd
 
@@ -75,6 +73,10 @@ class ExportModelToJsStatements(
             }
 
             is ExportedFunction -> {
+                if (declaration.hasNotExportedParent()) {
+                    return listOfNotNull(declaration.generatePrototypeAssignmentIn(declaration.ir.parentAsClass))
+                }
+
                 val name = namer.getNameForStaticDeclaration(declaration.ir)
                 if (esModules) {
                     listOf(JsExport(name, alias = JsName(declaration.name, false)))
@@ -95,12 +97,17 @@ class ExportModelToJsStatements(
 
             is ExportedProperty -> {
                 require(namespace != null) { "Only namespaced properties are allowed" }
-                val underlying: List<JsStatement> = declaration.exportedObject?.let {
-                    generateDeclarationExport(it, null, esModules)
-                } ?: emptyList()
+//                val underlying: List<JsStatement> = declaration.exportedObject?.let {
+//                    generateDeclarationExport(it, null, esModules)
+//                } ?: emptyList()
+
+                if (declaration.hasNotExportedParent()) {
+                    return listOfNotNull(declaration.generatePrototypeAssignmentIn(declaration.ir!!.parentAsClass))
+                }
+
                 val getter = declaration.irGetter?.let { JsNameRef(namer.getNameForStaticDeclaration(it)) }
                 val setter = declaration.irSetter?.let { JsNameRef(namer.getNameForStaticDeclaration(it)) }
-                listOf(defineProperty(namespace, declaration.name, getter, setter).makeStmt()) + underlying
+                listOf(defineProperty(namespace, declaration.name, getter, setter).makeStmt()) //+ underlying
             }
 
             is ErrorDeclaration -> emptyList()
@@ -112,7 +119,7 @@ class ExportModelToJsStatements(
                 val getter = namer.getNameForStaticDeclaration(declaration.irGetter).makeRef()
 
                 val exportedMembers = declaration.generateMembersDeclarations()
-                val staticsExport = declaration.generateStaticDeclarations(newNameSpace)
+                val staticsExport = declaration.generateStaticDeclarations(newNameSpace, esModules)
 
                 listOf(defineProperty(namespace, declaration.name, getter, null).makeStmt()) + exportedMembers + staticsExport
                     .wrapWithExportComment("'${declaration.name}' object")
@@ -138,7 +145,7 @@ class ExportModelToJsStatements(
                     }
 
                 val exportedMembers = declaration.generateMembersDeclarations()
-                val staticsExport = declaration.generateStaticDeclarations(newNameSpace)
+                val staticsExport = declaration.generateStaticDeclarations(newNameSpace, esModules)
 
                 val innerClassesAssignments = declaration.nestedClasses
                     .filter { it.ir.isInner }
@@ -150,7 +157,7 @@ class ExportModelToJsStatements(
         }
     }
 
-    private fun ExportedClassLike.generateStaticDeclarations(newNameSpace: JsExpression): List<JsStatement> {
+    private fun ExportedClassLike.generateStaticDeclarations(newNameSpace: JsExpression, esModules: Boolean): List<JsStatement> {
         // These are only used when exporting secondary constructors annotated with @JsName
         val staticFunctions = members
             .filter { it is ExportedFunction && it.isStatic }
@@ -163,22 +170,22 @@ class ExportModelToJsStatements(
         }
 
         return (staticFunctions + staticProperties + nestedClasses)
-            .flatMap { generateDeclarationExport(it, newNameSpace) }
+            .flatMap { generateDeclarationExport(it, newNameSpace, esModules) }
     }
 
     private fun ExportedClassLike.generateMembersDeclarations(): List<JsStatement> {
         return members
             .mapNotNull { member ->
                 when (member) {
-                    is ExportedProperty -> member.generatePrototypeAssignmentIn(this)
+                    is ExportedProperty -> member.generatePrototypeAssignmentIn(ir)
                     is ExportedFunction -> member.takeIf { !it.isStatic }
-                        ?.let { it.generatePrototypeAssignmentIn(this) }
+                        ?.let { it.generatePrototypeAssignmentIn(ir) }
                     else -> null
                 }
             }
     }
 
-    private fun ExportedFunction.generatePrototypeAssignmentIn(owner: ExportedClassLike): JsStatement? {
+    private fun ExportedFunction.generatePrototypeAssignmentIn(owner: IrClass): JsStatement? {
         if (ir.hasStableJsName()) return null
 
         val classPrototype = owner.prototypeRef()
@@ -204,8 +211,8 @@ class ExportModelToJsStatements(
         ).makeStmt()
     }
 
-    private fun ExportedProperty.generatePrototypeAssignmentIn(owner: ExportedClassLike): JsStatement? {
-        if (owner.ir.isInterface || owner.ir.isEnumEntry) {
+    private fun ExportedProperty.generatePrototypeAssignmentIn(owner: IrClass): JsStatement? {
+        if (owner.isInterface || owner.isEnumEntry) {
             return null
         }
 
@@ -293,14 +300,12 @@ class ExportModelToJsStatements(
     }
 
     private fun IrSimpleFunction.overridesExternal(): Boolean {
-        if (this.isEffectivelyExternal()) return true
-
-        return this.overriddenSymbols.any { it.owner.overridesExternal() }
+        return isEffectivelyExternal() || overriddenSymbols.any { it.owner.overridesExternal() }
     }
 
 
-    private fun ExportedClassLike.prototypeRef(): JsNameRef {
-        val classRef = namer.getNameForStaticDeclaration(ir).makeRef()
+    private fun IrClass.prototypeRef(): JsNameRef {
+        val classRef = namer.getNameForStaticDeclaration(this).makeRef()
         return prototypeOf(classRef)
     }
 
@@ -369,6 +374,14 @@ class ExportModelToJsStatements(
             ),
             null
         ).makeStmt()
+    }
+
+    private fun ExportedProperty.hasNotExportedParent(): Boolean {
+        return ir?.parentClassOrNull?.isExported(backendContext) == false
+    }
+
+    private fun ExportedFunction.hasNotExportedParent(): Boolean {
+        return ir.parentClassOrNull?.isExported(backendContext) == false
     }
 
     private fun JsNameRef.bindToThis(): JsInvocation {
