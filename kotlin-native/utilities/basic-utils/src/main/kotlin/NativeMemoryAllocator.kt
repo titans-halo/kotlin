@@ -163,7 +163,7 @@ class NativeMemoryAllocator {
 
     private fun ChunkRef.dereference() = rawChunks[index] + offset
 
-    private val lock = Any()
+    private val rawChunksLock = Any()
 
     @Volatile
     private var rawOffset = 0L
@@ -180,7 +180,7 @@ class NativeMemoryAllocator {
             val rawChunkOffset = (dataStartOffset and (RawChunkSize - 1)).toInt()
             var rawChunk = rawChunks[rawChunkIndex]
             if (rawChunk == 0L) {
-                synchronized(lock) {
+                synchronized(rawChunksLock) {
                     rawChunk = rawChunks[rawChunkIndex]
                     if (rawChunk == 0L) {
                         rawChunk = unsafe.allocateMemory(RawChunkSize)
