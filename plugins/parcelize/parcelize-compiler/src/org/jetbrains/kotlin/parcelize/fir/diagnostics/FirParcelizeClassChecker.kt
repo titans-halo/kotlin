@@ -9,8 +9,10 @@ import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.diagnostics.DiagnosticReporter
 import org.jetbrains.kotlin.diagnostics.SourceElementPositioningStrategies
 import org.jetbrains.kotlin.diagnostics.reportOn
+import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirClassChecker
+import org.jetbrains.kotlin.fir.analysis.checkers.toRegularClassSymbol
 import org.jetbrains.kotlin.fir.analysis.diagnostics.withSuppressedDiagnostics
 import org.jetbrains.kotlin.fir.declarations.FirClass
 import org.jetbrains.kotlin.fir.declarations.FirRegularClass
@@ -18,6 +20,7 @@ import org.jetbrains.kotlin.fir.declarations.constructors
 import org.jetbrains.kotlin.fir.declarations.delegateFieldsMap
 import org.jetbrains.kotlin.fir.declarations.utils.*
 import org.jetbrains.kotlin.fir.expressions.classId
+import org.jetbrains.kotlin.fir.resolve.fullyExpandedType
 import org.jetbrains.kotlin.fir.resolve.lookupSuperTypes
 import org.jetbrains.kotlin.fir.symbols.impl.ConeClassLikeLookupTagImpl
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassSymbol
@@ -41,7 +44,7 @@ object FirParcelizeClassChecker : FirClassChecker() {
 
     private fun checkParcelableClass(klass: FirClass, context: CheckerContext, reporter: DiagnosticReporter) {
         val symbol = klass.symbol
-        if (!symbol.isParcelize()) return
+        if (!symbol.isParcelize(context.session)) return
         val source = klass.source ?: return
         if (klass !is FirRegularClass) {
             reporter.reportOn(source, KtErrorsParcelize.PARCELABLE_SHOULD_BE_CLASS, context)
@@ -116,11 +119,15 @@ object FirParcelizeClassChecker : FirClassChecker() {
 }
 
 @OptIn(ExperimentalContracts::class)
-fun FirClassSymbol<*>?.isParcelize(): Boolean {
+fun FirClassSymbol<*>?.isParcelize(session: FirSession): Boolean {
     contract {
         returns(true) implies (this@isParcelize != null)
     }
 
     if (this == null) return false
-    return this.annotations.any { it.classId in PARCELIZE_CLASS_CLASS_IDS }
+    if (this.annotations.any { it.classId in PARCELIZE_CLASS_CLASS_IDS }) return true
+    return resolvedSuperTypeRefs.any {
+        val symbol = it.type.fullyExpandedType(session).toRegularClassSymbol(session) ?: return@any false
+        symbol.annotations.any { it.classId in PARCELIZE_CLASS_CLASS_IDS }
+    }
 }

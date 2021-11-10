@@ -45,6 +45,7 @@ import org.jetbrains.kotlin.utils.addToStdlib.runIf
 class FirParcelizeDeclarationGenerator(session: FirSession) : FirDeclarationGenerationExtension(session) {
     companion object {
         private val PREDICATE = has(PARCELIZE_FQN, OLD_PARCELIZE_FQN)
+        private val parcelizeMethodsNames = setOf(DESCRIBE_CONTENTS_NAME, WRITE_TO_PARCEL_NAME)
     }
 
     private val matchedClasses by lazy {
@@ -160,8 +161,18 @@ class FirParcelizeDeclarationGenerator(session: FirSession) : FirDeclarationGene
     override fun getCallableNamesForClass(classSymbol: FirClassSymbol<*>): Set<Name> {
         return when {
             classSymbol.fir.modality == Modality.ABSTRACT -> emptySet()
-            classSymbol in matchedClasses -> setOf(DESCRIBE_CONTENTS_NAME, WRITE_TO_PARCEL_NAME)
-            else -> emptySet()
+            classSymbol in matchedClasses && classSymbol.fir.modality != Modality.SEALED -> parcelizeMethodsNames
+            else -> {
+                val hasAnnotatedSealedSuperType = classSymbol.resolvedSuperTypeRefs.any {
+                    val superSymbol = it.type.fullyExpandedType(session).toRegularClassSymbol(session) ?: return@any false
+                    superSymbol.fir.modality == Modality.SEALED && superSymbol in matchedClasses
+                }
+                if (hasAnnotatedSealedSuperType) {
+                    parcelizeMethodsNames
+                } else {
+                    emptySet()
+                }
+            }
         }
     }
 

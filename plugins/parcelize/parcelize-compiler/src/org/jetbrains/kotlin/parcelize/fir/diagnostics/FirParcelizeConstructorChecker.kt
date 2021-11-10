@@ -22,7 +22,7 @@ object FirParcelizeConstructorChecker : FirConstructorChecker() {
         if (source.kind == KtFakeSourceElementKind.ImplicitConstructor) return
         val containingClass = context.containingDeclarations.last() as? FirRegularClass ?: return
         val containingClassSymbol = containingClass.symbol
-        if (!containingClassSymbol.isParcelize()) return
+        if (!containingClassSymbol.isParcelize(context.session)) return
 
         if (declaration.valueParameters.isEmpty()) {
             reporter.reportOn(containingClass.source, KtErrorsParcelize.PARCELABLE_PRIMARY_CONSTRUCTOR_IS_EMPTY, context)
