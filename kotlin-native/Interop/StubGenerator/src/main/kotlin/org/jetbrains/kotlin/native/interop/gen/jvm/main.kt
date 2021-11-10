@@ -468,7 +468,7 @@ internal fun prepareTool(target: String?, flavor: KotlinPlatform): ToolConfig {
     val tool = ToolConfig(target, flavor)
     tool.downloadDependencies()
 
-    loadKonanLibrary(tool.libclangName, tool.libclangDir)
+    System.load(tool.libclang)
 
     return tool
 }
