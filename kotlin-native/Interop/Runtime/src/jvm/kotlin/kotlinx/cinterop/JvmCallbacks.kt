@@ -18,7 +18,7 @@ package kotlinx.cinterop
 
 import org.jetbrains.kotlin.konan.util.NativeMemoryAllocator
 import org.jetbrains.kotlin.konan.util.ThreadSafeDisposableHelper
-import org.jetbrains.kotlin.konan.util.nativeMemoryAllocator
+import sun.misc.Unsafe
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.LongConsumer
 import kotlin.reflect.KClass
@@ -96,8 +96,11 @@ internal val jvmCallbacksDisposeHelper = ThreadSafeDisposableHelper(
             Caches()
         },
         {
-            it.disposeFfi()
-            NativeMemoryAllocator.dispose()
+            try {
+                it.disposeFfi()
+            } finally {
+                NativeMemoryAllocator.dispose()
+            }
         }
 )
 
@@ -455,7 +458,7 @@ private external fun ffiFreeTypeStruct0(ptr: Long)
  * @param elements types of the struct elements
  */
 private fun ffiTypeStruct(elementTypes: List<ffi_type>): ffi_type {
-    val elements = persistentHeap.allocArrayOfPointersTo(*elementTypes.toTypedArray(), null)
+    val elements = nativeHeap.allocArrayOfPointersTo(*elementTypes.toTypedArray(), null)
     val res = ffiTypeStruct0(elements.rawValue)
     if (res == 0L) {
         throw OutOfMemoryError()
@@ -479,7 +482,7 @@ private external fun ffiFreeCif0(ptr: Long)
  */
 private fun ffiCreateCif(returnType: ffi_type, paramTypes: List<ffi_type>): ffi_cif {
     val nArgs = paramTypes.size
-    val argTypes = persistentHeap.allocArrayOfPointersTo(*paramTypes.toTypedArray(), null)
+    val argTypes = nativeHeap.allocArrayOfPointersTo(*paramTypes.toTypedArray(), null)
     val res = ffiCreateCif0(nArgs, returnType.rawPtr, argTypes.rawValue)
 
     when (res) {
@@ -503,7 +506,7 @@ private external fun ffiFreeClosure0(ptr: Long)
  * @param ffiCif describes the type of the function to create
  */
 private fun ffiCreateClosure(ffiCif: ffi_cif, impl: FfiClosureImpl): NativePtr {
-    val ffiClosure = persistentHeap.alloc(Long.SIZE_BYTES, 8)
+    val ffiClosure = nativeHeap.alloc(Long.SIZE_BYTES, 8)
     val res = ffiCreateClosure0(ffiCif.rawPtr, ffiClosure.rawPtr, userData = impl)
 
     when (res) {
@@ -511,29 +514,14 @@ private fun ffiCreateClosure(ffiCif: ffi_cif, impl: FfiClosureImpl): NativePtr {
         -1L -> throw Error("libffi error occurred")
     }
 
-    caches.addClosure(ffiClosure.rawPtr)
+    caches.addClosure(unsafe.getLong(ffiClosure.rawPtr))
 
     return res
 }
 
-// Callbacks are globally cached and outlive the memory allocated by nativeHeap,
-// which gets forcibly reclaimed at the end of the compiler invocation.
-// So use an ad hoc allocator that is not affected.
-// Note: this is mostly a workaround, but proper solution would require a significant rework of this machinery.
-private object persistentHeap : NativeFreeablePlacement {
-    override fun alloc(size: Long, align: Int): NativePointed {
-        return interpretOpaquePointed(
-                nativeMemoryAllocator.alloc(
-                        if (size == 0L) 1L else size, // It is a hack: `nativeMemUtils.allocRaw` can't allocate zero bytes
-                        align
-                )
-        )
-    }
-
-    override fun free(mem: NativePtr) {
-        nativeMemoryAllocator.free(mem)
-    }
-
+private val unsafe = with(Unsafe::class.java.getDeclaredField("theUnsafe")) {
+    isAccessible = true
+    return@with this.get(null) as Unsafe
 }
 
 private external fun newGlobalRef(any: Any): Long
