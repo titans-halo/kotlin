@@ -12,6 +12,7 @@
 #include "ObjectFactory.hpp"
 #include "Types.h"
 #include "Utils.hpp"
+#include "GCState.hpp"
 
 namespace kotlin {
 
@@ -24,12 +25,6 @@ namespace gc {
 // Stop-the-world Mark-and-Sweep that runs on mutator threads. Can support targets that do not have threads.
 class SameThreadMarkAndSweep : private Pinned {
 public:
-    enum class SafepointFlag {
-        kNone,
-        kNeedsSuspend,
-        kNeedsFinalizersRun,
-        kNeedsGC,
-    };
 
     class ObjectData {
     public:
@@ -50,7 +45,9 @@ public:
     public:
         using ObjectData = SameThreadMarkAndSweep::ObjectData;
 
-        explicit ThreadData(SameThreadMarkAndSweep& gc, mm::ThreadData& threadData) noexcept : gc_(gc), threadData_(threadData) {}
+        explicit ThreadData(SameThreadMarkAndSweep& gc, mm::ThreadData& threadData) noexcept :
+            gc_(gc),
+            threadData_(threadData) {}
         ~ThreadData() = default;
 
         void SafePointFunctionPrologue() noexcept;
@@ -58,20 +55,20 @@ public:
         void SafePointExceptionUnwind() noexcept;
         void SafePointAllocation(size_t size) noexcept;
 
-        void PerformFullGC() noexcept;
+        void ScheduleAndWaitFullGC() noexcept;
 
         void OnOOM(size_t size) noexcept;
 
     private:
         void SafePointRegular(size_t weight) noexcept;
-        void SafePointSlowPath(SafepointFlag flag) noexcept;
+        void SafePointSlowPath() noexcept;
 
         SameThreadMarkAndSweep& gc_;
         mm::ThreadData& threadData_;
     };
 
     SameThreadMarkAndSweep() noexcept;
-    ~SameThreadMarkAndSweep() = default;
+    ~SameThreadMarkAndSweep();
 
 private:
     // Returns `true` if GC has happened, and `false` if not (because someone else has suspended the threads).
@@ -79,6 +76,10 @@ private:
 
     size_t epoch_ = 0;
     uint64_t lastGCTimestampUs_ = 0;
+    GCStateHolder state_;
+#ifndef KONAN_NO_THREADS
+    std::thread gcThread;
+#endif
 };
 
 } // namespace gc
