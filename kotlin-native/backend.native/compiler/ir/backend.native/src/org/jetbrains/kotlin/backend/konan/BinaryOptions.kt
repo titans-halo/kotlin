@@ -23,6 +23,8 @@ object BinaryOptions : BinaryOptionRegistry() {
     val sourceInfoType by option<SourceInfoType>()
 
     val androidProgramType by option<AndroidProgramType>()
+
+    val gcSchedulerType by option<GCSchedulerType>()
 }
 
 open class BinaryOption<T : Any>(
