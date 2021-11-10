@@ -144,6 +144,21 @@ class Java11ModulesIntegrationTest : AbstractKotlinCompilerIntegrationTest() {
         module("moduleB", listOf(module("moduleA")), addModules = emptyList())
     }
 
+    fun testReleaseFlagWrongValue() {
+        // Test that although we have moduleA in the module path, it's not in the module graph
+        // because we did not provide -Xadd-modules=moduleA
+        module("module5", additionalKotlinArguments = listOf("-Xrelease=5"))
+        module("module12", additionalKotlinArguments = listOf("-Xrelease=12"))
+    }
+
+    fun testReleaseFlag() {
+        // Test that although we have moduleA in the module path, it's not in the module graph
+        // because we did not provide -Xadd-modules=moduleA
+        module("module")
+        module("module11", additionalKotlinArguments = listOf("-Xrelease=11"))
+        module("moduleSwing", additionalKotlinArguments = listOf("-Xrelease=9"))
+    }
+
     fun testNamedReadsTransitive() {
         val a = module("moduleA")
         val b = module("moduleB", listOf(a))
