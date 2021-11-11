@@ -8,13 +8,13 @@ package org.jetbrains.kotlin.cli.js
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.text.StringUtil
+import org.jetbrains.kotlin.backend.common.CompilationException
 import org.jetbrains.kotlin.backend.common.phaser.PhaseConfig
 import org.jetbrains.kotlin.backend.common.serialization.metadata.KlibMetadataVersion
 import org.jetbrains.kotlin.backend.wasm.compileWasm
 import org.jetbrains.kotlin.backend.wasm.wasmPhases
 import org.jetbrains.kotlin.cli.common.*
-import org.jetbrains.kotlin.cli.common.ExitCode.COMPILATION_ERROR
-import org.jetbrains.kotlin.cli.common.ExitCode.OK
+import org.jetbrains.kotlin.cli.common.ExitCode.*
 import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants
 import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants.RUNTIME_DIAGNOSTIC_EXCEPTION
@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants.RUNTIME_D
 import org.jetbrains.kotlin.cli.common.config.addKotlinSourceRoot
 import org.jetbrains.kotlin.cli.common.extensions.ScriptEvaluationExtension
 import org.jetbrains.kotlin.cli.common.messages.AnalyzerWithCompilerReport
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.*
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.cli.common.messages.MessageUtil
@@ -35,14 +36,10 @@ import org.jetbrains.kotlin.incremental.js.IncrementalDataProvider
 import org.jetbrains.kotlin.incremental.js.IncrementalNextRoundChecker
 import org.jetbrains.kotlin.incremental.js.IncrementalResultsConsumer
 import org.jetbrains.kotlin.ir.backend.js.*
-import org.jetbrains.kotlin.ir.backend.js.ic.actualizeCacheForModule
-import org.jetbrains.kotlin.ir.backend.js.ic.buildCache
-import org.jetbrains.kotlin.ir.backend.js.ic.checkCaches
-import org.jetbrains.kotlin.ir.backend.js.utils.sanitizeName
-import org.jetbrains.kotlin.ir.backend.js.ic.*
-import org.jetbrains.kotlin.ir.declarations.impl.IrFactoryImpl
 import org.jetbrains.kotlin.ir.backend.js.codegen.JsGenerationGranularity
+import org.jetbrains.kotlin.ir.backend.js.ic.*
 import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.IrModuleToJsTransformer
+import org.jetbrains.kotlin.ir.declarations.impl.IrFactoryImpl
 import org.jetbrains.kotlin.ir.declarations.persistent.PersistentIrFactory
 import org.jetbrains.kotlin.js.analyzer.JsAnalysisResult
 import org.jetbrains.kotlin.js.config.*
@@ -58,7 +55,6 @@ import org.jetbrains.kotlin.utils.fileUtils.withReplacedExtensionOrNull
 import org.jetbrains.kotlin.utils.join
 import java.io.File
 import java.io.IOException
-import java.lang.IllegalArgumentException
 
 enum class ProduceKind {
     DEFAULT,  // Determine what to produce based on js-v1 options
@@ -89,7 +85,6 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
         paths: KotlinPaths?
     ): ExitCode {
         val messageCollector = configuration.getNotNull(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY)
-
         val pluginLoadResult = loadPlugins(paths, arguments, configuration)
         if (pluginLoadResult != ExitCode.OK) return pluginLoadResult
 
@@ -233,7 +228,10 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
             if (updated) {
                 messageCollector.report(INFO, "IC $invalidationType cache building duration: ${System.currentTimeMillis() - start}ms")
             } else {
-                messageCollector.report(INFO, "IC $invalidationType cache up-to-date check duration: ${System.currentTimeMillis() - start}ms")
+                messageCollector.report(
+                    INFO,
+                    "IC $invalidationType cache up-to-date check duration: ${System.currentTimeMillis() - start}ms"
+                )
             }
             return OK
         }
@@ -252,7 +250,11 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
                     AnalyzerWithCompilerReport(config.configuration),
                     icUseGlobalSignatures = icCaches.isNotEmpty(),
                     icUseStdlibCache = icCaches.isNotEmpty(),
-                    icCache = if (icCaches.isNotEmpty()) checkCaches(libraries, icCaches, skipLib = includes).toICCacheMap() else emptyMap()
+                    icCache = if (icCaches.isNotEmpty()) checkCaches(
+                        libraries,
+                        icCaches,
+                        skipLib = includes
+                    ).toICCacheMap() else emptyMap()
                 )
                 val result = sourceModule.jsFrontEndResult.jsAnalysisResult
                 if (result is JsAnalysisResult.RetryWithAdditionalRoots) {
@@ -278,7 +280,7 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
         }
 
         if (arguments.irProduceJs) {
-            messageCollector.report(INFO,"Produce executable: $outputFilePath")
+            messageCollector.report(INFO, "Produce executable: $outputFilePath")
             messageCollector.report(INFO, arguments.cacheDirectories ?: "")
 
             val phaseConfig = createPhaseConfig(jsPhases, arguments, messageCollector)
@@ -299,7 +301,11 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
                     friendLibraries,
                     icUseGlobalSignatures = icCaches.isNotEmpty(),
                     icUseStdlibCache = icCaches.isNotEmpty(),
-                    icCache = if (icCaches.isNotEmpty()) checkCaches(libraries, icCaches, skipLib = includes).toICCacheMap() else emptyMap()
+                    icCache = if (icCaches.isNotEmpty()) checkCaches(
+                        libraries,
+                        icCaches,
+                        skipLib = includes
+                    ).toICCacheMap() else emptyMap()
                 )
             } else {
                 sourceModule
@@ -360,54 +366,65 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
                 arguments.irPerFile -> JsGenerationGranularity.PER_FILE
                 else -> JsGenerationGranularity.WHOLE_PROGRAM
             }
+            try {
+                val ir = compile(
+                    module,
+                    phaseConfig,
+                    if (arguments.irDceDriven) PersistentIrFactory() else IrFactoryImpl,
+                    dceRuntimeDiagnostic = RuntimeDiagnostic.resolve(
+                        arguments.irDceRuntimeDiagnostic,
+                        messageCollector
+                    ),
+                    dceDriven = arguments.irDceDriven,
+                    propertyLazyInitialization = arguments.irPropertyLazyInitialization,
+                    baseClassIntoMetadata = arguments.irBaseClassInMetadata,
+                    safeExternalBoolean = arguments.irSafeExternalBoolean,
+                    safeExternalBooleanDiagnostic = RuntimeDiagnostic.resolve(
+                        arguments.irSafeExternalBooleanDiagnostic,
+                        messageCollector
+                    ),
+                    lowerPerModule = icCaches.isNotEmpty(),
+                    granularity = granularity
+                )
 
-            val ir = compile(
-                module,
-                phaseConfig,
-                if (arguments.irDceDriven) PersistentIrFactory() else IrFactoryImpl,
-                dceRuntimeDiagnostic = RuntimeDiagnostic.resolve(
-                    arguments.irDceRuntimeDiagnostic,
-                    messageCollector
-                ),
-                dceDriven = arguments.irDceDriven,
-                propertyLazyInitialization = arguments.irPropertyLazyInitialization,
-                baseClassIntoMetadata = arguments.irBaseClassInMetadata,
-                safeExternalBoolean = arguments.irSafeExternalBoolean,
-                safeExternalBooleanDiagnostic = RuntimeDiagnostic.resolve(
-                    arguments.irSafeExternalBooleanDiagnostic,
-                    messageCollector
-                ),
-                lowerPerModule = icCaches.isNotEmpty(),
-                granularity = granularity
-            )
+                val transformer = IrModuleToJsTransformer(
+                    ir.context,
+                    mainCallArguments,
+                    fullJs = true,
+                    dceJs = arguments.irDce,
+                    multiModule = arguments.irPerModule,
+                    relativeRequirePath = false,
+                generateGlobalThisPolyfill = configuration.languageVersionSettings.supportsFeature(LanguageFeature.JsAllowInvalidCharsIdentifiersEscaping))
+                val compiledModule: CompilerResult = transformer.generateModule(ir.allModules)
 
-            val transformer = IrModuleToJsTransformer(
-                ir.context,
-                mainCallArguments,
-                fullJs = true,
-                dceJs = arguments.irDce,
-                multiModule = arguments.irPerModule,
-                relativeRequirePath = false,
-                generateGlobalThisPolyfill = configuration.languageVersionSettings.supportsFeature(LanguageFeature.JsAllowInvalidCharsIdentifiersEscaping)
-            )
-            val compiledModule: CompilerResult = transformer.generateModule(ir.allModules)
-
-            messageCollector.report(INFO, "Executable production duration: ${System.currentTimeMillis() - start}ms")
-
+                messageCollector.report(INFO, "Executable production duration: ${System.currentTimeMillis() - start}ms")
 
 
-            val outputs = if (arguments.irDce && !arguments.irDceDriven)
-                compiledModule.outputsAfterDce!!
-            else
-                compiledModule.outputs!!
+                val outputs = if (arguments.irDce && !arguments.irDceDriven)
+                    compiledModule.outputsAfterDce!!
+                else
+                    compiledModule.outputs!!
 
-            outputFile.write(outputs)
-            outputs.dependencies.forEach { (name, content) ->
-                outputFile.resolveSibling("$name.js").write(content)
-            }
-            if (arguments.generateDts) {
-                val dtsFile = outputFile.withReplacedExtensionOrNull(outputFile.extension, "d.ts")!!
-                dtsFile.writeText(compiledModule.tsDefinitions ?: error("No ts definitions"))
+                outputFile.write(outputs)
+                outputs.dependencies.forEach { (name, content) ->
+                    outputFile.resolveSibling("$name.js").write(content)
+                }
+                if (arguments.generateDts) {
+                    val dtsFile = outputFile.withReplacedExtensionOrNull(outputFile.extension, "d.ts")!!
+                    dtsFile.writeText(compiledModule.tsDefinitions ?: error("No ts definitions"))
+                }
+            } catch (e: CompilationException) {
+                messageCollector.report(
+                    ERROR,
+                    e.message + e.stackTraceToString(),
+                    CompilerMessageLocation.create(
+                        path = e.path,
+                        line = e.line,
+                        column = e.column,
+                        lineContent = e.content
+                    )
+                )
+                return INTERNAL_ERROR
             }
         }
 
