@@ -151,7 +151,7 @@ class ExportModelToJsStatements(
                     .filter { it.ir.isInner }
                     .map { it.generateInnerClassAssignment(declaration) }
 
-                (listOf(klassExport) + exportedMembers + staticsExport + innerClassesAssignments)
+                (listOfNotNull(klassExport) + exportedMembers + staticsExport + innerClassesAssignments)
                     .wrapWithExportComment("'$name' class")
             }
         }

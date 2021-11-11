@@ -212,6 +212,8 @@ class ExportModelGenerator(
     }
 
     private fun exportClassOrMembers(klass: IrClass): List<ExportedDeclaration> {
+        if (klass.isExternal) return emptyList()
+
         val (members, nestedClasses) = exportClassDeclarations(klass)
 
         return if (shouldDeclarationBeExported(klass, context)) {

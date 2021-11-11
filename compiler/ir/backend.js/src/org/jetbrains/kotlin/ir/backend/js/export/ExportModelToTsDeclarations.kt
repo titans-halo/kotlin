@@ -10,6 +10,7 @@ import org.jetbrains.kotlin.ir.backend.js.utils.getJsNameOrKotlinName
 import org.jetbrains.kotlin.ir.backend.js.utils.sanitizeName
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.util.parentAsClass
+import org.jetbrains.kotlin.ir.util.parentClassOrNull
 import org.jetbrains.kotlin.js.common.isValidES5Identifier
 import org.jetbrains.kotlin.serialization.js.ModuleKind
 
@@ -37,16 +38,20 @@ private val ModuleKind.indent: String
     get() = if (this == ModuleKind.PLAIN) "    " else ""
 
 fun List<ExportedDeclaration>.toTypeScript(moduleKind: ModuleKind): String {
-    return joinToString("\n") {
-        it.toTypeScript(
-            indent = moduleKind.indent,
-            prefix = if (moduleKind == ModuleKind.PLAIN) "" else "export "
-        )
-    }
+    return asSequence()
+        .filter { it.shouldBeIncludedInTypeScriptDefinition() }
+        .joinToString("\n") {
+            it.toTypeScript(
+                indent = moduleKind.indent,
+                prefix = if (moduleKind == ModuleKind.PLAIN) "" else "export "
+            )
+        }
 }
 
 fun List<ExportedDeclaration>.toTypeScript(indent: String): String =
-    joinToString("") { it.toTypeScript(indent) + "\n" }
+    asSequence()
+        .filter { it.shouldBeIncludedInTypeScriptDefinition() }
+        .joinToString("") { it.toTypeScript(indent) + "\n" }
 
 fun ExportedDeclaration.toTypeScript(indent: String, prefix: String = ""): String = indent + when (this) {
     is ErrorDeclaration -> "/* ErrorDeclaration: $message */"
@@ -262,4 +267,13 @@ fun ExportedType.toTypeScript(indent: String): String = when (this) {
     }
     is ExportedType.LiteralType.StringLiteralType -> "\"$value\""
     is ExportedType.LiteralType.NumberLiteralType -> value.toString()
+}
+
+fun ExportedDeclaration.shouldBeIncludedInTypeScriptDefinition(): Boolean {
+    return when (this) {
+        is ExportedNamespace -> declarations.any { it.shouldBeIncludedInTypeScriptDefinition() }
+        is ExportedFunction -> ir.parent !is IrClass
+        is ExportedProperty -> ir == null || ir.parent !is IrClass
+        else -> true
+    }
 }
