@@ -6,6 +6,7 @@
 package org.jetbrains.kotlin.ir.backend.js.lower.coroutines
 
 import org.jetbrains.kotlin.backend.common.BodyLoweringPass
+import org.jetbrains.kotlin.backend.common.compilationException
 import org.jetbrains.kotlin.backend.common.ir.isSuspend
 import org.jetbrains.kotlin.backend.common.lower.createIrBuilder
 import org.jetbrains.kotlin.backend.common.runOnFilePostfix
@@ -64,7 +65,11 @@ class AddContinuationToFunctionCallsLowering(val context: JsCommonBackendContext
                 val oldFun = expression.symbol.owner
                 val newFun: IrSimpleFunction =
                     context.mapping.suspendFunctionsToFunctionWithContinuations[oldFun]
-                        ?: error("No mapping for ${oldFun.fqNameWhenAvailable}")
+                        ?: compilationException(
+                            "No mapping for ${oldFun.fqNameWhenAvailable}",
+                            oldFun,
+                            context
+                        )
 
                 return irCall(
                     expression,
