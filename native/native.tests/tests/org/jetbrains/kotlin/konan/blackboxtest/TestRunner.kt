@@ -9,10 +9,10 @@ import org.jetbrains.kotlin.test.services.JUnit5Assertions.assertEquals
 import kotlin.properties.Delegates
 
 internal fun TestRun.runAndVerify() {
-    val programArgs = mutableListOf<String>(executable.executableFile.path)
+    val programArgs = mutableListOf(executable.executableFile.path)
     runParameters.forEach { it.applyTo(programArgs) }
 
-    val loggedParameters = LoggedData.TestRunParameters(executable.loggedCompilerCall, executable.origin, programArgs, runParameters)
+    val loggedParameters = LoggedData.TestRunParameters(executable.loggedCompilerCall, origin, programArgs, runParameters)
 
     val startTimeMillis = System.currentTimeMillis()
     val process = ProcessBuilder(programArgs).directory(executable.executableFile.parentFile).start()
@@ -79,8 +79,8 @@ private class TestOutput(
         val passedTests = testStatuses[GTEST_STATUS_OK]?.size ?: 0
         verifyExpectation(true, passedTests > 0) { "No passed tests." }
 
-        runParameters.get<TestRunParameter.WithPackageName> {
-            val excessiveTests = testStatuses.getValue(GTEST_STATUS_OK).filter { testName -> !testName.startsWith(packageName) }
+        runParameters.get<TestRunParameter.WithFilter> {
+            val excessiveTests = testStatuses.getValue(GTEST_STATUS_OK).filter { testName -> !matches(testName) }
             verifyExpectation(true, excessiveTests.isEmpty()) { "Excessive tests have been executed: $excessiveTests." }
         }
 

@@ -10,22 +10,35 @@ import java.io.File
 
 internal class TestExecutable(
     val executableFile: File,
-    val origin: TestOrigin.SingleTestDataFile,
     val loggedCompilerCall: LoggedData.CompilerCall
 )
 
 internal class TestRun(
     val executable: TestExecutable,
-    val runParameters: List<TestRunParameter>
+    val runParameters: List<TestRunParameter>,
+    val origin: TestOrigin.SingleTestDataFile
 )
 
 internal sealed interface TestRunParameter {
     fun applyTo(programArgs: MutableList<String>)
 
-    class WithPackageName(val packageName: String) : TestRunParameter {
-        override fun applyTo(programArgs: MutableList<String>) {
-            programArgs += "--ktest_filter=$packageName.*"
+    sealed class WithFilter : TestRunParameter {
+        protected abstract val wildcard: String
+        abstract fun matches(testName: String): Boolean
+
+        final override fun applyTo(programArgs: MutableList<String>) {
+            programArgs += "--ktest_filter=$wildcard"
         }
+    }
+
+    class WithPackageFilter(private val packageFQN: PackageName) : WithFilter() {
+        override val wildcard get() = "$packageFQN.*"
+        override fun matches(testName: String) = testName.startsWith("$packageFQN.")
+    }
+
+    class WithMethodFilter(private val methodFQN: String) : WithFilter() {
+        override val wildcard get() = methodFQN
+        override fun matches(testName: String) = testName == methodFQN
     }
 
     object WithGTestLogger : TestRunParameter {
