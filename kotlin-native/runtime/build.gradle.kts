@@ -13,6 +13,10 @@ plugins {
     id("runtime-testing")
 }
 
+if (HostManager.host == KonanTarget.MACOS_ARM64) {
+    project.configureJvmToolchain(JdkMajorVersion.JDK_17)
+}
+
 googletest {
     revision = project.property("gtestRevision") as String
     refresh = project.hasProperty("refresh-gtest")
