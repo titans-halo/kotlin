@@ -1,57 +1,33 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 description = "Kotlin lombok compiler plugin"
 
 plugins {
-    kotlin("jvm")
+    id("gradle-plugin-common-configuration")
     id("jps-compatible")
 }
 
 dependencies {
-    embedded(project(":plugins:lombok:lombok-compiler-plugin")) { isTransitive = false }
+    commonApi(project(":kotlin-gradle-plugin-model"))
 
-    compileOnly(gradleApi())
-    api(project(":kotlin-gradle-plugin-api"))
-    api(project(":kotlin-gradle-plugin-model"))
+    embedded(project(":plugins:lombok:lombok-compiler-plugin")) { isTransitive = false }
 }
 
 projectTest(parallel = true)
 
-publishGradlePlugin()
-
-sourcesJar()
-javadocJar()
-runtimeJar(rewriteDefaultJarDepsToShadedCompiler())
-
-tasks {
-    withType<KotlinCompile> {
-//        kotlinOptions.jdkHome = rootProject.extra["JDK_18"] as String
-        kotlinOptions.languageVersion = "1.4"
-        kotlinOptions.apiVersion = "1.4"
-        kotlinOptions.freeCompilerArgs += listOf(
-            "-Xskip-prerelease-check", "-Xsuppress-version-warnings"
-        )
-    }
-
-    named<Jar>("jar") {
-        callGroovy("manifestAttributes", manifest, project)
+gradlePlugin {
+    (plugins) {
+        register("kotlinLombokPlugin") {
+            id = "org.jetbrains.kotlin.plugin.lombok"
+            implementationClass = "org.jetbrains.kotlin.lombok.gradle.LombokSubplugin"
+        }
     }
 }
 
 pluginBundle {
-    fun create(name: String, id: String, display: String) {
-        (plugins).create(name) {
-            this.id = id
-            this.displayName = display
-            this.description = display
+    (plugins) {
+        "kotlinLombokPlugin" {
+            id = "org.jetbrains.kotlin.plugin.lombok"
+            description = "Kotlin Lombok plugin"
+            displayName = description
         }
     }
-
-    create(
-        name = "kotlinLombokPlugin",
-        id = "org.jetbrains.kotlin.plugin.lombok",
-        display = "Kotlin Lombok plugin"
-    )
 }
-
-publishPluginMarkers()
