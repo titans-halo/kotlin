@@ -5,11 +5,13 @@
 
 package org.jetbrains.kotlin.ir.backend.js.transformers.irToJs
 
+import org.jetbrains.kotlin.backend.common.compilationException
 import org.jetbrains.kotlin.ir.backend.js.JsIrBackendContext
 import org.jetbrains.kotlin.ir.backend.js.utils.*
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.types.IrSimpleType
+import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.util.isEffectivelyExternal
 import org.jetbrains.kotlin.ir.util.parentAsClass
 import org.jetbrains.kotlin.ir.util.render
@@ -82,7 +84,12 @@ class JsNameLinkingNamer(private val context: JsIrBackendContext) : IrNamerBase(
     private class FieldData(private val nameCnt: Map<String, Int>) {
         fun pickFieldName(field: IrField): String {
             val fieldName = field.safeName()
-            val cnt = nameCnt[fieldName] ?: error("Unexpected field: ${field.render()}")
+            val cnt = nameCnt[fieldName]
+                ?: compilationException(
+                    "Unexpected field",
+                    field,
+                    field.file
+                )
             return fieldName + "_$cnt"
         }
     }
