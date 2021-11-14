@@ -15,6 +15,10 @@ class IrNamerImpl(private val newNameTables: NameTables) : IrNamerBase() {
     override fun getNameForStaticDeclaration(declaration: IrDeclarationWithName): JsName =
         newNameTables.getNameForStaticDeclaration(declaration).toJsName()
 
+    override fun isDeclarationEliminated(declaration: IrDeclarationWithName): Boolean {
+        return !newNameTables.globalNames.names.containsKey(declaration)
+    }
+
     override fun getNameForMemberFunction(function: IrSimpleFunction): JsName {
         require(function.dispatchReceiverParameter != null)
         val name = jsFunctionSignature(function)

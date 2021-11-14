@@ -579,6 +579,9 @@ private fun shouldDeclarationBeExported(declaration: IrDeclarationWithName, cont
     if (context?.additionalExportedDeclarations?.contains(declaration) == true)
         return true
 
+    if (declaration.isJsExport() || declaration.isExternalOrHasJsName())
+        return true
+
     if (declaration is IrOverridableDeclaration<*>) {
         val overriddenNonEmpty = declaration
             .overriddenSymbols
@@ -591,9 +594,6 @@ private fun shouldDeclarationBeExported(declaration: IrDeclarationWithName, cont
         }
     }
 
-    if (declaration.isJsExport() || declaration.isExternalOrHasJsName())
-        return true
-
     return when (val parent = declaration.parent) {
         is IrDeclarationWithName -> shouldDeclarationBeExported(parent, context)
         is IrAnnotationContainer -> parent.isJsExport()
@@ -603,7 +603,7 @@ private fun shouldDeclarationBeExported(declaration: IrDeclarationWithName, cont
 
 fun IrDeclaration.isExternalOrHasJsName(): Boolean {
     if (parent !is IrClass) return false
-    return getJsName() != null || (!isEffectivelyExternal() && overridesExternal())
+    return (getJsName() != null) || (!isEffectivelyExternal() && overridesExternal())
 }
 
 private fun IrDeclaration.overridesExternal(): Boolean {

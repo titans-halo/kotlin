@@ -186,7 +186,7 @@ class ExportModelToJsStatements(
     }
 
     private fun ExportedFunction.generatePrototypeAssignmentIn(owner: IrClass): JsStatement? {
-        if (ir.hasStableJsName()) return null
+        if (ir.hasStableJsName() || namer.isDeclarationEliminated(owner)) return null
 
         val classPrototype = owner.prototypeRef()
         val currentFunctionExportedName = ir.getJsNameOrKotlinName().asString()
@@ -212,7 +212,7 @@ class ExportModelToJsStatements(
     }
 
     private fun ExportedProperty.generatePrototypeAssignmentIn(owner: IrClass): JsStatement? {
-        if (owner.isInterface || owner.isEnumEntry) {
+        if (owner.isInterface || owner.isEnumEntry || namer.isDeclarationEliminated(owner)) {
             return null
         }
 

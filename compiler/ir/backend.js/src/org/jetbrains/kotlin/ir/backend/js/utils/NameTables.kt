@@ -114,9 +114,8 @@ fun jsFunctionSignature(declaration: IrFunction): String {
     require(!declaration.isStaticMethodOfClass)
     require(declaration.dispatchReceiverParameter != null)
 
-    val declarationName = declaration.getJsNameOrKotlinName().asString()
-
     if (declaration.hasStableJsName()) {
+        val declarationName = declaration.getJsNameOrKotlinName().asString()
         // TODO: Handle reserved suffix in FE
         require(!declarationName.endsWith(RESERVED_MEMBER_NAME_SUFFIX)) {
             "Function ${declaration.fqNameWhenAvailable} uses reserved name suffix \"$RESERVED_MEMBER_NAME_SUFFIX\""
@@ -124,6 +123,7 @@ fun jsFunctionSignature(declaration: IrFunction): String {
         return declarationName
     }
 
+    val declarationName = declaration.name.asString()
     val nameBuilder = StringBuilder().apply { append(declarationName) }
 
     // TODO should we skip type parameters and use upper bound of type parameter when print type of value parameters?

@@ -21,6 +21,8 @@ interface IrNamer {
     fun getRefForExternalClass(klass: IrClass): JsNameRef
     fun getNameForProperty(property: IrProperty): JsName
     fun getAssociatedObjectKey(irClass: IrClass): Int?
+
+    fun isDeclarationEliminated(declaration: IrDeclarationWithName): Boolean = false
 }
 
 abstract class IrNamerBase : IrNamer {
