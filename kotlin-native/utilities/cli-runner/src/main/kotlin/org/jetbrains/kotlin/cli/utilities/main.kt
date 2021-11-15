@@ -66,6 +66,6 @@ private fun setupClangEnv() {
 }
 
 fun daemonMain(args: Array<String>) = usingNativeMemoryAllocator {
-    setupClangEnv()
+    setupClangEnv() // For in-process invocation have to setup proper environment manually.
     mainImpl(args, ::konancMainForGradle)
 }
