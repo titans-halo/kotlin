@@ -76,7 +76,7 @@ void gc::SameThreadMarkAndSweep::ThreadData::SafePointAllocation(size_t size) no
     }
 }
 
-void gc::SameThreadMarkAndSweep::ThreadData::ScheduleAndWaitFullGC() noexcept {
+NO_EXTERNAL_CALLS_CHECK void gc::SameThreadMarkAndSweep::ThreadData::ScheduleAndWaitFullGC() noexcept {
     auto state = gc_.state_.get();
     while (true) {
         if (state == GCState::kNeedsGC || state == GCState::kNeedsSuspend) {
@@ -108,7 +108,7 @@ ALWAYS_INLINE void gc::SameThreadMarkAndSweep::ThreadData::SafePointRegular(size
     }
 }
 
-NO_INLINE void gc::SameThreadMarkAndSweep::ThreadData::SafePointSlowPath() noexcept {
+NO_EXTERNAL_CALLS_CHECK NO_INLINE void gc::SameThreadMarkAndSweep::ThreadData::SafePointSlowPath() noexcept {
     auto state = gc_.state_.get();
     if (state == GCState::kNone) {
         return;
