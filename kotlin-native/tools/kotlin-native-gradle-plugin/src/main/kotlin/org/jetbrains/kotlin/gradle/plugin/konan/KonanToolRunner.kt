@@ -34,7 +34,7 @@ internal interface KonanToolRunner {
 
 internal fun KonanToolRunner.run(vararg args: String) = run(args.toList())
 
-internal abstract class KotlinNativeToolRunner(
+internal abstract class KonanCliRunner(
         protected val toolName: String,
         project: Project,
         val additionalJvmArgs: List<String> = emptyList(),
@@ -78,12 +78,12 @@ internal abstract class KotlinNativeToolRunner(
 }
 
 /** Kotlin/Native compiler runner */
-internal class KonanCompilerRunner(
+internal class KonanCliCompilerRunner(
         project: Project,
         additionalJvmArgs: List<String> = emptyList(),
         val useArgFile: Boolean = true,
         konanHome: String = project.konanHome
-) : KotlinNativeToolRunner("konanc", project, additionalJvmArgs, konanHome) {
+) : KonanCliRunner("konanc", project, additionalJvmArgs, konanHome) {
     override val mustRunViaExec get() = false
 
     override fun transformArgs(args: List<String>): List<String> {
@@ -104,11 +104,11 @@ internal class KonanCompilerRunner(
 }
 
 /** Kotlin/Native C-interop tool runner */
-internal class KonanInteropRunner(
+internal class KonanCliInteropRunner(
         project: Project,
         additionalJvmArgs: List<String> = emptyList(),
         konanHome: String = project.konanHome
-) : KotlinNativeToolRunner("cinterop", project, additionalJvmArgs, konanHome) {
+) : KonanCliRunner("cinterop", project, additionalJvmArgs, konanHome) {
     override val mustRunViaExec get() = false
 
     override val execEnvironment by lazy {
