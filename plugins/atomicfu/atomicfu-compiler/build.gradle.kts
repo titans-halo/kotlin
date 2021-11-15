@@ -56,7 +56,7 @@ dependencies {
     compileOnly(project(":js:js.translator"))
     compileOnly(project(":compiler:backend.js"))
 
-    runtimeOnly(kotlinStdlib())
+    compileOnly(kotlinStdlib())
 
     testApi(projectTests(":compiler:tests-common"))
     testImplementation(projectTests(":js:js.tests"))
@@ -78,7 +78,7 @@ dependencies {
             attribute(KotlinJsCompilerAttribute.jsCompilerAttribute, KotlinJsCompilerAttribute.ir)
             attribute(Usage.USAGE_ATTRIBUTE, objects.named(KotlinUsages.KOTLIN_RUNTIME))
         }
-        isTransitive = true
+        isTransitive = false
     }
 
     atomicfuRuntimeForTests(project(":kotlinx-atomicfu-runtime"))  { isTransitive = false }

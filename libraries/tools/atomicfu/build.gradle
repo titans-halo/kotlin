@@ -19,7 +19,7 @@ dependencies {
     compileOnly kotlinStdlib()
     compileOnly project(':kotlin-compiler-embeddable')
 
-    embedded(project(":kotlinx-atomicfu-compiler-plugin")) { transitive = true }
+    embedded(project(":kotlinx-atomicfu-compiler-plugin"))
 }
 
 jar {
