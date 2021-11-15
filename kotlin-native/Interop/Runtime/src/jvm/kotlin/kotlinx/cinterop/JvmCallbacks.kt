@@ -507,16 +507,21 @@ private external fun ffiFreeClosure0(ptr: Long)
  */
 private fun ffiCreateClosure(ffiCif: ffi_cif, impl: FfiClosureImpl): NativePtr {
     val ffiClosure = nativeHeap.alloc(Long.SIZE_BYTES, 8)
-    val res = ffiCreateClosure0(ffiCif.rawPtr, ffiClosure.rawPtr, userData = impl)
 
-    when (res) {
-        0L -> throw OutOfMemoryError()
-        -1L -> throw Error("libffi error occurred")
+    try {
+        val res = ffiCreateClosure0(ffiCif.rawPtr, ffiClosure.rawPtr, userData = impl)
+
+        when (res) {
+            0L -> throw OutOfMemoryError()
+            -1L -> throw Error("libffi error occurred")
+        }
+
+        caches.addClosure(unsafe.getLong(ffiClosure.rawPtr))
+
+        return res
+    } finally {
+        nativeHeap.free(ffiClosure)
     }
-
-    caches.addClosure(unsafe.getLong(ffiClosure.rawPtr))
-
-    return res
 }
 
 private val unsafe = with(Unsafe::class.java.getDeclaredField("theUnsafe")) {
