@@ -820,6 +820,7 @@ internal fun getContainingFile(cursor: CValue<CXCursor>): CXFile? {
 
 internal val CXFile.path: String get() = clang_getFileName(this).convertAndDispose()
 
+// TODO: this map doesn't get cleaned up but adds quite significant performance improvement.
 private val canonicalPaths = ConcurrentHashMap<String, String>()
 internal val CXFile.canonicalPath: String get() = canonicalPaths.getOrPut(this.path) { File(this.path).canonicalPath }
 
