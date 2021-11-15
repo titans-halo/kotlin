@@ -14,16 +14,35 @@
 #include "Porting.h"
 #include "TestSupport.hpp"
 
+#include <iostream>
+
 using namespace kotlin;
 
 namespace {
 
-NO_INLINE KStdVector<void*> GetStackTrace1(int skipFrames) {
-    return GetCurrentStackTrace(skipFrames);
+template <size_t Capacity = kDynamicCapacity>
+NO_INLINE StackTrace<Capacity> GetStackTrace1(size_t skipFrames = 0) {
+    return StackTrace<Capacity>::current(skipFrames);
 }
 
-NO_INLINE KStdVector<void*> GetStackTrace2(int skipFrames) {
-    return GetStackTrace1(skipFrames);
+template <size_t Capacity = kDynamicCapacity>
+NO_INLINE StackTrace<Capacity> GetStackTrace2(size_t skipFrames = 0) {
+    return GetStackTrace1<Capacity>(skipFrames);
+}
+
+template <size_t Capacity = kDynamicCapacity>
+NO_INLINE StackTrace<Capacity> GetStackTrace3(size_t skipFrames = 0) {
+    return GetStackTrace2<Capacity>(skipFrames);
+}
+
+// Disable optimizations for these functions to avoid inlining and tail recursion optimization.
+template <size_t Capacity = kDynamicCapacity>
+[[clang::optnone]] StackTrace<Capacity> GetDeepStackTrace(size_t depth) {
+    if (depth <= 1) {
+        return StackTrace<Capacity>::current();
+    } else {
+        return GetDeepStackTrace<Capacity>(depth - 1);
+    }
 }
 
 NO_INLINE void AbortWithStackTrace(int) {
@@ -34,29 +53,167 @@ NO_INLINE void AbortWithStackTrace(int) {
 } // namespace
 
 TEST(StackTraceTest, StackTrace) {
-    // TODO: Consider incorporating extra skipping to `GetCurrentStackTrace` on windows.
-#if KONAN_WINDOWS
-    constexpr int kSkip = 1;
-#else
-    constexpr int kSkip = 0;
-#endif
-    auto stackTrace = GetStackTrace2(kSkip);
-    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data(), stackTrace.size());
+    auto stackTrace = GetStackTrace3();
+    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data());
     ASSERT_GT(symbolicStackTrace.size(), 0ul);
     EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace1"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace2"));
 }
 
 TEST(StackTraceTest, StackTraceWithSkip) {
-    // TODO: Consider incorporating extra skipping to `GetCurrentStackTrace` on windows.
-#if KONAN_WINDOWS
-    constexpr int kSkip = 2;
-#else
     constexpr int kSkip = 1;
-#endif
-    auto stackTrace = GetStackTrace2(kSkip);
-    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data(), stackTrace.size());
+    auto stackTrace = GetStackTrace3(kSkip);
+    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data());
     ASSERT_GT(symbolicStackTrace.size(), 0ul);
     EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace2"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace3"));
+}
+
+TEST(StackTraceTest, StackAllocatedTrace) {
+    auto stackTrace = GetStackTrace3<2>();
+    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data());
+    ASSERT_EQ(symbolicStackTrace.size(), 2ul);
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace1"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace2"));
+}
+
+TEST(StackTraceTest, StackAllocatedTraceWithSkip) {
+    constexpr int kSkip = 1;
+    auto stackTrace = GetStackTrace3<2>(kSkip);
+    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data());
+    ASSERT_EQ(symbolicStackTrace.size(), 2ul);
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace2"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace3"));
+}
+
+TEST(StackTraceTest, EmptyStackTrace) {
+    constexpr size_t kSkip = 1000000;
+    auto stackTrace = GetStackTrace1(kSkip);
+    EXPECT_EQ(stackTrace.size(), 0ul);
+    auto data = stackTrace.data();
+    EXPECT_EQ(data.size(), 0ul);
+    auto symbolicStackTrace = GetStackTraceStrings(data);
+    EXPECT_EQ(symbolicStackTrace.size(), 0ul);
+}
+
+TEST(StackTraceTest, StackAllocatedEmptyTrace) {
+    constexpr size_t kSkip = 1000000;
+    auto stackTrace = GetStackTrace1<1>(kSkip);
+    EXPECT_EQ(stackTrace.size(), 0ul);
+    auto data = stackTrace.data();
+    EXPECT_EQ(data.size(), 0ul);
+    auto symbolicStackTrace = GetStackTraceStrings(data);
+    EXPECT_EQ(symbolicStackTrace.size(), 0ul);
+}
+
+TEST(StackTraceTest, DeepStackTrace) {
+    constexpr size_t knownStackDepth = 100;
+    auto stackTrace = GetDeepStackTrace(knownStackDepth);
+    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data());
+
+    ASSERT_GT(symbolicStackTrace.size(), 0ul);
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetDeepStackTrace"));
+
+    // Note that for platforms where libc unwind is used (e.g. MacOS) the size of a collected trace is limited.
+    // See kotlin::internal::GetCurrentStackTrace(size_t skipFrames) for details.
+    EXPECT_GT(symbolicStackTrace.size(), knownStackDepth);
+    EXPECT_THAT(symbolicStackTrace[knownStackDepth - 1], testing::HasSubstr("GetDeepStackTrace"));
+}
+
+TEST(StackTraceTest, StackAllocatedDeepTrace) {
+    constexpr size_t knownStackDepth = 100;
+    constexpr size_t capacity = 10;
+    auto stackTrace = GetDeepStackTrace<capacity>(knownStackDepth);
+    auto symbolicStackTrace = GetStackTraceStrings(stackTrace.data());
+
+    ASSERT_GT(symbolicStackTrace.size(), 0ul);
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetDeepStackTrace"));
+
+    EXPECT_EQ(symbolicStackTrace.size(), capacity);
+    EXPECT_THAT(symbolicStackTrace[capacity - 1], testing::HasSubstr("GetDeepStackTrace"));
+}
+
+TEST(StackTraceTest, Iteration) {
+    auto stackTrace = GetStackTrace2();
+
+    KStdVector<void*> actualAddresses;
+    for (auto addr : stackTrace) {
+        actualAddresses.push_back(addr);
+    }
+
+    EXPECT_GT(actualAddresses.size(), 0ul);
+    EXPECT_EQ(actualAddresses.size(), stackTrace.size());
+
+    auto symbolicStackTrace = GetStackTraceStrings(std_support::span<void*>(actualAddresses.data(), actualAddresses.size()));
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace1"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace2"));
+}
+
+TEST(StackTraceTest, StackAllocatedIteration) {
+    auto stackTrace = GetStackTrace2<2>();
+
+    KStdVector<void*> actualAddresses;
+    for (auto addr : stackTrace) {
+        actualAddresses.push_back(addr);
+    }
+
+    EXPECT_EQ(actualAddresses.size(), 2ul);
+    EXPECT_EQ(actualAddresses.size(), stackTrace.size());
+
+    auto symbolicStackTrace = GetStackTraceStrings(std_support::span<void*>(actualAddresses.data(), actualAddresses.size()));
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace1"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace2"));
+}
+
+TEST(StackTraceTest, IndexedAccess) {
+    auto stackTrace = GetStackTrace2();
+
+    KStdVector<void*> actualAddresses;
+    for (size_t i = 0; i < stackTrace.size(); i++) {
+        actualAddresses.push_back(stackTrace[i]);
+    }
+
+    EXPECT_GT(actualAddresses.size(), 0ul);
+    auto symbolicStackTrace = GetStackTraceStrings(std_support::span<void*>(actualAddresses.data(), actualAddresses.size()));
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace1"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace2"));
+}
+
+TEST(StackTraceTest, StackAllocatedIndexedAccess) {
+    auto stackTrace = GetStackTrace2<2>();
+
+    KStdVector<void*> actualAddresses;
+    for (size_t i = 0; i < stackTrace.size(); i++) {
+        actualAddresses.push_back(stackTrace[i]);
+    }
+
+    EXPECT_EQ(actualAddresses.size(), 2ul);
+    auto symbolicStackTrace = GetStackTraceStrings(std_support::span<void*>(actualAddresses.data(), actualAddresses.size()));
+    EXPECT_THAT(symbolicStackTrace[0], testing::HasSubstr("GetStackTrace1"));
+    EXPECT_THAT(symbolicStackTrace[1], testing::HasSubstr("GetStackTrace2"));
+}
+
+TEST(StackTraceTest, IndexedAccessAndIteration) {
+    auto stackTrace = GetStackTrace2();
+
+    size_t i = 0;
+    for (auto addr : stackTrace) {
+        EXPECT_EQ(addr, stackTrace[i]);
+        i++;
+    }
+    EXPECT_EQ(stackTrace.size(), i);
+}
+
+TEST(StackTraceTest, StackAllocatedIndexedAccessAndIteration) {
+    auto stackTrace = GetStackTrace2<2>();
+
+    size_t i = 0;
+    for (auto addr : stackTrace) {
+        EXPECT_EQ(addr, stackTrace[i]);
+        i++;
+    }
+    EXPECT_EQ(stackTrace.size(), i);
+    EXPECT_EQ(stackTrace.size(), 2ul);
 }
 
 TEST(StackTraceDeathTest, PrintStackTrace) {
