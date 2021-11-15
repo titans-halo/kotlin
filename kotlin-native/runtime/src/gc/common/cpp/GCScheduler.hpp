@@ -20,6 +20,8 @@
 namespace kotlin {
 namespace gc {
 
+using SchedulerType = compiler::GCSchedulerType;
+
 
 struct GCSchedulerConfig {
     std::atomic<size_t> threshold = 100000; // Roughly 1 safepoint per 10ms (on a subset of examples on one particular machine).
@@ -137,6 +139,11 @@ private:
     KStdUniquePtr<GCSchedulerData> gcData_;
     std::function<void()> scheduleGC_;
 };
+
+KStdUniquePtr<gc::GCSchedulerData> MakeGCSchedulerData(
+        SchedulerType type,
+        GCSchedulerConfig& config,
+        std::function<void()> scheduleGC) noexcept;
 
 } // namespace gc
 } // namespace kotlin
