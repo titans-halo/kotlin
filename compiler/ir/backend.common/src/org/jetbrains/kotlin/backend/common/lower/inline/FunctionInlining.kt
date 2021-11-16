@@ -313,8 +313,7 @@ class FunctionInlining(
                         else ->
                             compilationException(
                                 "Unknown function kind",
-                                function,
-                                context
+                                function
                             )
                     }
                 }.apply {
@@ -425,8 +424,7 @@ class FunctionInlining(
                 val outerClassThis = outerClass.thisReceiver
                     ?: compilationException(
                         "${outerClass.name} has a null `thisReceiver` property",
-                        outerClass,
-                        context
+                        outerClass
                     )
 
                 val parameterToArgument = ParameterToArgument(
@@ -517,8 +515,7 @@ class FunctionInlining(
                                 "has no argument at index ${parameter.index}"
                         compilationException(
                             message,
-                            callee,
-                            context
+                            callee
                         )
                     }
                 }

@@ -67,8 +67,7 @@ class AddContinuationToFunctionCallsLowering(val context: JsCommonBackendContext
                     context.mapping.suspendFunctionsToFunctionWithContinuations[oldFun]
                         ?: compilationException(
                             "No mapping for ${oldFun.fqNameWhenAvailable}",
-                            oldFun,
-                            context
+                            oldFun
                         )
 
                 return irCall(

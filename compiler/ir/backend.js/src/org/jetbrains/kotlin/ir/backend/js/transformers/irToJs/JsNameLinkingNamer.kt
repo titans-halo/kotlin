@@ -11,10 +11,8 @@ import org.jetbrains.kotlin.ir.backend.js.utils.*
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.types.IrSimpleType
-import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.util.isEffectivelyExternal
 import org.jetbrains.kotlin.ir.util.parentAsClass
-import org.jetbrains.kotlin.ir.util.render
 import org.jetbrains.kotlin.js.backend.ast.*
 import org.jetbrains.kotlin.utils.DFS
 import org.jetbrains.kotlin.utils.addToStdlib.safeAs
@@ -87,8 +85,7 @@ class JsNameLinkingNamer(private val context: JsIrBackendContext) : IrNamerBase(
             val cnt = nameCnt[fieldName]
                 ?: compilationException(
                     "Unexpected field",
-                    field,
-                    field.file
+                    field
                 )
             return fieldName + "_$cnt"
         }
