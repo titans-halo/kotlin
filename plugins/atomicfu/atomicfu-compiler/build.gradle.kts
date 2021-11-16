@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.targets.js.KotlinJsCompilerAttribute
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages
 
-
 description = "Atomicfu Compiler Plugin"
 
 plugins {
@@ -68,9 +67,8 @@ dependencies {
     testRuntimeOnly(project(":compiler:backend-common"))
     testRuntimeOnly(commonDep("org.fusesource.jansi", "jansi"))
 
-    atomicfuClasspath("org.jetbrains.kotlinx:atomicfu-js:0.15.1") {
-        isTransitive = false
-    }
+    atomicfuClasspath("org.jetbrains.kotlinx:atomicfu-js:0.16.3") { isTransitive = false }
+    atomicfuRuntimeForTests(project(":kotlinx-atomicfu-runtime"))  { isTransitive = false }
 
     embedded(project(":kotlinx-atomicfu-runtime")) {
         attributes {
@@ -80,8 +78,6 @@ dependencies {
         }
         isTransitive = false
     }
-
-    atomicfuRuntimeForTests(project(":kotlinx-atomicfu-runtime"))  { isTransitive = false }
 
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.6.2")
 }
@@ -101,6 +97,7 @@ projectTest {
     dependsOn(atomicfuRuntimeForTests)
     doFirst {
         systemProperty("atomicfuRuntimeForTests.classpath", atomicfuRuntimeForTests.asPath)
+        systemProperty("atomicfu.classpath", atomicfuClasspath.asPath)
     }
     setUpJsIrBoxTests()
 }
@@ -125,5 +122,4 @@ fun Test.setUpJsIrBoxTests() {
     systemProperty("kotlin.js.kotlin.test.path", "libraries/kotlin.test/js-ir/build/classes/kotlin/js/main")
     systemProperty("kotlin.js.kotlin.test.path", "libraries/kotlin.test/js-ir/build/classes/kotlin/js/main")
     systemProperty("kotlin.js.test.root.out.dir", "$buildDir/")
-    systemProperty("atomicfu.classpath", atomicfuClasspath.asPath)
 }

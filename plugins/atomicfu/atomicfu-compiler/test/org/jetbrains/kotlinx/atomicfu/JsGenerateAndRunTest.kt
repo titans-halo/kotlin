@@ -5,16 +5,11 @@
 
 package org.jetbrains.kotlinx.atomicfu
 
-import org.jetbrains.kotlin.cli.common.config.KotlinSourceRoot
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.js.config.JSConfigurationKeys
-import org.jetbrains.kotlin.js.test.BasicBoxTest
 import org.jetbrains.kotlin.js.test.BasicIrBoxTest
 import org.jetbrains.kotlin.serialization.js.ModuleKind
-import org.jetbrains.kotlin.test.KotlinTestUtils
 import org.jetbrains.kotlinx.atomicfu.compiler.extensions.AtomicfuComponentRegistrar
-import org.junit.Test
-import java.io.File
 
 private val atomicfuCompileDependency = System.getProperty("atomicfu.classpath")
 private val atomicfuRuntime = System.getProperty("atomicfuRuntimeForTests.classpath")
