@@ -1,5 +1,5 @@
 // KIND: STANDALONE
-// OUTPUT_DATA_FILE: 4x42.out
+// OUTPUT_DATA_FILE: 1x42.out
 
 import kotlin.test.*
 

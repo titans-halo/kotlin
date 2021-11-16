@@ -8,12 +8,14 @@ package org.jetbrains.kotlin.konan.blackboxtest
 import org.jetbrains.kotlin.konan.blackboxtest.TestModule.Companion.allDependencies
 import org.jetbrains.kotlin.konan.blackboxtest.util.*
 import org.jetbrains.kotlin.storage.LockBasedStorageManager
-import org.jetbrains.kotlin.test.services.JUnit5Assertions.assertEquals
 import org.jetbrains.kotlin.test.services.JUnit5Assertions.assertTrue
 import org.jetbrains.kotlin.test.services.JUnit5Assertions.fail
+import org.jetbrains.kotlin.utils.addToStdlib.cast
+import org.jetbrains.kotlin.utils.addToStdlib.safeAs
 import java.io.File
 
-internal typealias PackageName = String
+internal typealias PackageFQN = String
+internal typealias FunctionName = String
 
 /**
  * Helps to track the origin of every [TestCase], [TestCompilation] or [TestExecutable]. Used for issue reporting purposes.
@@ -36,6 +38,15 @@ internal class TestFile<M : TestModule> private constructor(
         object Committed : State
         class Uncommitted(var text: String) : State
     }
+
+    private val uncommittedState: State.Uncommitted
+        get() = when (val state = state) {
+            is State.Uncommitted -> state
+            is State.Committed -> fail { "File $location is already committed." }
+        }
+
+    val text: String
+        get() = uncommittedState.text
 
     fun update(transformation: (String) -> String) {
         when (val state = state) {
@@ -153,10 +164,33 @@ internal class TestCase(
     val modules: Set<TestModule.Exclusive>,
     val freeCompilerArgs: TestCompilerArgs,
     val origin: TestOrigin.SingleTestDataFile,
-    val nominalPackageName: PackageName,
+    val nominalPackageName: PackageFQN,
     val expectedOutputDataFile: File?,
-    val extras: StandaloneNoTestRunnerExtras? = null
+    val extras: Extras
 ) {
+    sealed interface Extras {
+        companion object {
+            fun Extras.asStandaloneNoTestRunner(): StandaloneNoTestRunnerExtras = cast()
+            fun Extras.safeAsStandaloneNoTestRunner(): StandaloneNoTestRunnerExtras? = safeAs<StandaloneNoTestRunnerExtras>()
+
+            fun Extras.asWithTestRunner(): WithTestRunnerExtras = cast()
+        }
+    }
+
+    class StandaloneNoTestRunnerExtras(val entryPoint: String, val inputDataFile: File?) : Extras
+    class WithTestRunnerExtras(val testFunctions: Map<PackageFQN, List<FunctionName>>) : Extras {
+        companion object {
+            val EMPTY = WithTestRunnerExtras(testFunctions = emptyMap())
+        }
+    }
+
+    init {
+        when (kind) {
+            TestKind.STANDALONE_NO_TR -> assertTrue(extras is StandaloneNoTestRunnerExtras)
+            TestKind.REGULAR, TestKind.STANDALONE -> assertTrue(extras is WithTestRunnerExtras)
+        }
+    }
+
     // The set of module that have no incoming dependency arcs.
     val rootModules: Set<TestModule.Exclusive> by lazy {
         val allModules = hashSetOf<TestModule>()
@@ -179,12 +213,6 @@ internal class TestCase(
 
         @Suppress("UNCHECKED_CAST")
         rootModules as Set<TestModule.Exclusive>
-    }
-
-    class StandaloneNoTestRunnerExtras(val entryPoint: String, val inputDataFile: File?)
-
-    init {
-        assertEquals(extras != null, kind == TestKind.STANDALONE_NO_TR)
     }
 
     fun initialize(findSharedModule: ((moduleName: String) -> TestModule.Shared?)?) {

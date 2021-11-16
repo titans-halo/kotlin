@@ -151,7 +151,7 @@ internal abstract class LoggedData {
         protected fun StringBuilder.appendArguments(header: String, args: Iterable<String>): StringBuilder {
             appendLine(header)
 
-            fun String.sanitize() = if (startsWith("--ktest_filter")) "'$this'" else this
+            fun String.sanitize() = if (startsWith("--ktest_filter") || startsWith("--ktest_regex_filter")) "'$this'" else this
 
             var lastArgIsOptionWithoutEqualsSign = false
             args.forEachIndexed { index, arg ->

@@ -10,6 +10,7 @@ import org.jetbrains.kotlin.cli.common.messages.*
 import org.jetbrains.kotlin.compilerRunner.OutputItemsCollectorImpl
 import org.jetbrains.kotlin.compilerRunner.processCompilerOutput
 import org.jetbrains.kotlin.config.Services
+import org.jetbrains.kotlin.konan.blackboxtest.TestCase.Extras.Companion.safeAsStandaloneNoTestRunner
 import org.jetbrains.kotlin.konan.blackboxtest.TestCompilation.Companion.resultingArtifactPath
 import org.jetbrains.kotlin.konan.blackboxtest.TestCompilationResult.Companion.assertSuccess
 import org.jetbrains.kotlin.konan.blackboxtest.TestModule.Companion.allDependencies
@@ -40,7 +41,7 @@ internal class TestCompilationFactory(private val environment: TestEnvironment) 
         val friends = rootModules.flatMapToSet { it.allFriends }.map { moduleToKlib(it, freeCompilerArgs) }
 
         return cachedCompilations.computeIfAbsent(cacheKey) {
-            val entryPoint = testCases.singleOrNull()?.extras?.entryPoint
+            val entryPoint = testCases.singleOrNull()?.extras?.safeAsStandaloneNoTestRunner()?.entryPoint
 
             TestCompilationImpl(
                 environment = environment,
@@ -71,13 +72,23 @@ internal class TestCompilationFactory(private val environment: TestEnvironment) 
         val friends = sourceModule.allFriends.map { moduleToKlib(it, freeCompilerArgs) }
 
         return cachedCompilations.computeIfAbsent(cacheKey) {
+//            val hasEntryPoint = sourceModule
+//                .safeAs<TestModule.Exclusive>()
+//                ?.testCase
+//                ?.extras
+//                ?.safeAs<TestCase.StandaloneNoTestRunnerExtras>()
+//                ?.entryPoint != null
+
             TestCompilationImpl(
                 environment = environment,
                 freeCompilerArgs = freeCompilerArgs,
                 sourceModules = sourceModules,
                 dependencies = TestCompilationDependencies(libraries = libraries, friends = friends),
                 expectedArtifactFile = artifactFileForKlib(sourceModule, freeCompilerArgs),
-                specificCompilerArgs = { add("-produce", "library") }
+                specificCompilerArgs = {
+                    add("-produce", "library")
+//                    if (!hasEntryPoint) add("-generate-test-runner")
+                }
             )
         }
     }
@@ -107,7 +118,7 @@ internal class TestCompilationFactory(private val environment: TestEnvironment) 
     private fun multiModuleArtifactFile(modules: Collection<TestModule>, extension: String): File {
         var filesCount = 0
         var hash = 0
-        val uniquePackageNames = hashSetOf<PackageName>()
+        val uniquePackageNames = hashSetOf<PackageFQN>()
 
         modules.forEach { module ->
             module.files.forEach { file ->
@@ -137,7 +148,7 @@ internal class TestCompilationFactory(private val environment: TestEnvironment) 
         return artifactDirForPackageName(commonPackageName).resolve(artifactFileName)
     }
 
-    private fun artifactDirForPackageName(packageName: PackageName?): File {
+    private fun artifactDirForPackageName(packageName: PackageFQN?): File {
         val baseDir = environment.testBinariesDir
         val outputDir = if (packageName != null) baseDir.resolve(packageName.replace('.', '_')) else baseDir
 
