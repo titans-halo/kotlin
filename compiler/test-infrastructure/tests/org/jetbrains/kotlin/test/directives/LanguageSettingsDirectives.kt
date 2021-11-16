@@ -63,7 +63,7 @@ object LanguageSettingsDirectives : SimpleDirectivesContainer() {
         description = "Configures corresponding analysis flag (JvmAnalysisFlags.jvmDefaultAllowNonDefaultInheritance)",
     )
 
-    val RELEASE by valueDirective(
+    val JDK_RELEASE by valueDirective(
         description = "Configures corresponding release flag",
         parser = Integer::valueOf
     )
