@@ -193,10 +193,6 @@ fun Project.reconfigureMainSourceSetForGradlePlugin(
                 addEmbeddedRuntime()
             } else if (name == sourcesJarTaskName) {
                 addEmbeddedSources()
-
-                configurePublishedComponent {
-                    addVariantsFromConfiguration(configurations[SOURCES_ELEMENTS_CONFIGURATION_NAME]) {}
-                }
             }
         }
 
@@ -225,10 +221,6 @@ fun Project.reconfigureMainSourceSetForGradlePlugin(
             tasks.withType<Jar>().configureEach {
                 if (name == javadocJarTaskName) {
                     from(dokkaTask.flatMap { it.outputDirectory })
-
-                    configurePublishedComponent {
-                        addVariantsFromConfiguration(configurations[JAVADOC_ELEMENTS_CONFIGURATION_NAME]) { }
-                    }
                 }
             }
         }
@@ -266,10 +258,6 @@ fun Project.createGradlePluginVariant(
 
         tasks.named<Jar>(variantSourceSet.sourcesJarTaskName) {
             addEmbeddedSources()
-
-            configurePublishedComponent {
-                addVariantsFromConfiguration(configurations[SOURCES_ELEMENTS_CONFIGURATION_NAME]) {}
-            }
         }
     }
 
@@ -295,10 +283,6 @@ fun Project.createGradlePluginVariant(
 
         tasks.named<Jar>(variantSourceSet.javadocJarTaskName) {
             from(dokkaTask.flatMap { it.outputDirectory })
-
-            configurePublishedComponent {
-                addVariantsFromConfiguration(configurations[JAVADOC_ELEMENTS_CONFIGURATION_NAME]) { }
-            }
         }
     }
 
