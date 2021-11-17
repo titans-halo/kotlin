@@ -30,7 +30,7 @@ open class KotlinNpmInstallTask : DefaultTask() {
 
     @get:Internal
     val nodeModulesDir: File by lazy {
-        (nodeJs ?: unavailableValueError("nodeJs"))
+        nodeJs
             .rootPackageDir
             .resolve("node_modules")
     }

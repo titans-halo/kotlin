@@ -29,8 +29,7 @@ abstract class YarnBasics : NpmApi {
         services: ServiceRegistry,
         logger: Logger,
         nodeJs: NodeJsRootExtension,
-        command: String,
-        isStandalone: Boolean,
+        yarn: YarnEnv,
         dir: File,
         description: String,
         args: List<String>

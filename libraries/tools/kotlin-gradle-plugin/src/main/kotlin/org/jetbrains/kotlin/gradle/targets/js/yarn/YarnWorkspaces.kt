@@ -81,8 +81,7 @@ class YarnWorkspaces : YarnBasics() {
             services,
             logger,
             nodeJs,
-            command,
-            isStandalone,
+            yarn,
             nodeJsWorldDir,
             NpmApi.resolveOperationDescription("yarn"),
             cliArgs
