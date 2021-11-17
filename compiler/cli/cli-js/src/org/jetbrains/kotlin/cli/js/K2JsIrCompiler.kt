@@ -394,7 +394,8 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
                     dceJs = arguments.irDce,
                     multiModule = arguments.irPerModule,
                     relativeRequirePath = false,
-                generateGlobalThisPolyfill = configuration.languageVersionSettings.supportsFeature(LanguageFeature.JsAllowInvalidCharsIdentifiersEscaping))
+                    generateGlobalThisPolyfill = configuration.languageVersionSettings.supportsFeature(LanguageFeature.JsAllowInvalidCharsIdentifiersEscaping)
+                )
                 val compiledModule: CompilerResult = transformer.generateModule(ir.allModules)
 
                 messageCollector.report(INFO, "Executable production duration: ${System.currentTimeMillis() - start}ms")
