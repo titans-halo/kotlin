@@ -7,8 +7,11 @@ package org.jetbrains.kotlin.analysis.api.impl.base.test
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.util.Computable
+import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.analysis.api.KtAnalysisSession
 import org.jetbrains.kotlin.analysis.api.analyse
+import org.jetbrains.kotlin.diagnostics.PsiDiagnosticUtils
+import org.jetbrains.kotlin.psi.KtDeclaration
 import org.jetbrains.kotlin.psi.KtElement
 
 inline fun <T> runReadAction(crossinline runnable: () -> T): T {
@@ -22,3 +25,12 @@ inline fun <R> analyseOnPooledThreadInReadAction(context: KtElement, crossinline
     executeOnPooledThreadInReadAction {
         analyse(context) { action() }
     }
+
+fun PsiElement?.position(): String {
+    if (this == null) return "(unknown)"
+    return PsiDiagnosticUtils.offsetToLineAndColumn(containingFile.viewProvider.document, textRange.startOffset).toString()
+}
+
+fun KtDeclaration.getNameWithPositionString(): String {
+    return (presentation?.presentableText ?: name ?: this::class.simpleName) + "@" + position()
+}

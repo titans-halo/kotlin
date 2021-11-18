@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.analysis.api.descriptors.test.components.symbolDecla
 import org.jetbrains.kotlin.analysis.api.descriptors.test.components.typeCreator.AbstractKtFe10TypeParameterTypeTest
 import org.jetbrains.kotlin.analysis.api.descriptors.test.components.typeProvider.AbstractKtFe10HasCommonSubtypeTest
 import org.jetbrains.kotlin.analysis.api.descriptors.test.components.compileTimeConstantProvider.AbstractKtFe10CompileTimeConstantEvaluatorTest
+import org.jetbrains.kotlin.analysis.api.descriptors.test.components.expressionTypeProvider.AbstractKtFe10DeclarationReturnTypeTest
 import org.jetbrains.kotlin.analysis.api.descriptors.test.symbols.AbstractKtFe10SymbolByFqNameTest
 import org.jetbrains.kotlin.analysis.api.descriptors.test.symbols.AbstractKtFe10SymbolByPsiTest
 import org.jetbrains.kotlin.analysis.api.descriptors.test.symbols.AbstractKtFe10SymbolByReferenceTest
@@ -22,6 +23,7 @@ import org.jetbrains.kotlin.analysis.api.fir.AbstractFirReferenceResolveTest
 import org.jetbrains.kotlin.analysis.api.fir.components.callResolver.AbstractFirResolveCallTest
 import org.jetbrains.kotlin.analysis.api.fir.components.compileTimeConstantProvider.AbstractFirCompileTimeConstantEvaluatorTest
 import org.jetbrains.kotlin.analysis.api.fir.components.expressionInfoProvider.AbstractFirWhenMissingCasesTest
+import org.jetbrains.kotlin.analysis.api.fir.components.expressionTypeProvider.AbstractFirDeclarationReturnTypeTest
 import org.jetbrains.kotlin.analysis.api.fir.components.expressionTypeProvider.AbstractFirExpectedExpressionTypeTest
 import org.jetbrains.kotlin.analysis.api.fir.components.expressionTypeProvider.AbstractFirHLExpressionTypeTest
 import org.jetbrains.kotlin.analysis.api.fir.components.importOptimizer.AbstractHLImportOptimizerTest
@@ -145,6 +147,12 @@ private fun TestGroupSuite.generateAnalysisApiComponentsTests() {
             fir = AbstractFirHLExpressionTypeTest::class, fe10 = AbstractKtFe10HLExpressionTypeTest::class
         ) {
             model("expressionType")
+        }
+
+        test(
+            fir = AbstractFirDeclarationReturnTypeTest::class, fe10 = AbstractKtFe10DeclarationReturnTypeTest::class
+        ) {
+            model("declarationReturnType")
         }
     }
 
