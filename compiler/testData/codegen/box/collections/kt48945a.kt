@@ -1,6 +1,5 @@
 // TARGET_BACKEND: JVM
 // JVM_TARGET: 1.8
-// IGNORE_BACKEND_FIR: JVM_IR
 // IGNORE_BACKEND: ANDROID
 //  ^ NSME: java.util.AbstractMap.remove
 // FULL_JDK
