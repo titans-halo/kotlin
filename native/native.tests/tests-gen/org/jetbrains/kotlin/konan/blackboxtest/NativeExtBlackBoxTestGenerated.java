@@ -16216,6 +16216,12 @@ public class NativeExtBlackBoxTestGenerated extends AbstractNativeBlackBoxTest {
                 }
 
                 @Test
+                @TestMetadata("contextualFunctionConversion.kt")
+                public void testContextualFunctionConversion() throws Exception {
+                    runTest("compiler/testData/codegen/box/extensionFunctions/contextReceivers/contextualFunctionConversion.kt");
+                }
+
+                @Test
                 @TestMetadata("delegatedPropertiesOperators.kt")
                 public void testDelegatedPropertiesOperators() throws Exception {
                     runTest("compiler/testData/codegen/box/extensionFunctions/contextReceivers/delegatedPropertiesOperators.kt");
@@ -16249,6 +16255,12 @@ public class NativeExtBlackBoxTestGenerated extends AbstractNativeBlackBoxTest {
                 @TestMetadata("overloading.kt")
                 public void testOverloading() throws Exception {
                     runTest("compiler/testData/codegen/box/extensionFunctions/contextReceivers/overloading.kt");
+                }
+
+                @Test
+                @TestMetadata("passingLambdaToContextualParam.kt")
+                public void testPassingLambdaToContextualParam() throws Exception {
+                    runTest("compiler/testData/codegen/box/extensionFunctions/contextReceivers/passingLambdaToContextualParam.kt");
                 }
 
                 @Test
