@@ -77,6 +77,9 @@ private inline fun <reified T : Any> castToBaseType(instance: Any): T {
     } catch (e: ClassCastException) {
         val instanceCL = instance.javaClass.classLoader
         val baseTypeCL = T::class.java.classLoader
+        if (instanceCL != baseTypeCL) {
+            throw ClassNotFoundException("Instance class was loaded from different classloader", e)
+        }
         throw ClassCastException("Instance classloader: $instanceCL, base type classloader: $baseTypeCL").initCause(e)
     }
 }
