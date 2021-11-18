@@ -10721,6 +10721,12 @@ public class FirOldFrontendDiagnosticsTestGenerated extends AbstractFirDiagnosti
                 }
 
                 @Test
+                @TestMetadata("typeParameterAsContextReceiver.kt")
+                public void testTypeParameterAsContextReceiver() throws Exception {
+                    runTest("compiler/testData/diagnostics/tests/extensions/contextReceivers/typeParameterAsContextReceiver.kt");
+                }
+
+                @Test
                 @TestMetadata("typeParameterized.kt")
                 public void testTypeParameterized() throws Exception {
                     runTest("compiler/testData/diagnostics/tests/extensions/contextReceivers/typeParameterized.kt");
