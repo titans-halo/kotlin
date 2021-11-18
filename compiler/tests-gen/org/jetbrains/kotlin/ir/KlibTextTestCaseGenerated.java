@@ -1718,6 +1718,11 @@ public class KlibTextTestCaseGenerated extends AbstractKlibTextTestCase {
             runTest("compiler/testData/ir/irText/firProblems/candidateSymbol.kt");
         }
 
+        @TestMetadata("ControlFlowInfo.kt")
+        public void testControlFlowInfo() throws Exception {
+            runTest("compiler/testData/ir/irText/firProblems/ControlFlowInfo.kt");
+        }
+
         @TestMetadata("DeepCopyIrTree.kt")
         public void testDeepCopyIrTree() throws Exception {
             runTest("compiler/testData/ir/irText/firProblems/DeepCopyIrTree.kt");

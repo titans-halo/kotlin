@@ -2261,6 +2261,12 @@ public class IrTextTestGenerated extends AbstractIrTextTest {
         }
 
         @Test
+        @TestMetadata("ControlFlowInfo.kt")
+        public void testControlFlowInfo() throws Exception {
+            runTest("compiler/testData/ir/irText/firProblems/ControlFlowInfo.kt");
+        }
+
+        @Test
         @TestMetadata("DeepCopyIrTree.kt")
         public void testDeepCopyIrTree() throws Exception {
             runTest("compiler/testData/ir/irText/firProblems/DeepCopyIrTree.kt");

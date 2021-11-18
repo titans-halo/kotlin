@@ -1,0 +1,212 @@
+interface ImmutableCollection<out E : Any?> : Collection<E> {
+
+}
+
+interface ImmutableSet<out E : Any?> : Set<E>, ImmutableCollection<E> {
+
+}
+
+interface ImmutableMap<K : Any?, out V : Any?> : Map<K, V> {
+  abstract override val keys: ImmutableSet<K>
+    abstract override get
+
+  abstract override val values: ImmutableCollection<V>
+    abstract override get
+
+  abstract override val entries: ImmutableSet<Entry<K, V>>
+    abstract override get
+
+}
+
+interface PersistentMap<K : Any?, out V : Any?> : ImmutableMap<K, V> {
+  abstract fun put(key: K, value: @UnsafeVariance V): PersistentMap<K, V>
+  abstract fun remove(key: K): PersistentMap<K, V>
+  abstract fun remove(key: K, value: @UnsafeVariance V): PersistentMap<K, V>
+  abstract fun putAll(m: Map<out K, V>): PersistentMap<K, V>
+  abstract fun clear(): PersistentMap<K, V>
+
+}
+
+abstract class ControlFlowInfo<S : ControlFlowInfo<S, K, V>, K : Any, V : Any> : PersistentMap<K, V> {
+  protected constructor(map: PersistentMap<K, V>) /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  override fun remove(key: K, value: @UnsafeVariance V): PersistentMap<K, V> {
+    return <this>.#<$$delegate_0>.remove(key = key, value = value)
+  }
+
+  override fun putAll(m: Map<out K, V>): PersistentMap<K, V> {
+    return <this>.#<$$delegate_0>.putAll(m = m)
+  }
+
+  override fun clear(): PersistentMap<K, V> {
+    return <this>.#<$$delegate_0>.clear()
+  }
+
+  override fun containsKey(key: K): Boolean {
+    return <this>.#<$$delegate_0>.containsKey(key = key)
+  }
+
+  override fun containsValue(value: V): Boolean {
+    return <this>.#<$$delegate_0>.containsValue(value = value)
+  }
+
+  override operator fun get(key: K): V? {
+    return <this>.#<$$delegate_0>.get(key = key)
+  }
+
+  @SinceKotlin(version = "1.1")
+  @PlatformDependent
+  override fun getOrDefault(key: K, defaultValue: V): V {
+    return <this>.#<$$delegate_0>.getOrDefault(key = key, defaultValue = defaultValue)
+  }
+
+  override fun isEmpty(): Boolean {
+    return <this>.#<$$delegate_0>.isEmpty()
+  }
+
+  override fun forEach(p0: @EnhancedNullability BiConsumer<in K, in V>) {
+    <this>.#<$$delegate_0>.forEach(p0 = p0)
+  }
+
+  override val keys: ImmutableSet<K>
+    override get(): ImmutableSet<K> {
+      return <this>.#<$$delegate_0>.<get-keys>()
+    }
+
+  override val values: ImmutableCollection<V>
+    override get(): ImmutableCollection<V> {
+      return <this>.#<$$delegate_0>.<get-values>()
+    }
+
+  override val entries: ImmutableSet<Entry<K, V>>
+    override get(): ImmutableSet<Entry<K, V>> {
+      return <this>.#<$$delegate_0>.<get-entries>()
+    }
+
+  override val size: Int
+    override get(): Int {
+      return <this>.#<$$delegate_0>.<get-size>()
+    }
+
+  local /* final field */ val <$$delegate_0>: PersistentMap<K, V> = map
+  protected val map: PersistentMap<K, V>
+    field = map
+    protected get
+
+  protected abstract val constructor: Function1<PersistentMap<K, V>, S>
+    protected abstract get
+
+  protected abstract val empty: Function0<S>
+    protected abstract get
+
+  override operator fun equals(other: Any?): Boolean {
+    return EQEQ(arg0 = <this>.<get-map>(), arg1 = { // BLOCK
+      val tmp0_safe_receiver: ControlFlowInfo<*, *, *>? = other as? ControlFlowInfo<*, *, *>
+      when {
+        EQEQ(arg0 = tmp0_safe_receiver, arg1 = null) -> null
+        else -> tmp0_safe_receiver.<get-map>()
+      }
+    })
+  }
+
+  override fun hashCode(): Int {
+    return <this>.<get-map>() /*as Any */.hashCode()
+  }
+
+  override fun toString(): String {
+    return <this>.<get-map>() /*as Any */.toString()
+  }
+
+  override fun put(key: K, value: V): S {
+    return <this>.<get-constructor>().invoke(p1 = <this>.<get-map>().put(key = key, value = value))
+  }
+
+  override fun remove(key: K): S {
+    return <this>.<get-constructor>().invoke(p1 = <this>.<get-map>().remove(key = key))
+  }
+
+  abstract fun merge(other: S): S
+}
+
+class EdgeLabel {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+}
+
+abstract class PathAwareControlFlowInfo<P : PathAwareControlFlowInfo<P, S>, S : ControlFlowInfo<S, *, *>> : ControlFlowInfo<P, EdgeLabel, S> {
+  constructor(map: PersistentMap<EdgeLabel, S>) /* primary */ {
+    super/*ControlFlowInfo*/<P, EdgeLabel, S>(map = map)
+    /* <init>() */
+
+  }
+
+  override fun merge(other: P): P {
+    return other
+  }
+
+}
+
+class EventOccurrencesRange {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+}
+
+abstract class EventOccurrencesRangeInfo<E : EventOccurrencesRangeInfo<E, K>, K : Any> : ControlFlowInfo<E, K, EventOccurrencesRange> {
+  constructor(map: PersistentMap<K, EventOccurrencesRange>) /* primary */ {
+    super/*ControlFlowInfo*/<E, K, EventOccurrencesRange>(map = map)
+    /* <init>() */
+
+  }
+
+}
+
+abstract class PropertyInitializationInfo : EventOccurrencesRangeInfo<PropertyInitializationInfo, String> {
+  constructor(map: PersistentMap<String, EventOccurrencesRange>) /* primary */ {
+    super/*EventOccurrencesRangeInfo*/<PropertyInitializationInfo, String>(map = map)
+    /* <init>() */
+
+  }
+
+}
+
+class PathAwarePropertyInitializationInfo : PathAwareControlFlowInfo<PathAwarePropertyInitializationInfo, PropertyInitializationInfo> {
+  constructor(map: PersistentMap<EdgeLabel, PropertyInitializationInfo>) /* primary */ {
+    super/*PathAwareControlFlowInfo*/<PathAwarePropertyInitializationInfo, PropertyInitializationInfo>(map = map)
+    /* <init>() */
+
+  }
+
+  companion object Companion {
+    private constructor() /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    val EMPTY: PathAwarePropertyInitializationInfo
+      field = PathAwarePropertyInitializationInfo(map = CHECK_NOT_NULL<Nothing>(arg0 = null))
+      get
+
+  }
+
+  protected override val constructor: Function1<PersistentMap<EdgeLabel, PropertyInitializationInfo>, PathAwarePropertyInitializationInfo>
+    field = PathAwarePropertyInitializationInfo::<init>
+    protected override get
+
+  protected override val empty: Function0<PathAwarePropertyInitializationInfo>
+    field = Companion::EMPTY
+    protected override get
+
+}

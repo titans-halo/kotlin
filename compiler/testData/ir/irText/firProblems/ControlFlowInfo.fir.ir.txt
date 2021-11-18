@@ -1,0 +1,1231 @@
+FILE fqName:<root> fileName:/ControlFlowInfo.kt
+  CLASS INTERFACE name:ImmutableCollection modality:ABSTRACT visibility:public superTypes:[kotlin.collections.Collection<E of <root>.ImmutableCollection>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.ImmutableCollection<E of <root>.ImmutableCollection>
+    TYPE_PARAMETER name:E index:0 variance:out superTypes:[kotlin.Any?]
+    FUN FAKE_OVERRIDE name:contains visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>, element:E of <root>.ImmutableCollection) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public abstract fun contains (element: E of kotlin.collections.Collection): kotlin.Boolean [operator] declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+      VALUE_PARAMETER name:element index:0 type:E of <root>.ImmutableCollection
+    FUN FAKE_OVERRIDE name:containsAll visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>, elements:kotlin.collections.Collection<E of <root>.ImmutableCollection>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun containsAll (elements: kotlin.collections.Collection<E of kotlin.collections.Collection>): kotlin.Boolean declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+      VALUE_PARAMETER name:elements index:0 type:kotlin.collections.Collection<E of <root>.ImmutableCollection>
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun isEmpty (): kotlin.Boolean declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:iterator visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:kotlin.collections.Iterator<E of <root>.ImmutableCollection> [fake_override,operator]
+      overridden:
+        public abstract fun iterator (): kotlin.collections.Iterator<E of kotlin.collections.Collection> [operator] declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+      overridden:
+        public abstract size: kotlin.Int [val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+        overridden:
+          public abstract fun <get-size> (): kotlin.Int declared in kotlin.collections.Collection
+        $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:spliterator visibility:public modality:OPEN <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:@[EnhancedNullability] java.util.Spliterator<@[FlexibleNullability] E of <root>.ImmutableCollection?> [fake_override]
+      overridden:
+        public open fun spliterator (): @[EnhancedNullability] java.util.Spliterator<@[FlexibleNullability] E of kotlin.collections.Collection?> declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:parallelStream visibility:public modality:OPEN <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:@[EnhancedNullability] java.util.stream.Stream<E of <root>.ImmutableCollection> [fake_override]
+      overridden:
+        public open fun parallelStream (): @[EnhancedNullability] java.util.stream.Stream<E of kotlin.collections.Collection> declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:stream visibility:public modality:OPEN <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:@[EnhancedNullability] java.util.stream.Stream<E of <root>.ImmutableCollection> [fake_override]
+      overridden:
+        public open fun stream (): @[EnhancedNullability] java.util.stream.Stream<E of kotlin.collections.Collection> declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:kotlin.collections.Iterable<T of kotlin.collections.Iterable>, p0:@[FlexibleNullability] java.util.function.Consumer<in @[FlexibleNullability] E of <root>.ImmutableCollection?>?) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[FlexibleNullability] java.util.function.Consumer<in @[FlexibleNullability] E of kotlin.collections.Collection?>?): kotlin.Unit [fake_override] declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Iterable<T of kotlin.collections.Iterable>
+      VALUE_PARAMETER name:p0 index:0 type:@[FlexibleNullability] java.util.function.Consumer<in @[FlexibleNullability] E of <root>.ImmutableCollection?>?
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int [fake_override] declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String [fake_override] declared in kotlin.collections.Collection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS INTERFACE name:ImmutableSet modality:ABSTRACT visibility:public superTypes:[kotlin.collections.Set<E of <root>.ImmutableSet>; <root>.ImmutableCollection<E of <root>.ImmutableSet>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.ImmutableSet<E of <root>.ImmutableSet>
+    TYPE_PARAMETER name:E index:0 variance:out superTypes:[kotlin.Any?]
+    FUN FAKE_OVERRIDE name:contains visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Set<E of kotlin.collections.Set>, element:E of <root>.ImmutableSet) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public abstract fun contains (element: E of kotlin.collections.Set): kotlin.Boolean [operator] declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Set<E of kotlin.collections.Set>
+      VALUE_PARAMETER name:element index:0 type:E of <root>.ImmutableSet
+    FUN FAKE_OVERRIDE name:containsAll visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Set<E of kotlin.collections.Set>, elements:kotlin.collections.Collection<E of <root>.ImmutableSet>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun containsAll (elements: kotlin.collections.Collection<E of kotlin.collections.Set>): kotlin.Boolean declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Set<E of kotlin.collections.Set>
+      VALUE_PARAMETER name:elements index:0 type:kotlin.collections.Collection<E of <root>.ImmutableSet>
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Set<E of kotlin.collections.Set>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun isEmpty (): kotlin.Boolean declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Set<E of kotlin.collections.Set>
+    FUN FAKE_OVERRIDE name:iterator visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Set<E of kotlin.collections.Set>) returnType:kotlin.collections.Iterator<E of <root>.ImmutableSet> [fake_override,operator]
+      overridden:
+        public abstract fun iterator (): kotlin.collections.Iterator<E of kotlin.collections.Set> [operator] declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Set<E of kotlin.collections.Set>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+      overridden:
+        public abstract size: kotlin.Int [val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Set<E of kotlin.collections.Set>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+        overridden:
+          public abstract fun <get-size> (): kotlin.Int declared in kotlin.collections.Set
+        $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Set<E of kotlin.collections.Set>
+    FUN FAKE_OVERRIDE name:spliterator visibility:public modality:OPEN <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:@[EnhancedNullability] java.util.Spliterator<@[FlexibleNullability] E of <root>.ImmutableSet?> [fake_override]
+      overridden:
+        public open fun spliterator (): @[EnhancedNullability] java.util.Spliterator<@[FlexibleNullability] E of kotlin.collections.Set?> [fake_override] declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:parallelStream visibility:public modality:OPEN <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:@[EnhancedNullability] java.util.stream.Stream<E of <root>.ImmutableSet> [fake_override]
+      overridden:
+        public open fun parallelStream (): @[EnhancedNullability] java.util.stream.Stream<E of kotlin.collections.Set> [fake_override] declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:stream visibility:public modality:OPEN <> ($this:kotlin.collections.Collection<E of kotlin.collections.Collection>) returnType:@[EnhancedNullability] java.util.stream.Stream<E of <root>.ImmutableSet> [fake_override]
+      overridden:
+        public open fun stream (): @[EnhancedNullability] java.util.stream.Stream<E of kotlin.collections.Set> [fake_override] declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Collection<E of kotlin.collections.Collection>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:kotlin.collections.Iterable<T of kotlin.collections.Iterable>, p0:@[FlexibleNullability] java.util.function.Consumer<in @[FlexibleNullability] E of <root>.ImmutableSet?>?) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[FlexibleNullability] java.util.function.Consumer<in @[FlexibleNullability] E of kotlin.collections.Set?>?): kotlin.Unit [fake_override] declared in kotlin.collections.Set
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Iterable<T of kotlin.collections.Iterable>
+      VALUE_PARAMETER name:p0 index:0 type:@[FlexibleNullability] java.util.function.Consumer<in @[FlexibleNullability] E of <root>.ImmutableSet?>?
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in kotlin.collections.Set
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in <root>.ImmutableCollection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int [fake_override] declared in kotlin.collections.Set
+        public open fun hashCode (): kotlin.Int [fake_override] declared in <root>.ImmutableCollection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String [fake_override] declared in kotlin.collections.Set
+        public open fun toString (): kotlin.String [fake_override] declared in <root>.ImmutableCollection
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS INTERFACE name:ImmutableMap modality:ABSTRACT visibility:public superTypes:[kotlin.collections.Map<K of <root>.ImmutableMap, V of <root>.ImmutableMap>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>
+    TYPE_PARAMETER name:K index:0 variance: superTypes:[kotlin.Any?]
+    TYPE_PARAMETER name:V index:1 variance:out superTypes:[kotlin.Any?]
+    PROPERTY name:keys visibility:public modality:ABSTRACT [val]
+      overridden:
+        public abstract keys: kotlin.collections.Set<K of kotlin.collections.Map> [val]
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-keys> visibility:public modality:ABSTRACT <> ($this:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>) returnType:<root>.ImmutableSet<K of <root>.ImmutableMap>
+        correspondingProperty: PROPERTY name:keys visibility:public modality:ABSTRACT [val]
+        overridden:
+          public abstract fun <get-keys> (): kotlin.collections.Set<K of kotlin.collections.Map> declared in kotlin.collections.Map
+        $this: VALUE_PARAMETER name:<this> type:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>
+    PROPERTY name:values visibility:public modality:ABSTRACT [val]
+      overridden:
+        public abstract values: kotlin.collections.Collection<V of kotlin.collections.Map> [val]
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-values> visibility:public modality:ABSTRACT <> ($this:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>) returnType:<root>.ImmutableCollection<V of <root>.ImmutableMap>
+        correspondingProperty: PROPERTY name:values visibility:public modality:ABSTRACT [val]
+        overridden:
+          public abstract fun <get-values> (): kotlin.collections.Collection<V of kotlin.collections.Map> declared in kotlin.collections.Map
+        $this: VALUE_PARAMETER name:<this> type:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>
+    PROPERTY name:entries visibility:public modality:ABSTRACT [val]
+      overridden:
+        public abstract entries: kotlin.collections.Set<kotlin.collections.Map.Entry<K of kotlin.collections.Map, V of kotlin.collections.Map>> [val]
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-entries> visibility:public modality:ABSTRACT <> ($this:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>) returnType:<root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ImmutableMap, V of <root>.ImmutableMap>>
+        correspondingProperty: PROPERTY name:entries visibility:public modality:ABSTRACT [val]
+        overridden:
+          public abstract fun <get-entries> (): kotlin.collections.Set<kotlin.collections.Map.Entry<K of kotlin.collections.Map, V of kotlin.collections.Map>> declared in kotlin.collections.Map
+        $this: VALUE_PARAMETER name:<this> type:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>
+    FUN FAKE_OVERRIDE name:containsKey visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, key:K of <root>.ImmutableMap) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun containsKey (key: K of kotlin.collections.Map): kotlin.Boolean declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ImmutableMap
+    FUN FAKE_OVERRIDE name:containsValue visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, value:V of <root>.ImmutableMap) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun containsValue (value: V of kotlin.collections.Map): kotlin.Boolean declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:value index:0 type:V of <root>.ImmutableMap
+    FUN FAKE_OVERRIDE name:get visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, key:K of <root>.ImmutableMap) returnType:V of <root>.ImmutableMap? [fake_override,operator]
+      overridden:
+        public abstract fun get (key: K of kotlin.collections.Map): V of kotlin.collections.Map? [operator] declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ImmutableMap
+    FUN FAKE_OVERRIDE name:getOrDefault visibility:public modality:OPEN <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, key:K of <root>.ImmutableMap, defaultValue:V of <root>.ImmutableMap) returnType:V of <root>.ImmutableMap [fake_override]
+      annotations:
+        SinceKotlin(version = '1.1')
+        PlatformDependent
+      overridden:
+        public open fun getOrDefault (key: K of kotlin.collections.Map, defaultValue: V of kotlin.collections.Map): V of kotlin.collections.Map declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ImmutableMap
+      VALUE_PARAMETER name:defaultValue index:1 type:V of <root>.ImmutableMap
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun isEmpty (): kotlin.Boolean declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+      overridden:
+        public abstract size: kotlin.Int [val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+        overridden:
+          public abstract fun <get-size> (): kotlin.Int declared in kotlin.collections.Map
+        $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, p0:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ImmutableMap, in V of <root>.ImmutableMap>) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of kotlin.collections.Map, in V of kotlin.collections.Map>): kotlin.Unit declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:p0 index:0 type:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ImmutableMap, in V of <root>.ImmutableMap>
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int [fake_override] declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String [fake_override] declared in kotlin.collections.Map
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS INTERFACE name:PersistentMap modality:ABSTRACT visibility:public superTypes:[<root>.ImmutableMap<K of <root>.PersistentMap, V of <root>.PersistentMap>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+    TYPE_PARAMETER name:K index:0 variance: superTypes:[kotlin.Any?]
+    TYPE_PARAMETER name:V index:1 variance:out superTypes:[kotlin.Any?]
+    FUN name:put visibility:public modality:ABSTRACT <> ($this:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>, key:K of <root>.PersistentMap, value:@[UnsafeVariance] V of <root>.PersistentMap) returnType:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      $this: VALUE_PARAMETER name:<this> type:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.PersistentMap
+      VALUE_PARAMETER name:value index:1 type:@[UnsafeVariance] V of <root>.PersistentMap
+    FUN name:remove visibility:public modality:ABSTRACT <> ($this:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>, key:K of <root>.PersistentMap) returnType:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      $this: VALUE_PARAMETER name:<this> type:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.PersistentMap
+    FUN name:remove visibility:public modality:ABSTRACT <> ($this:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>, key:K of <root>.PersistentMap, value:@[UnsafeVariance] V of <root>.PersistentMap) returnType:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      $this: VALUE_PARAMETER name:<this> type:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.PersistentMap
+      VALUE_PARAMETER name:value index:1 type:@[UnsafeVariance] V of <root>.PersistentMap
+    FUN name:putAll visibility:public modality:ABSTRACT <> ($this:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>, m:kotlin.collections.Map<out K of <root>.PersistentMap, V of <root>.PersistentMap>) returnType:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      $this: VALUE_PARAMETER name:<this> type:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      VALUE_PARAMETER name:m index:0 type:kotlin.collections.Map<out K of <root>.PersistentMap, V of <root>.PersistentMap>
+    FUN name:clear visibility:public modality:ABSTRACT <> ($this:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>) returnType:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+      $this: VALUE_PARAMETER name:<this> type:<root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap>
+    PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:ABSTRACT [fake_override,val]
+      overridden:
+        public abstract keys: <root>.ImmutableSet<K of <root>.ImmutableMap> [val]
+      FUN FAKE_OVERRIDE name:<get-keys> visibility:public modality:ABSTRACT <> ($this:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>) returnType:<root>.ImmutableSet<K of <root>.PersistentMap> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:ABSTRACT [fake_override,val]
+        overridden:
+          public abstract fun <get-keys> (): <root>.ImmutableSet<K of <root>.ImmutableMap> declared in <root>.ImmutableMap
+        $this: VALUE_PARAMETER name:<this> type:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>
+    PROPERTY FAKE_OVERRIDE name:values visibility:public modality:ABSTRACT [fake_override,val]
+      overridden:
+        public abstract values: <root>.ImmutableCollection<V of <root>.ImmutableMap> [val]
+      FUN FAKE_OVERRIDE name:<get-values> visibility:public modality:ABSTRACT <> ($this:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>) returnType:<root>.ImmutableCollection<V of <root>.PersistentMap> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:values visibility:public modality:ABSTRACT [fake_override,val]
+        overridden:
+          public abstract fun <get-values> (): <root>.ImmutableCollection<V of <root>.ImmutableMap> declared in <root>.ImmutableMap
+        $this: VALUE_PARAMETER name:<this> type:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>
+    PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:ABSTRACT [fake_override,val]
+      overridden:
+        public abstract entries: <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ImmutableMap, V of <root>.ImmutableMap>> [val]
+      FUN FAKE_OVERRIDE name:<get-entries> visibility:public modality:ABSTRACT <> ($this:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>) returnType:<root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.PersistentMap, V of <root>.PersistentMap>> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:ABSTRACT [fake_override,val]
+        overridden:
+          public abstract fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ImmutableMap, V of <root>.ImmutableMap>> declared in <root>.ImmutableMap
+        $this: VALUE_PARAMETER name:<this> type:<root>.ImmutableMap<K of <root>.ImmutableMap, V of <root>.ImmutableMap>
+    FUN FAKE_OVERRIDE name:containsKey visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, key:K of <root>.PersistentMap) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun containsKey (key: K of <root>.ImmutableMap): kotlin.Boolean [fake_override] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.PersistentMap
+    FUN FAKE_OVERRIDE name:containsValue visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, value:V of <root>.PersistentMap) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun containsValue (value: V of <root>.ImmutableMap): kotlin.Boolean [fake_override] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:value index:0 type:V of <root>.PersistentMap
+    FUN FAKE_OVERRIDE name:get visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, key:K of <root>.PersistentMap) returnType:V of <root>.PersistentMap? [fake_override,operator]
+      overridden:
+        public abstract fun get (key: K of <root>.ImmutableMap): V of <root>.ImmutableMap? [fake_override,operator] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.PersistentMap
+    FUN FAKE_OVERRIDE name:getOrDefault visibility:public modality:OPEN <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, key:K of <root>.PersistentMap, defaultValue:V of <root>.PersistentMap) returnType:V of <root>.PersistentMap [fake_override]
+      annotations:
+        SinceKotlin(version = '1.1')
+        PlatformDependent
+      overridden:
+        public open fun getOrDefault (key: K of <root>.ImmutableMap, defaultValue: V of <root>.ImmutableMap): V of <root>.ImmutableMap [fake_override] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.PersistentMap
+      VALUE_PARAMETER name:defaultValue index:1 type:V of <root>.PersistentMap
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public abstract fun isEmpty (): kotlin.Boolean [fake_override] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+      overridden:
+        public abstract size: kotlin.Int [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:ABSTRACT <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:ABSTRACT [fake_override,val]
+        overridden:
+          public abstract fun <get-size> (): kotlin.Int [fake_override] declared in <root>.ImmutableMap
+        $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>, p0:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.PersistentMap, in V of <root>.PersistentMap>) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ImmutableMap, in V of <root>.ImmutableMap>): kotlin.Unit [fake_override] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.collections.Map<K of kotlin.collections.Map, V of kotlin.collections.Map>
+      VALUE_PARAMETER name:p0 index:0 type:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.PersistentMap, in V of <root>.PersistentMap>
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int [fake_override] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String [fake_override] declared in <root>.ImmutableMap
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS CLASS name:ControlFlowInfo modality:ABSTRACT visibility:public superTypes:[<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    TYPE_PARAMETER name:S index:0 variance: superTypes:[<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>]
+    TYPE_PARAMETER name:K index:1 variance: superTypes:[kotlin.Any]
+    TYPE_PARAMETER name:V index:2 variance: superTypes:[kotlin.Any]
+    CONSTRUCTOR visibility:protected <> (map:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> [primary]
+      VALUE_PARAMETER name:map index:0 type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () [primary] declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:ControlFlowInfo modality:ABSTRACT visibility:public superTypes:[<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>]'
+    FUN DELEGATED_MEMBER name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.ControlFlowInfo, value:@[UnsafeVariance] V of <root>.ControlFlowInfo) returnType:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      overridden:
+        public abstract fun remove (key: K of <root>.PersistentMap, value: @[UnsafeVariance] V of <root>.PersistentMap): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ControlFlowInfo
+      VALUE_PARAMETER name:value index:1 type:@[UnsafeVariance] V of <root>.ControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun remove (key: K of <root>.ControlFlowInfo, value: @[UnsafeVariance] V of <root>.ControlFlowInfo): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun remove (key: K of <root>.PersistentMap, value: @[UnsafeVariance] V of <root>.PersistentMap): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.remove' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            key: GET_VAR 'key: K of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.remove' type=K of <root>.ControlFlowInfo origin=null
+            value: GET_VAR 'value: @[UnsafeVariance] V of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.remove' type=@[UnsafeVariance] V of <root>.ControlFlowInfo origin=null
+    FUN DELEGATED_MEMBER name:putAll visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, m:kotlin.collections.Map<out K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      overridden:
+        public abstract fun putAll (m: kotlin.collections.Map<out K of <root>.PersistentMap, V of <root>.PersistentMap>): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:m index:0 type:kotlin.collections.Map<out K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun putAll (m: kotlin.collections.Map<out K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun putAll (m: kotlin.collections.Map<out K of <root>.PersistentMap, V of <root>.PersistentMap>): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.putAll' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            m: GET_VAR 'm: kotlin.collections.Map<out K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.putAll' type=kotlin.collections.Map<out K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    FUN DELEGATED_MEMBER name:clear visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      overridden:
+        public abstract fun clear (): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun clear (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun clear (): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.clear' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    FUN DELEGATED_MEMBER name:containsKey visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.ControlFlowInfo) returnType:kotlin.Boolean
+      overridden:
+        public abstract fun containsKey (key: K of <root>.PersistentMap): kotlin.Boolean [fake_override] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun containsKey (key: K of <root>.ControlFlowInfo): kotlin.Boolean declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun containsKey (key: K of <root>.PersistentMap): kotlin.Boolean [fake_override] declared in <root>.PersistentMap' type=kotlin.Boolean origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.containsKey' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            key: GET_VAR 'key: K of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.containsKey' type=K of <root>.ControlFlowInfo origin=null
+    FUN DELEGATED_MEMBER name:containsValue visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, value:V of <root>.ControlFlowInfo) returnType:kotlin.Boolean
+      overridden:
+        public abstract fun containsValue (value: V of <root>.PersistentMap): kotlin.Boolean [fake_override] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:value index:0 type:V of <root>.ControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun containsValue (value: V of <root>.ControlFlowInfo): kotlin.Boolean declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun containsValue (value: V of <root>.PersistentMap): kotlin.Boolean [fake_override] declared in <root>.PersistentMap' type=kotlin.Boolean origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.containsValue' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            value: GET_VAR 'value: V of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.containsValue' type=V of <root>.ControlFlowInfo origin=null
+    FUN DELEGATED_MEMBER name:get visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.ControlFlowInfo) returnType:V of <root>.ControlFlowInfo? [operator]
+      overridden:
+        public abstract fun get (key: K of <root>.PersistentMap): V of <root>.PersistentMap? [fake_override,operator] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun get (key: K of <root>.ControlFlowInfo): V of <root>.ControlFlowInfo? [operator] declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun get (key: K of <root>.PersistentMap): V of <root>.PersistentMap? [fake_override,operator] declared in <root>.PersistentMap' type=V of <root>.ControlFlowInfo? origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.get' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            key: GET_VAR 'key: K of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.get' type=K of <root>.ControlFlowInfo origin=null
+    FUN DELEGATED_MEMBER name:getOrDefault visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.ControlFlowInfo, defaultValue:V of <root>.ControlFlowInfo) returnType:V of <root>.ControlFlowInfo
+      annotations:
+        SinceKotlin(version = '1.1')
+        PlatformDependent
+      overridden:
+        public open fun getOrDefault (key: K of <root>.PersistentMap, defaultValue: V of <root>.PersistentMap): V of <root>.PersistentMap [fake_override] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ControlFlowInfo
+      VALUE_PARAMETER name:defaultValue index:1 type:V of <root>.ControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun getOrDefault (key: K of <root>.ControlFlowInfo, defaultValue: V of <root>.ControlFlowInfo): V of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo'
+          CALL 'public open fun getOrDefault (key: K of <root>.PersistentMap, defaultValue: V of <root>.PersistentMap): V of <root>.PersistentMap [fake_override] declared in <root>.PersistentMap' type=V of <root>.ControlFlowInfo origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.getOrDefault' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            key: GET_VAR 'key: K of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.getOrDefault' type=K of <root>.ControlFlowInfo origin=null
+            defaultValue: GET_VAR 'defaultValue: V of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.getOrDefault' type=V of <root>.ControlFlowInfo origin=null
+    FUN DELEGATED_MEMBER name:isEmpty visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Boolean
+      overridden:
+        public abstract fun isEmpty (): kotlin.Boolean [fake_override] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun isEmpty (): kotlin.Boolean declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun isEmpty (): kotlin.Boolean [fake_override] declared in <root>.PersistentMap' type=kotlin.Boolean origin=null
+            $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.isEmpty' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    FUN DELEGATED_MEMBER name:forEach visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, p0:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ControlFlowInfo, in V of <root>.ControlFlowInfo>) returnType:kotlin.Unit
+      overridden:
+        public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.PersistentMap, in V of <root>.PersistentMap>): kotlin.Unit [fake_override] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:p0 index:0 type:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ControlFlowInfo, in V of <root>.ControlFlowInfo>
+      BLOCK_BODY
+        CALL 'public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.PersistentMap, in V of <root>.PersistentMap>): kotlin.Unit [fake_override] declared in <root>.PersistentMap' type=kotlin.Unit origin=null
+          $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.forEach' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+          p0: GET_VAR 'p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ControlFlowInfo, in V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.forEach' type=@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ControlFlowInfo, in V of <root>.ControlFlowInfo> origin=null
+    PROPERTY DELEGATED_MEMBER name:keys visibility:public modality:OPEN [val]
+      overridden:
+        public abstract keys: <root>.ImmutableSet<K of <root>.PersistentMap> [fake_override,val]
+      FUN DELEGATED_MEMBER name:<get-keys> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<K of <root>.ControlFlowInfo>
+        correspondingProperty: PROPERTY DELEGATED_MEMBER name:keys visibility:public modality:OPEN [val]
+        overridden:
+          public abstract fun <get-keys> (): <root>.ImmutableSet<K of <root>.PersistentMap> [fake_override] declared in <root>.PersistentMap
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public open fun <get-keys> (): <root>.ImmutableSet<K of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo'
+            CALL 'public abstract fun <get-keys> (): <root>.ImmutableSet<K of <root>.PersistentMap> [fake_override] declared in <root>.PersistentMap' type=<root>.ImmutableSet<K of <root>.ControlFlowInfo> origin=null
+              $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+                receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.<get-keys>' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    PROPERTY DELEGATED_MEMBER name:values visibility:public modality:OPEN [val]
+      overridden:
+        public abstract values: <root>.ImmutableCollection<V of <root>.PersistentMap> [fake_override,val]
+      FUN DELEGATED_MEMBER name:<get-values> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableCollection<V of <root>.ControlFlowInfo>
+        correspondingProperty: PROPERTY DELEGATED_MEMBER name:values visibility:public modality:OPEN [val]
+        overridden:
+          public abstract fun <get-values> (): <root>.ImmutableCollection<V of <root>.PersistentMap> [fake_override] declared in <root>.PersistentMap
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public open fun <get-values> (): <root>.ImmutableCollection<V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo'
+            CALL 'public abstract fun <get-values> (): <root>.ImmutableCollection<V of <root>.PersistentMap> [fake_override] declared in <root>.PersistentMap' type=<root>.ImmutableCollection<V of <root>.ControlFlowInfo> origin=null
+              $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+                receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.<get-values>' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    PROPERTY DELEGATED_MEMBER name:entries visibility:public modality:OPEN [val]
+      overridden:
+        public abstract entries: <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.PersistentMap, V of <root>.PersistentMap>> [fake_override,val]
+      FUN DELEGATED_MEMBER name:<get-entries> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>>
+        correspondingProperty: PROPERTY DELEGATED_MEMBER name:entries visibility:public modality:OPEN [val]
+        overridden:
+          public abstract fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.PersistentMap, V of <root>.PersistentMap>> [fake_override] declared in <root>.PersistentMap
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public open fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>> declared in <root>.ControlFlowInfo'
+            CALL 'public abstract fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.PersistentMap, V of <root>.PersistentMap>> [fake_override] declared in <root>.PersistentMap' type=<root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>> origin=null
+              $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+                receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.<get-entries>' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    PROPERTY DELEGATED_MEMBER name:size visibility:public modality:OPEN [val]
+      overridden:
+        public abstract size: kotlin.Int [fake_override,val]
+      FUN DELEGATED_MEMBER name:<get-size> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int
+        correspondingProperty: PROPERTY DELEGATED_MEMBER name:size visibility:public modality:OPEN [val]
+        overridden:
+          public abstract fun <get-size> (): kotlin.Int [fake_override] declared in <root>.PersistentMap
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public open fun <get-size> (): kotlin.Int declared in <root>.ControlFlowInfo'
+            CALL 'public abstract fun <get-size> (): kotlin.Int [fake_override] declared in <root>.PersistentMap' type=kotlin.Int origin=null
+              $this: GET_FIELD 'FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+                receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.<get-size>' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    FIELD DELEGATE name:<$$delegate_0> type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:local [final]
+      EXPRESSION_BODY
+        GET_VAR 'map: <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.<init>' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    PROPERTY name:map visibility:protected modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:map type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'map: <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.<init>' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-map> visibility:protected modality:FINAL <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+        correspondingProperty: PROPERTY name:map visibility:protected modality:FINAL [val]
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:map type:<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> visibility:private [final]' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.<get-map>' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    PROPERTY name:constructor visibility:protected modality:ABSTRACT [val]
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-constructor> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo>
+        correspondingProperty: PROPERTY name:constructor visibility:protected modality:ABSTRACT [val]
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY name:empty visibility:protected modality:ABSTRACT [val]
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-empty> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function0<S of <root>.ControlFlowInfo>
+        correspondingProperty: PROPERTY name:empty visibility:protected modality:ABSTRACT [val]
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN name:equals visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:kotlin.Any?) returnType:kotlin.Boolean [operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in <root>.ControlFlowInfo'
+          CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EQEQ
+            arg0: CALL 'protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=GET_PROPERTY
+              $this: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.equals' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            arg1: BLOCK type=<root>.PersistentMap<out kotlin.Any, kotlin.Any>? origin=SAFE_CALL
+              VAR IR_TEMPORARY_VARIABLE name:tmp_0 type:<root>.ControlFlowInfo<*, *, *>? [val]
+                TYPE_OP type=<root>.ControlFlowInfo<*, *, *>? origin=SAFE_CAST typeOperand=<root>.ControlFlowInfo<*, *, *>
+                  GET_VAR 'other: kotlin.Any? declared in <root>.ControlFlowInfo.equals' type=kotlin.Any? origin=null
+              WHEN type=<root>.PersistentMap<out kotlin.Any, kotlin.Any>? origin=null
+                BRANCH
+                  if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EQEQ
+                    arg0: GET_VAR 'val tmp_0: <root>.ControlFlowInfo<*, *, *>? [val] declared in <root>.ControlFlowInfo.equals' type=<root>.ControlFlowInfo<*, *, *>? origin=null
+                    arg1: CONST Null type=kotlin.Nothing? value=null
+                  then: CONST Null type=kotlin.Nothing? value=null
+                BRANCH
+                  if: CONST Boolean type=kotlin.Boolean value=true
+                  then: CALL 'protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=<root>.PersistentMap<out kotlin.Any, kotlin.Any> origin=GET_PROPERTY
+                    $this: GET_VAR 'val tmp_0: <root>.ControlFlowInfo<*, *, *>? [val] declared in <root>.ControlFlowInfo.equals' type=<root>.ControlFlowInfo<*, *, *>? origin=null
+    FUN name:hashCode visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int
+      overridden:
+        public open fun hashCode (): kotlin.Int [fake_override] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun hashCode (): kotlin.Int declared in <root>.ControlFlowInfo'
+          CALL 'public open fun hashCode (): kotlin.Int [fake_override] declared in <root>.PersistentMap' type=kotlin.Int origin=null
+            $this: TYPE_OP type=kotlin.Any origin=IMPLICIT_CAST typeOperand=kotlin.Any
+              CALL 'protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=GET_PROPERTY
+                $this: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.hashCode' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    FUN name:toString visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.String
+      overridden:
+        public open fun toString (): kotlin.String [fake_override] declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun toString (): kotlin.String declared in <root>.ControlFlowInfo'
+          CALL 'public open fun toString (): kotlin.String [fake_override] declared in <root>.PersistentMap' type=kotlin.String origin=null
+            $this: TYPE_OP type=kotlin.Any origin=IMPLICIT_CAST typeOperand=kotlin.Any
+              CALL 'protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=GET_PROPERTY
+                $this: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.toString' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+    FUN name:put visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.ControlFlowInfo, value:V of <root>.ControlFlowInfo) returnType:S of <root>.ControlFlowInfo
+      overridden:
+        public abstract fun put (key: K of <root>.PersistentMap, value: @[UnsafeVariance] V of <root>.PersistentMap): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ControlFlowInfo
+      VALUE_PARAMETER name:value index:1 type:V of <root>.ControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun put (key: K of <root>.ControlFlowInfo, value: V of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun invoke (p1: P1 of kotlin.Function1): R of kotlin.Function1 [operator] declared in kotlin.Function1' type=S of <root>.ControlFlowInfo origin=INVOKE
+            $this: CALL 'protected abstract fun <get-constructor> (): kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> origin=GET_PROPERTY
+              $this: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.put' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            p1: CALL 'public abstract fun put (key: K of <root>.PersistentMap, value: @[UnsafeVariance] V of <root>.PersistentMap): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              $this: CALL 'protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=GET_PROPERTY
+                $this: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.put' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              key: GET_VAR 'key: K of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.put' type=K of <root>.ControlFlowInfo origin=null
+              value: GET_VAR 'value: V of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.put' type=V of <root>.ControlFlowInfo origin=null
+    FUN name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.ControlFlowInfo) returnType:S of <root>.ControlFlowInfo
+      overridden:
+        public abstract fun remove (key: K of <root>.PersistentMap): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.ControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun remove (key: K of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo'
+          CALL 'public abstract fun invoke (p1: P1 of kotlin.Function1): R of kotlin.Function1 [operator] declared in kotlin.Function1' type=S of <root>.ControlFlowInfo origin=INVOKE
+            $this: CALL 'protected abstract fun <get-constructor> (): kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> origin=GET_PROPERTY
+              $this: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.remove' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+            p1: CALL 'public abstract fun remove (key: K of <root>.PersistentMap): <root>.PersistentMap<K of <root>.PersistentMap, V of <root>.PersistentMap> declared in <root>.PersistentMap' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              $this: CALL 'protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo' type=<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=GET_PROPERTY
+                $this: GET_VAR '<this>: <root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo.remove' type=<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> origin=null
+              key: GET_VAR 'key: K of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo.remove' type=K of <root>.ControlFlowInfo origin=null
+    FUN name:merge visibility:public modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:S of <root>.ControlFlowInfo) returnType:S of <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:S of <root>.ControlFlowInfo
+  CLASS CLASS name:EdgeLabel modality:FINAL visibility:public superTypes:[kotlin.Any]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.EdgeLabel
+    CONSTRUCTOR visibility:public <> () returnType:<root>.EdgeLabel [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () [primary] declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:EdgeLabel modality:FINAL visibility:public superTypes:[kotlin.Any]'
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS CLASS name:PathAwareControlFlowInfo modality:ABSTRACT visibility:public superTypes:[<root>.ControlFlowInfo<P of <root>.PathAwareControlFlowInfo, <root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.PathAwareControlFlowInfo<P of <root>.PathAwareControlFlowInfo, S of <root>.PathAwareControlFlowInfo>
+    TYPE_PARAMETER name:P index:0 variance: superTypes:[<root>.PathAwareControlFlowInfo<P of <root>.PathAwareControlFlowInfo, S of <root>.PathAwareControlFlowInfo>]
+    TYPE_PARAMETER name:S index:1 variance: superTypes:[<root>.ControlFlowInfo<S of <root>.PathAwareControlFlowInfo, *, *>]
+    CONSTRUCTOR visibility:public <> (map:<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>) returnType:<root>.PathAwareControlFlowInfo<P of <root>.PathAwareControlFlowInfo, S of <root>.PathAwareControlFlowInfo> [primary]
+      VALUE_PARAMETER name:map index:0 type:<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'protected constructor <init> (map: <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) [primary] declared in <root>.ControlFlowInfo'
+          <S>: P of <root>.PathAwareControlFlowInfo
+          <K>: <root>.EdgeLabel
+          <V>: S of <root>.PathAwareControlFlowInfo
+          map: GET_VAR 'map: <root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> declared in <root>.PathAwareControlFlowInfo.<init>' type=<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> origin=null
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:PathAwareControlFlowInfo modality:ABSTRACT visibility:public superTypes:[<root>.ControlFlowInfo<P of <root>.PathAwareControlFlowInfo, <root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>]'
+    FUN name:merge visibility:public modality:OPEN <> ($this:<root>.PathAwareControlFlowInfo<P of <root>.PathAwareControlFlowInfo, S of <root>.PathAwareControlFlowInfo>, other:P of <root>.PathAwareControlFlowInfo) returnType:P of <root>.PathAwareControlFlowInfo
+      overridden:
+        public abstract fun merge (other: S of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.PathAwareControlFlowInfo<P of <root>.PathAwareControlFlowInfo, S of <root>.PathAwareControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:P of <root>.PathAwareControlFlowInfo
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun merge (other: P of <root>.PathAwareControlFlowInfo): P of <root>.PathAwareControlFlowInfo declared in <root>.PathAwareControlFlowInfo'
+          GET_VAR 'other: P of <root>.PathAwareControlFlowInfo declared in <root>.PathAwareControlFlowInfo.merge' type=P of <root>.PathAwareControlFlowInfo origin=null
+    PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+      overridden:
+        protected final map: <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-map> visibility:protected modality:FINAL <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+        overridden:
+          protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:constructor visibility:protected modality:ABSTRACT [fake_override,val]
+      overridden:
+        protected abstract constructor: kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-constructor> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>, P of <root>.PathAwareControlFlowInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:constructor visibility:protected modality:ABSTRACT [fake_override,val]
+        overridden:
+          protected abstract fun <get-constructor> (): kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:empty visibility:protected modality:ABSTRACT [fake_override,val]
+      overridden:
+        protected abstract empty: kotlin.Function0<S of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-empty> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function0<P of <root>.PathAwareControlFlowInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:empty visibility:protected modality:ABSTRACT [fake_override,val]
+        overridden:
+          protected abstract fun <get-empty> (): kotlin.Function0<S of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:put visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel, value:S of <root>.PathAwareControlFlowInfo) returnType:P of <root>.PathAwareControlFlowInfo [fake_override]
+      overridden:
+        public open fun put (key: K of <root>.ControlFlowInfo, value: V of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+      VALUE_PARAMETER name:value index:1 type:S of <root>.PathAwareControlFlowInfo
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel) returnType:P of <root>.PathAwareControlFlowInfo [fake_override]
+      overridden:
+        public open fun remove (key: K of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel, value:@[UnsafeVariance] S of <root>.PathAwareControlFlowInfo) returnType:<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override]
+      overridden:
+        public open fun remove (key: K of <root>.ControlFlowInfo, value: @[UnsafeVariance] V of <root>.ControlFlowInfo): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+      VALUE_PARAMETER name:value index:1 type:@[UnsafeVariance] S of <root>.PathAwareControlFlowInfo
+    FUN FAKE_OVERRIDE name:putAll visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, m:kotlin.collections.Map<out <root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>) returnType:<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override]
+      overridden:
+        public open fun putAll (m: kotlin.collections.Map<out K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:m index:0 type:kotlin.collections.Map<out <root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>
+    FUN FAKE_OVERRIDE name:clear visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override]
+      overridden:
+        public open fun clear (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open keys: <root>.ImmutableSet<K of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-keys> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<<root>.EdgeLabel> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-keys> (): <root>.ImmutableSet<K of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open values: <root>.ImmutableCollection<V of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-values> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableCollection<S of <root>.PathAwareControlFlowInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-values> (): <root>.ImmutableCollection<V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open entries: <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>> [val]
+      FUN FAKE_OVERRIDE name:<get-entries> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<kotlin.collections.Map.Entry<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:containsKey visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsKey (key: K of <root>.ControlFlowInfo): kotlin.Boolean declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+    FUN FAKE_OVERRIDE name:containsValue visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, value:S of <root>.PathAwareControlFlowInfo) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsValue (value: V of <root>.ControlFlowInfo): kotlin.Boolean declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:value index:0 type:S of <root>.PathAwareControlFlowInfo
+    FUN FAKE_OVERRIDE name:get visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel) returnType:S of <root>.PathAwareControlFlowInfo? [fake_override,operator]
+      overridden:
+        public open fun get (key: K of <root>.ControlFlowInfo): V of <root>.ControlFlowInfo? [operator] declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+    FUN FAKE_OVERRIDE name:getOrDefault visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel, defaultValue:S of <root>.PathAwareControlFlowInfo) returnType:S of <root>.PathAwareControlFlowInfo [fake_override]
+      annotations:
+        SinceKotlin(version = '1.1')
+        PlatformDependent
+      overridden:
+        public open fun getOrDefault (key: K of <root>.ControlFlowInfo, defaultValue: V of <root>.ControlFlowInfo): V of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+      VALUE_PARAMETER name:defaultValue index:1 type:S of <root>.PathAwareControlFlowInfo
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun isEmpty (): kotlin.Boolean declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open size: kotlin.Int [val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-size> (): kotlin.Int declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, p0:@[EnhancedNullability] java.util.function.BiConsumer<in <root>.EdgeLabel, in S of <root>.PathAwareControlFlowInfo>) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ControlFlowInfo, in V of <root>.ControlFlowInfo>): kotlin.Unit declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:p0 index:0 type:@[EnhancedNullability] java.util.function.BiConsumer<in <root>.EdgeLabel, in S of <root>.PathAwareControlFlowInfo>
+  CLASS CLASS name:EventOccurrencesRange modality:FINAL visibility:public superTypes:[kotlin.Any]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.EventOccurrencesRange
+    CONSTRUCTOR visibility:public <> () returnType:<root>.EventOccurrencesRange [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () [primary] declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:EventOccurrencesRange modality:FINAL visibility:public superTypes:[kotlin.Any]'
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS CLASS name:EventOccurrencesRangeInfo modality:ABSTRACT visibility:public superTypes:[<root>.ControlFlowInfo<E of <root>.EventOccurrencesRangeInfo, K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.EventOccurrencesRangeInfo<E of <root>.EventOccurrencesRangeInfo, K of <root>.EventOccurrencesRangeInfo>
+    TYPE_PARAMETER name:E index:0 variance: superTypes:[<root>.EventOccurrencesRangeInfo<E of <root>.EventOccurrencesRangeInfo, K of <root>.EventOccurrencesRangeInfo>]
+    TYPE_PARAMETER name:K index:1 variance: superTypes:[kotlin.Any]
+    CONSTRUCTOR visibility:public <> (map:<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>) returnType:<root>.EventOccurrencesRangeInfo<E of <root>.EventOccurrencesRangeInfo, K of <root>.EventOccurrencesRangeInfo> [primary]
+      VALUE_PARAMETER name:map index:0 type:<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'protected constructor <init> (map: <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) [primary] declared in <root>.ControlFlowInfo'
+          <S>: E of <root>.EventOccurrencesRangeInfo
+          <K>: K of <root>.EventOccurrencesRangeInfo
+          <V>: <root>.EventOccurrencesRange
+          map: GET_VAR 'map: <root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> declared in <root>.EventOccurrencesRangeInfo.<init>' type=<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> origin=null
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:EventOccurrencesRangeInfo modality:ABSTRACT visibility:public superTypes:[<root>.ControlFlowInfo<E of <root>.EventOccurrencesRangeInfo, K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>]'
+    PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+      overridden:
+        protected final map: <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-map> visibility:protected modality:FINAL <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+        overridden:
+          protected final fun <get-map> (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:constructor visibility:protected modality:ABSTRACT [fake_override,val]
+      overridden:
+        protected abstract constructor: kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-constructor> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function1<<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>, E of <root>.EventOccurrencesRangeInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:constructor visibility:protected modality:ABSTRACT [fake_override,val]
+        overridden:
+          protected abstract fun <get-constructor> (): kotlin.Function1<<root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, S of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:empty visibility:protected modality:ABSTRACT [fake_override,val]
+      overridden:
+        protected abstract empty: kotlin.Function0<S of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-empty> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function0<E of <root>.EventOccurrencesRangeInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:empty visibility:protected modality:ABSTRACT [fake_override,val]
+        overridden:
+          protected abstract fun <get-empty> (): kotlin.Function0<S of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:put visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.EventOccurrencesRangeInfo, value:<root>.EventOccurrencesRange) returnType:E of <root>.EventOccurrencesRangeInfo [fake_override]
+      overridden:
+        public open fun put (key: K of <root>.ControlFlowInfo, value: V of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.EventOccurrencesRangeInfo
+      VALUE_PARAMETER name:value index:1 type:<root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.EventOccurrencesRangeInfo) returnType:E of <root>.EventOccurrencesRangeInfo [fake_override]
+      overridden:
+        public open fun remove (key: K of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.EventOccurrencesRangeInfo
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.EventOccurrencesRangeInfo, value:@[UnsafeVariance] <root>.EventOccurrencesRange) returnType:<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override]
+      overridden:
+        public open fun remove (key: K of <root>.ControlFlowInfo, value: @[UnsafeVariance] V of <root>.ControlFlowInfo): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.EventOccurrencesRangeInfo
+      VALUE_PARAMETER name:value index:1 type:@[UnsafeVariance] <root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:merge visibility:public modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:E of <root>.EventOccurrencesRangeInfo) returnType:E of <root>.EventOccurrencesRangeInfo [fake_override]
+      overridden:
+        public abstract fun merge (other: S of <root>.ControlFlowInfo): S of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:E of <root>.EventOccurrencesRangeInfo
+    FUN FAKE_OVERRIDE name:putAll visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, m:kotlin.collections.Map<out K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>) returnType:<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override]
+      overridden:
+        public open fun putAll (m: kotlin.collections.Map<out K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:m index:0 type:kotlin.collections.Map<out K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>
+    FUN FAKE_OVERRIDE name:clear visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override]
+      overridden:
+        public open fun clear (): <root>.PersistentMap<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open keys: <root>.ImmutableSet<K of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-keys> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<K of <root>.EventOccurrencesRangeInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-keys> (): <root>.ImmutableSet<K of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open values: <root>.ImmutableCollection<V of <root>.ControlFlowInfo> [val]
+      FUN FAKE_OVERRIDE name:<get-values> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableCollection<<root>.EventOccurrencesRange> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-values> (): <root>.ImmutableCollection<V of <root>.ControlFlowInfo> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open entries: <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>> [val]
+      FUN FAKE_OVERRIDE name:<get-entries> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>> declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:containsKey visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.EventOccurrencesRangeInfo) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsKey (key: K of <root>.ControlFlowInfo): kotlin.Boolean declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.EventOccurrencesRangeInfo
+    FUN FAKE_OVERRIDE name:containsValue visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, value:<root>.EventOccurrencesRange) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsValue (value: V of <root>.ControlFlowInfo): kotlin.Boolean declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:value index:0 type:<root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:get visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.EventOccurrencesRangeInfo) returnType:<root>.EventOccurrencesRange? [fake_override,operator]
+      overridden:
+        public open fun get (key: K of <root>.ControlFlowInfo): V of <root>.ControlFlowInfo? [operator] declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.EventOccurrencesRangeInfo
+    FUN FAKE_OVERRIDE name:getOrDefault visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:K of <root>.EventOccurrencesRangeInfo, defaultValue:<root>.EventOccurrencesRange) returnType:<root>.EventOccurrencesRange [fake_override]
+      annotations:
+        SinceKotlin(version = '1.1')
+        PlatformDependent
+      overridden:
+        public open fun getOrDefault (key: K of <root>.ControlFlowInfo, defaultValue: V of <root>.ControlFlowInfo): V of <root>.ControlFlowInfo declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:K of <root>.EventOccurrencesRangeInfo
+      VALUE_PARAMETER name:defaultValue index:1 type:<root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun isEmpty (): kotlin.Boolean declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open size: kotlin.Int [val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-size> (): kotlin.Int declared in <root>.ControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, p0:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.EventOccurrencesRangeInfo, in <root>.EventOccurrencesRange>) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.ControlFlowInfo, in V of <root>.ControlFlowInfo>): kotlin.Unit declared in <root>.ControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:p0 index:0 type:@[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.EventOccurrencesRangeInfo, in <root>.EventOccurrencesRange>
+  CLASS CLASS name:PropertyInitializationInfo modality:ABSTRACT visibility:public superTypes:[<root>.EventOccurrencesRangeInfo<<root>.PropertyInitializationInfo, kotlin.String>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.PropertyInitializationInfo
+    CONSTRUCTOR visibility:public <> (map:<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange>) returnType:<root>.PropertyInitializationInfo [primary]
+      VALUE_PARAMETER name:map index:0 type:<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange>
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> (map: <root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>) [primary] declared in <root>.EventOccurrencesRangeInfo'
+          <E>: <root>.PropertyInitializationInfo
+          <K>: kotlin.String
+          map: GET_VAR 'map: <root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange> declared in <root>.PropertyInitializationInfo.<init>' type=<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange> origin=null
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:PropertyInitializationInfo modality:ABSTRACT visibility:public superTypes:[<root>.EventOccurrencesRangeInfo<<root>.PropertyInitializationInfo, kotlin.String>]'
+    PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+      overridden:
+        protected final map: <root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-map> visibility:protected modality:FINAL <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+        overridden:
+          protected final fun <get-map> (): <root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:constructor visibility:protected modality:ABSTRACT [fake_override,val]
+      overridden:
+        protected abstract constructor: kotlin.Function1<<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>, E of <root>.EventOccurrencesRangeInfo> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-constructor> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function1<<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange>, <root>.PropertyInitializationInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:constructor visibility:protected modality:ABSTRACT [fake_override,val]
+        overridden:
+          protected abstract fun <get-constructor> (): kotlin.Function1<<root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>, E of <root>.EventOccurrencesRangeInfo> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:empty visibility:protected modality:ABSTRACT [fake_override,val]
+      overridden:
+        protected abstract empty: kotlin.Function0<E of <root>.EventOccurrencesRangeInfo> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-empty> visibility:protected modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Function0<<root>.PropertyInitializationInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:empty visibility:protected modality:ABSTRACT [fake_override,val]
+        overridden:
+          protected abstract fun <get-empty> (): kotlin.Function0<E of <root>.EventOccurrencesRangeInfo> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:put visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:kotlin.String, value:<root>.EventOccurrencesRange) returnType:<root>.PropertyInitializationInfo [fake_override]
+      overridden:
+        public open fun put (key: K of <root>.EventOccurrencesRangeInfo, value: <root>.EventOccurrencesRange): E of <root>.EventOccurrencesRangeInfo [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:kotlin.String
+      VALUE_PARAMETER name:value index:1 type:<root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:kotlin.String) returnType:<root>.PropertyInitializationInfo [fake_override]
+      overridden:
+        public open fun remove (key: K of <root>.EventOccurrencesRangeInfo): E of <root>.EventOccurrencesRangeInfo [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:kotlin.String
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:kotlin.String, value:@[UnsafeVariance] <root>.EventOccurrencesRange) returnType:<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange> [fake_override]
+      overridden:
+        public open fun remove (key: K of <root>.EventOccurrencesRangeInfo, value: @[UnsafeVariance] <root>.EventOccurrencesRange): <root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:kotlin.String
+      VALUE_PARAMETER name:value index:1 type:@[UnsafeVariance] <root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:merge visibility:public modality:ABSTRACT <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:<root>.PropertyInitializationInfo) returnType:<root>.PropertyInitializationInfo [fake_override]
+      overridden:
+        public abstract fun merge (other: E of <root>.EventOccurrencesRangeInfo): E of <root>.EventOccurrencesRangeInfo [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:<root>.PropertyInitializationInfo
+    FUN FAKE_OVERRIDE name:putAll visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, m:kotlin.collections.Map<out kotlin.String, <root>.EventOccurrencesRange>) returnType:<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange> [fake_override]
+      overridden:
+        public open fun putAll (m: kotlin.collections.Map<out K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>): <root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:m index:0 type:kotlin.collections.Map<out kotlin.String, <root>.EventOccurrencesRange>
+    FUN FAKE_OVERRIDE name:clear visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<kotlin.String, <root>.EventOccurrencesRange> [fake_override]
+      overridden:
+        public open fun clear (): <root>.PersistentMap<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open keys: <root>.ImmutableSet<K of <root>.EventOccurrencesRangeInfo> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-keys> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<kotlin.String> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-keys> (): <root>.ImmutableSet<K of <root>.EventOccurrencesRangeInfo> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open values: <root>.ImmutableCollection<<root>.EventOccurrencesRange> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-values> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableCollection<<root>.EventOccurrencesRange> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-values> (): <root>.ImmutableCollection<<root>.EventOccurrencesRange> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open entries: <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-entries> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<kotlin.collections.Map.Entry<kotlin.String, <root>.EventOccurrencesRange>> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<K of <root>.EventOccurrencesRangeInfo, <root>.EventOccurrencesRange>> [fake_override] declared in <root>.EventOccurrencesRangeInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:containsKey visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:kotlin.String) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsKey (key: K of <root>.EventOccurrencesRangeInfo): kotlin.Boolean [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:kotlin.String
+    FUN FAKE_OVERRIDE name:containsValue visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, value:<root>.EventOccurrencesRange) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsValue (value: <root>.EventOccurrencesRange): kotlin.Boolean [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:value index:0 type:<root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:get visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:kotlin.String) returnType:<root>.EventOccurrencesRange? [fake_override,operator]
+      overridden:
+        public open fun get (key: K of <root>.EventOccurrencesRangeInfo): <root>.EventOccurrencesRange? [fake_override,operator] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:kotlin.String
+    FUN FAKE_OVERRIDE name:getOrDefault visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:kotlin.String, defaultValue:<root>.EventOccurrencesRange) returnType:<root>.EventOccurrencesRange [fake_override]
+      annotations:
+        SinceKotlin(version = '1.1')
+        PlatformDependent
+      overridden:
+        public open fun getOrDefault (key: K of <root>.EventOccurrencesRangeInfo, defaultValue: <root>.EventOccurrencesRange): <root>.EventOccurrencesRange [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:kotlin.String
+      VALUE_PARAMETER name:defaultValue index:1 type:<root>.EventOccurrencesRange
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun isEmpty (): kotlin.Boolean [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open size: kotlin.Int [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-size> (): kotlin.Int [fake_override] declared in <root>.EventOccurrencesRangeInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, p0:@[EnhancedNullability] java.util.function.BiConsumer<in kotlin.String, in <root>.EventOccurrencesRange>) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in K of <root>.EventOccurrencesRangeInfo, in <root>.EventOccurrencesRange>): kotlin.Unit [fake_override] declared in <root>.EventOccurrencesRangeInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:p0 index:0 type:@[EnhancedNullability] java.util.function.BiConsumer<in kotlin.String, in <root>.EventOccurrencesRange>
+  CLASS CLASS name:PathAwarePropertyInitializationInfo modality:FINAL visibility:public superTypes:[<root>.PathAwareControlFlowInfo<<root>.PathAwarePropertyInitializationInfo, <root>.PropertyInitializationInfo>]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.PathAwarePropertyInitializationInfo
+    CONSTRUCTOR visibility:public <> (map:<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>) returnType:<root>.PathAwarePropertyInitializationInfo [primary]
+      VALUE_PARAMETER name:map index:0 type:<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> (map: <root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>) [primary] declared in <root>.PathAwareControlFlowInfo'
+          <P>: <root>.PathAwarePropertyInitializationInfo
+          <S>: <root>.PropertyInitializationInfo
+          map: GET_VAR 'map: <root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo> declared in <root>.PathAwarePropertyInitializationInfo.<init>' type=<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo> origin=null
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:PathAwarePropertyInitializationInfo modality:FINAL visibility:public superTypes:[<root>.PathAwareControlFlowInfo<<root>.PathAwarePropertyInitializationInfo, <root>.PropertyInitializationInfo>]'
+    CLASS OBJECT name:Companion modality:FINAL visibility:public [companion] superTypes:[kotlin.Any]
+      $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.PathAwarePropertyInitializationInfo.Companion
+      CONSTRUCTOR visibility:private <> () returnType:<root>.PathAwarePropertyInitializationInfo.Companion [primary]
+        BLOCK_BODY
+          DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () [primary] declared in kotlin.Any'
+          INSTANCE_INITIALIZER_CALL classDescriptor='CLASS OBJECT name:Companion modality:FINAL visibility:public [companion] superTypes:[kotlin.Any]'
+      PROPERTY name:EMPTY visibility:public modality:FINAL [val]
+        FIELD PROPERTY_BACKING_FIELD name:EMPTY type:<root>.PathAwarePropertyInitializationInfo visibility:private [final]
+          EXPRESSION_BODY
+            CONSTRUCTOR_CALL 'public constructor <init> (map: <root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>) [primary] declared in <root>.PathAwarePropertyInitializationInfo' type=<root>.PathAwarePropertyInitializationInfo origin=null
+              map: CALL 'public final fun CHECK_NOT_NULL <T0> (arg0: T0 of kotlin.internal.ir.CHECK_NOT_NULL?): T0 of kotlin.internal.ir.CHECK_NOT_NULL declared in kotlin.internal.ir' type=kotlin.Nothing origin=EXCLEXCL
+                <T0>: kotlin.Nothing
+                arg0: CONST Null type=kotlin.Nothing? value=null
+        FUN DEFAULT_PROPERTY_ACCESSOR name:<get-EMPTY> visibility:public modality:FINAL <> ($this:<root>.PathAwarePropertyInitializationInfo.Companion) returnType:<root>.PathAwarePropertyInitializationInfo
+          correspondingProperty: PROPERTY name:EMPTY visibility:public modality:FINAL [val]
+          $this: VALUE_PARAMETER name:<this> type:<root>.PathAwarePropertyInitializationInfo.Companion
+          BLOCK_BODY
+            RETURN type=kotlin.Nothing from='public final fun <get-EMPTY> (): <root>.PathAwarePropertyInitializationInfo declared in <root>.PathAwarePropertyInitializationInfo.Companion'
+              GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:EMPTY type:<root>.PathAwarePropertyInitializationInfo visibility:private [final]' type=<root>.PathAwarePropertyInitializationInfo origin=null
+                receiver: GET_VAR '<this>: <root>.PathAwarePropertyInitializationInfo.Companion declared in <root>.PathAwarePropertyInitializationInfo.Companion.<get-EMPTY>' type=<root>.PathAwarePropertyInitializationInfo.Companion origin=null
+      FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+        overridden:
+          public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in kotlin.Any
+        $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+        VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+      FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+        overridden:
+          public open fun hashCode (): kotlin.Int declared in kotlin.Any
+        $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+        overridden:
+          public open fun toString (): kotlin.String declared in kotlin.Any
+        $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    PROPERTY name:constructor visibility:protected modality:FINAL [val]
+      overridden:
+        protected abstract constructor: kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>, P of <root>.PathAwareControlFlowInfo> [fake_override,val]
+      FIELD PROPERTY_BACKING_FIELD name:constructor type:kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>, <root>.PathAwarePropertyInitializationInfo> visibility:private [final]
+        EXPRESSION_BODY
+          FUNCTION_REFERENCE 'public constructor <init> (map: <root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>) [primary] declared in <root>.PathAwarePropertyInitializationInfo' type=kotlin.reflect.KFunction1<<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>, <root>.PathAwarePropertyInitializationInfo> origin=null reflectionTarget=<same>
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-constructor> visibility:protected modality:FINAL <> ($this:<root>.PathAwarePropertyInitializationInfo) returnType:kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>, <root>.PathAwarePropertyInitializationInfo>
+        correspondingProperty: PROPERTY name:constructor visibility:protected modality:FINAL [val]
+        overridden:
+          protected abstract fun <get-constructor> (): kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>, P of <root>.PathAwareControlFlowInfo> [fake_override] declared in <root>.PathAwareControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.PathAwarePropertyInitializationInfo
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='protected final fun <get-constructor> (): kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>, <root>.PathAwarePropertyInitializationInfo> declared in <root>.PathAwarePropertyInitializationInfo'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:constructor type:kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>, <root>.PathAwarePropertyInitializationInfo> visibility:private [final]' type=kotlin.Function1<<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo>, <root>.PathAwarePropertyInitializationInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.PathAwarePropertyInitializationInfo declared in <root>.PathAwarePropertyInitializationInfo.<get-constructor>' type=<root>.PathAwarePropertyInitializationInfo origin=null
+    PROPERTY name:empty visibility:protected modality:FINAL [val]
+      overridden:
+        protected abstract empty: kotlin.Function0<P of <root>.PathAwareControlFlowInfo> [fake_override,val]
+      FIELD PROPERTY_BACKING_FIELD name:empty type:kotlin.Function0<<root>.PathAwarePropertyInitializationInfo> visibility:private [final]
+        EXPRESSION_BODY
+          PROPERTY_REFERENCE 'public final EMPTY: <root>.PathAwarePropertyInitializationInfo [val]' field=null getter='public final fun <get-EMPTY> (): <root>.PathAwarePropertyInitializationInfo declared in <root>.PathAwarePropertyInitializationInfo.Companion' setter=null type=kotlin.reflect.KProperty0<<root>.PathAwarePropertyInitializationInfo> origin=null
+            $this: GET_OBJECT 'CLASS OBJECT name:Companion modality:FINAL visibility:public [companion] superTypes:[kotlin.Any]' type=<root>.PathAwarePropertyInitializationInfo.Companion
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-empty> visibility:protected modality:FINAL <> ($this:<root>.PathAwarePropertyInitializationInfo) returnType:kotlin.Function0<<root>.PathAwarePropertyInitializationInfo>
+        correspondingProperty: PROPERTY name:empty visibility:protected modality:FINAL [val]
+        overridden:
+          protected abstract fun <get-empty> (): kotlin.Function0<P of <root>.PathAwareControlFlowInfo> [fake_override] declared in <root>.PathAwareControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.PathAwarePropertyInitializationInfo
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='protected final fun <get-empty> (): kotlin.Function0<<root>.PathAwarePropertyInitializationInfo> declared in <root>.PathAwarePropertyInitializationInfo'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:empty type:kotlin.Function0<<root>.PathAwarePropertyInitializationInfo> visibility:private [final]' type=kotlin.Function0<<root>.PathAwarePropertyInitializationInfo> origin=null
+              receiver: GET_VAR '<this>: <root>.PathAwarePropertyInitializationInfo declared in <root>.PathAwarePropertyInitializationInfo.<get-empty>' type=<root>.PathAwarePropertyInitializationInfo origin=null
+    FUN FAKE_OVERRIDE name:merge visibility:public modality:OPEN <> ($this:<root>.PathAwareControlFlowInfo<P of <root>.PathAwareControlFlowInfo, S of <root>.PathAwareControlFlowInfo>, other:<root>.PathAwarePropertyInitializationInfo) returnType:<root>.PathAwarePropertyInitializationInfo [fake_override]
+      overridden:
+        public open fun merge (other: P of <root>.PathAwareControlFlowInfo): P of <root>.PathAwareControlFlowInfo declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.PathAwareControlFlowInfo<P of <root>.PathAwareControlFlowInfo, S of <root>.PathAwareControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:<root>.PathAwarePropertyInitializationInfo
+    PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+      overridden:
+        protected final map: <root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-map> visibility:protected modality:FINAL <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:map visibility:protected modality:FINAL [fake_override,val]
+        overridden:
+          protected final fun <get-map> (): <root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override] declared in <root>.PathAwareControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [fake_override,operator] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:put visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel, value:<root>.PropertyInitializationInfo) returnType:<root>.PathAwarePropertyInitializationInfo [fake_override]
+      overridden:
+        public open fun put (key: <root>.EdgeLabel, value: S of <root>.PathAwareControlFlowInfo): P of <root>.PathAwareControlFlowInfo [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+      VALUE_PARAMETER name:value index:1 type:<root>.PropertyInitializationInfo
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel) returnType:<root>.PathAwarePropertyInitializationInfo [fake_override]
+      overridden:
+        public open fun remove (key: <root>.EdgeLabel): P of <root>.PathAwareControlFlowInfo [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+    FUN FAKE_OVERRIDE name:remove visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel, value:@[UnsafeVariance] <root>.PropertyInitializationInfo) returnType:<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo> [fake_override]
+      overridden:
+        public open fun remove (key: <root>.EdgeLabel, value: @[UnsafeVariance] S of <root>.PathAwareControlFlowInfo): <root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+      VALUE_PARAMETER name:value index:1 type:@[UnsafeVariance] <root>.PropertyInitializationInfo
+    FUN FAKE_OVERRIDE name:putAll visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, m:kotlin.collections.Map<out <root>.EdgeLabel, <root>.PropertyInitializationInfo>) returnType:<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo> [fake_override]
+      overridden:
+        public open fun putAll (m: kotlin.collections.Map<out <root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>): <root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:m index:0 type:kotlin.collections.Map<out <root>.EdgeLabel, <root>.PropertyInitializationInfo>
+    FUN FAKE_OVERRIDE name:clear visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.PersistentMap<<root>.EdgeLabel, <root>.PropertyInitializationInfo> [fake_override]
+      overridden:
+        public open fun clear (): <root>.PersistentMap<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo> [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open keys: <root>.ImmutableSet<<root>.EdgeLabel> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-keys> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<<root>.EdgeLabel> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:keys visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-keys> (): <root>.ImmutableSet<<root>.EdgeLabel> [fake_override] declared in <root>.PathAwareControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open values: <root>.ImmutableCollection<S of <root>.PathAwareControlFlowInfo> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-values> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableCollection<<root>.PropertyInitializationInfo> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:values visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-values> (): <root>.ImmutableCollection<S of <root>.PathAwareControlFlowInfo> [fake_override] declared in <root>.PathAwareControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open entries: <root>.ImmutableSet<kotlin.collections.Map.Entry<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>> [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-entries> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:<root>.ImmutableSet<kotlin.collections.Map.Entry<<root>.EdgeLabel, <root>.PropertyInitializationInfo>> [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:entries visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-entries> (): <root>.ImmutableSet<kotlin.collections.Map.Entry<<root>.EdgeLabel, S of <root>.PathAwareControlFlowInfo>> [fake_override] declared in <root>.PathAwareControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:containsKey visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsKey (key: <root>.EdgeLabel): kotlin.Boolean [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+    FUN FAKE_OVERRIDE name:containsValue visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, value:<root>.PropertyInitializationInfo) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun containsValue (value: S of <root>.PathAwareControlFlowInfo): kotlin.Boolean [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:value index:0 type:<root>.PropertyInitializationInfo
+    FUN FAKE_OVERRIDE name:get visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel) returnType:<root>.PropertyInitializationInfo? [fake_override,operator]
+      overridden:
+        public open fun get (key: <root>.EdgeLabel): S of <root>.PathAwareControlFlowInfo? [fake_override,operator] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+    FUN FAKE_OVERRIDE name:getOrDefault visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, key:<root>.EdgeLabel, defaultValue:<root>.PropertyInitializationInfo) returnType:<root>.PropertyInitializationInfo [fake_override]
+      annotations:
+        SinceKotlin(version = '1.1')
+        PlatformDependent
+      overridden:
+        public open fun getOrDefault (key: <root>.EdgeLabel, defaultValue: S of <root>.PathAwareControlFlowInfo): S of <root>.PathAwareControlFlowInfo [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:key index:0 type:<root>.EdgeLabel
+      VALUE_PARAMETER name:defaultValue index:1 type:<root>.PropertyInitializationInfo
+    FUN FAKE_OVERRIDE name:isEmpty visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Boolean [fake_override]
+      overridden:
+        public open fun isEmpty (): kotlin.Boolean [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+      overridden:
+        public open size: kotlin.Int [fake_override,val]
+      FUN FAKE_OVERRIDE name:<get-size> visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>) returnType:kotlin.Int [fake_override]
+        correspondingProperty: PROPERTY FAKE_OVERRIDE name:size visibility:public modality:OPEN [fake_override,val]
+        overridden:
+          public open fun <get-size> (): kotlin.Int [fake_override] declared in <root>.PathAwareControlFlowInfo
+        $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+    FUN FAKE_OVERRIDE name:forEach visibility:public modality:OPEN <> ($this:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>, p0:@[EnhancedNullability] java.util.function.BiConsumer<in <root>.EdgeLabel, in <root>.PropertyInitializationInfo>) returnType:kotlin.Unit [fake_override]
+      overridden:
+        public open fun forEach (p0: @[EnhancedNullability] java.util.function.BiConsumer<in <root>.EdgeLabel, in S of <root>.PathAwareControlFlowInfo>): kotlin.Unit [fake_override] declared in <root>.PathAwareControlFlowInfo
+      $this: VALUE_PARAMETER name:<this> type:<root>.ControlFlowInfo<S of <root>.ControlFlowInfo, K of <root>.ControlFlowInfo, V of <root>.ControlFlowInfo>
+      VALUE_PARAMETER name:p0 index:0 type:@[EnhancedNullability] java.util.function.BiConsumer<in <root>.EdgeLabel, in <root>.PropertyInitializationInfo>
